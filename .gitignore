@@ -1,0 +1,4 @@
+*.env
+debug_output.txt
+#MARC files opened with MARCEdit
+*.mrk
