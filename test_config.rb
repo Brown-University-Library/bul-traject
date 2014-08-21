@@ -20,12 +20,15 @@ require 'traject'
 require 'traject/marc4j_reader'
 require 'traject/debug_writer'
 
-require 'traject/macros/marc_format_classifier'
-extend Traject::Macros::MarcFormats
+#Local utils gem
+require 'bulmarc'
+
+#require 'traject/macros/marc_format_classifier'
+#extend Traject::Macros::MarcFormats
 
 #Format.new(..)  extende the MarcFormatClassifier to meet Brown needs.
 #We will use a single format.
-class Format < Traject::Macros::MarcFormatClassifier
+#class Format < Traject::Macros::MarcFormatClassifier
 
   #We want to reuse the logic from the
   def formats(options = {})
@@ -56,7 +59,7 @@ class Format < Traject::Macros::MarcFormatClassifier
 
     return formats[0] || nil
   end
-end
+#end
 
 #translation maps
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
@@ -75,17 +78,14 @@ end
 logger.info RUBY_DESCRIPTION
 
 # Note that we only want one id, so we'll take the first one
-to_field "id" do |record, accumulator|
-    #III record numbers
-    id_spec = Traject::MarcExtractor.cached('907a')
-    value = id_spec.extract(record).first
-    accumulator << value.slice(1..8)
+to_field "id" do |record, accumulator |
+  accumulator << record_id(record)
 end
 
 to_field "title", extract_marc('245a')
 
 
-format_map = Traject::TranslationMap.new('format_map')
+format_map = Traject::TranslationMap.new('format')
 # Various librarians like to have the actual 008 language code around
 to_field 'format' do |record, accumulator|
   # content_type_spec = Traject::MarcExtractor.cached('337a')
@@ -94,16 +94,17 @@ to_field 'format' do |record, accumulator|
   #   accumulator << value
   #   next
   # end
-  bf = Format.new(record).formats
-  unless bf.nil?
-    accumulator << bf
-    next
-  end
-  puts 'still here'
-  leader06 = record.leader.slice(6)
-  leader08 = record.leader.slice(8)
-  leader67 = record.leader.slice(6..7)
-  value = format_map[leader67] || format_map[leader06] || leader67
+  bf = BulMarc::Format.new(record).code
+  # unless bf.nil?
+  #   accumulator << bf
+  #   next
+  # end
+  # puts 'still here'
+  # leader06 = record.leader.slice(6)
+  # leader08 = record.leader.slice(8)
+  # leader67 = record.leader.slice(6..7)
+  # value = format_map[leader67] || format_map[leader06] || leader67
+  value = format_map[bf]
   accumulator << value
 end
 

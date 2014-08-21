@@ -9,4 +9,4 @@ platforms :jruby do
 end
 
 
-gem "bul_marc_utils", :path => "/work/bul_marc_utils"
+gem "bulmarc", :path => "/work/bul_marc_utils"

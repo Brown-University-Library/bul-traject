@@ -17,10 +17,11 @@ extend Traject::Macros::MarcFormats
 require 'traject/marc4j_reader'
 
 #Local utils gem
-require 'bul_marc_utils'
+require 'bulmarc'
+#require 'bulmarc/format'
 
 #Local formatter
-require 'lib/brown_format'
+#require 'lib/brown_format'
 
 
 
@@ -31,7 +32,7 @@ settings do
   provide "reader_class_name", "Traject::Marc4JReader"
   provide "marc4j_reader.source_encoding", "UTF-8"
   provide "solr.url", ENV['SOLR_URL']
-  #provide "solrj_writer.commit_on_close", "true"
+  provide "solrj_writer.commit_on_close", "true"
   provide 'processing_thread_pool', 3
 end
 
@@ -63,12 +64,9 @@ end
 ###### CORE FIELDS #############
 ################################
 
-# Note that we only want one id, so we'll take the first one
- to_field "id" do |record, accumulator|
-    #III record numbers
-    id_spec = Traject::MarcExtractor.cached('907a')
-    value = id_spec.extract(record)
-    accumulator << value[0].slice(1..8)
+#Brown record id
+to_field "id" do |record, accumulator |
+  accumulator << record_id(record)
 end
 
 #Online boolean
@@ -87,6 +85,15 @@ to_field "access_facet" do |record, accumulator, context|
   accumulator << val
 end
 
+to_field 'format' do |record, accumulator|
+  #tmap = Traject::TranslationMap.new('umich/format')
+  tmap = Traject::TranslationMap.new('format')
+  bru = BulMarc::Format.new(record)
+  tcode = bru.code
+  accumulator << tmap[tcode]
+end
+
+
 
 # to_field 'marc_display' do |r, acc, context|
 #   xmlos = java.io.ByteArrayOutputStream.new
@@ -102,13 +109,6 @@ to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
 
 to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
 
-to_field 'format' do |record, accumulator|
-  #tmap = Traject::TranslationMap.new('umich/format')
-  tmap = Traject::TranslationMap.new('format')
-  bru = BrownFormat.new(record)
-  tcode = bru.primary
-  accumulator << tmap[tcode]
-end
 
 
 to_field 'isbn_t', extract_marc('020a:020z')

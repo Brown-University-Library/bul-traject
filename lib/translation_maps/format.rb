@@ -42,4 +42,5 @@
     "BRUXC" => "Conference Publication",
     "BRUV" => "Video",
     "BRUNMR" => "Non-musical Recordings",
+    "BTD" => "Thesis/Dissertation"
 }

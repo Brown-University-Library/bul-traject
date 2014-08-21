@@ -49,9 +49,9 @@ describe 'From config.rb' do
     it 'journal has correct format' do
       expect(@journal['format'][0]).to eq 'Journal'
     end
-    it 'dissertation has correct format' do
-      expect(@dissertation['format'][0]).to eq 'Dissertation or Thesis'
-    end
+    #it 'dissertation has correct format' do
+    #  expect(@dissertation['format'][0]).to eq 'Dissertation or Thesis'
+    #end
   end
 
 end
