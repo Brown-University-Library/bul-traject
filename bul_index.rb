@@ -1,16 +1,13 @@
-######################################################
-######## Set the load path and load up macros ########
-######################################################
+#
+#Brown MARC to Solr indexing
+#Uses tracject: https://github.com/traject-project/traject
+#
 
 # I like to keep my local files under 'lib'. Adding this will also
 # allow Traject::TranslationMap to find files in
 # './lib/translation_maps/'
-
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
 
-
-# Pull in the standard marc21 semantics, to get stuff like
-# 'marc_sortable_title'. 'marc_publication_date', etc.
 require 'traject/macros/marc21_semantics'
 extend  Traject::Macros::Marc21Semantics
 
@@ -19,19 +16,21 @@ extend Traject::Macros::MarcFormats
 
 require 'traject/marc4j_reader'
 
+#Local utils gem
+require 'bul_marc_utils'
+
 #Local formatter
 require 'lib/brown_format'
-#Local utils
-require 'bul_marc_utils'
+
 
 
 # set this depending on what you want to see
 # and how often.
 settings do
   store "log.batch_progress", 10_000
-  #provide "reader_class_name", "Traject::MarcReader"
   provide "reader_class_name", "Traject::Marc4JReader"
   provide "marc4j_reader.source_encoding", "UTF-8"
+  provide "solr.url", ENV['SOLR_URL']
   #provide "solrj_writer.commit_on_close", "true"
   provide 'processing_thread_pool', 3
 end
