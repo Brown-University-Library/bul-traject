@@ -7,3 +7,6 @@ platforms :jruby do
   gem 'traject_umich_format'
   gem 'rspec'
 end
+
+
+gem "bul_marc_utils", :path => "/work/bul_marc_utils"

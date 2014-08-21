@@ -1,4 +1,4 @@
-# Traject Josiah Indexer
+# Brown MARC record indexer
 
 Based off (https://github.com/traject-project/traject_sample)
 

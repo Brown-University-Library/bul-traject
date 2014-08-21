@@ -22,7 +22,7 @@ require 'traject/marc4j_reader'
 #Local formatter
 require 'lib/brown_format'
 #Local utils
-require 'lib/utils'
+require 'bul_marc_utils'
 
 
 # set this depending on what you want to see
@@ -54,6 +54,8 @@ each_record do |rec, context|
   if suppressed(rec) == true
     context.skip!("Skipping suppressed record")
   end
+  #We will use this twice so hang on to it.
+  context.clipboard[:is_online] = online(rec)
 end
 
 
@@ -69,6 +71,23 @@ end
     value = id_spec.extract(record)
     accumulator << value[0].slice(1..8)
 end
+
+#Online boolean
+to_field "online_b" do |record, accumulator, context|
+  accumulator << context.clipboard[:is_online]
+end
+
+#Access facet
+to_field "access_facet" do |record, accumulator, context|
+  online = context.clipboard[:is_online]
+  if online == true
+    val = "Online"
+  else
+    val = "At the library"
+  end
+  accumulator << val
+end
+
 
 # to_field 'marc_display' do |r, acc, context|
 #   xmlos = java.io.ByteArrayOutputStream.new

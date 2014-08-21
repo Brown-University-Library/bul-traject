@@ -3,6 +3,8 @@ require 'traject/umich_format'
 
 require 'lib/brown_format'
 
+require 'bul_marc_utils'
+
 extend Traject::UMichFormat::Macros
 
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
@@ -33,3 +35,9 @@ to_field 'format_and_types' do |record, accumulator|
   tcode = um.format_and_types
   accumulator << tcode
 end
+
+to_field "online" do |record, accumulator|
+  accumulator << online(record)
+end
+
+

@@ -1,3 +1,8 @@
+PATH
+  remote: /work/bul_marc_utils
+  specs:
+    bul_marc_utils (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -41,6 +46,7 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  bul_marc_utils!
   marc
   marc-marc4j
   rspec
