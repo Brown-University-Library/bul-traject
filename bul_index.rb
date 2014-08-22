@@ -69,6 +69,11 @@ to_field "id" do |record, accumulator |
   accumulator << record_id(record)
 end
 
+#Brown last updated date
+to_field "updated_dt" do |record, accumulator |
+ accumulator << updated_date(record)
+end
+
 #Online boolean
 to_field "online_b" do |record, accumulator, context|
   accumulator << context.clipboard[:is_online]
@@ -93,23 +98,7 @@ to_field 'format' do |record, accumulator|
   accumulator << tmap[tcode]
 end
 
-
-
-# to_field 'marc_display' do |r, acc, context|
-#   xmlos = java.io.ByteArrayOutputStream.new
-#   writer = org.marc4j.MarcXmlWriter.new(xmlos)
-#   writer.setUnicodeNormalization(true)
-#   writer.write(context.clipboard[:marc4j][:marc4j_record])
-#   writer.writeEndDocument();
-#   acc << xmlos.toString
-# end
-
-# Get the values for all the fields between 100 and 999
-to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
-
 to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
-
-
 
 to_field 'isbn_t', extract_marc('020a:020z')
 #leaving out for now
@@ -196,3 +185,15 @@ to_field "lc_callnum_display", extract_marc("050ab", :first=>true)
 # URL Fields - these will have to be custom, most likely.
 to_field "url_fulltext_display", extract_marc("856u")
 to_field "url_suppl_display", extract_marc("856z")
+
+# Get the values for all the fields between 100 and 999
+to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
+
+# to_field 'marc_display' do |r, acc, context|
+#   xmlos = java.io.ByteArrayOutputStream.new
+#   writer = org.marc4j.MarcXmlWriter.new(xmlos)
+#   writer.setUnicodeNormalization(true)
+#   writer.write(context.clipboard[:marc4j][:marc4j_record])
+#   writer.writeEndDocument();
+#   acc << xmlos.toString
+# end
