@@ -38,9 +38,10 @@
     "XX" => "Unknown",
     #"CE"=>"Electronic Resource",
     #"CF"=>"Computer File",
-    #Brown additions
-    "BRUXC" => "Conference Publication",
-    "BRUV" => "Video",
-    "BRUNMR" => "Non-musical Recordings",
-    "BTD" => "Thesis/Dissertation"
+    #Brown additions,
+    "BAM" => "Archive/Manuscript"
+    #"BRUXC" => "Conference Publication",
+    #"BRUV" => "Video",
+    #"BRUNMR" => "Non-musical Recordings",
+    #"BTD" => "Thesis/Dissertation"
 }
