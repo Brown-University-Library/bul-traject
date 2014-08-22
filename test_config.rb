@@ -82,6 +82,11 @@ to_field "id" do |record, accumulator |
   accumulator << record_id(record)
 end
 
+#Brown last updated date
+to_field "updated_dt" do |record, accumulator |
+ accumulator << updated_date(record)
+end
+
 to_field "title", extract_marc('245a')
 
 
@@ -95,20 +100,15 @@ to_field 'format' do |record, accumulator|
   #   next
   # end
   bf = BulMarc::Format.new(record).code
-  # unless bf.nil?
-  #   accumulator << bf
-  #   next
-  # end
-  # puts 'still here'
-  # leader06 = record.leader.slice(6)
-  # leader08 = record.leader.slice(8)
-  # leader67 = record.leader.slice(6..7)
-  # value = format_map[leader67] || format_map[leader06] || leader67
   value = format_map[bf]
   accumulator << value
 end
 
-#III record numbers
-#id_spec = Traject::MarcExtractor.cached('907a')
-#value = id_spec.extract(record)
-#accumulator << value[0].slice(1..8)
+to_field "building_facet", extract_marc('945l') do |record, acc|
+  acc.map!{|code| TranslationMap.new("buildings")[code.downcase[0]]}.uniq!
+end
+
+#Brown buildings
+# to_field "building_facet" do |record, accumulator |
+#  accumulator << TranslationMap.new("buildings")bul_buildings(record)
+# end

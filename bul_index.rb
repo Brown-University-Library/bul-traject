@@ -18,11 +18,6 @@ require 'traject/marc4j_reader'
 
 #Local utils gem
 require 'bulmarc'
-#require 'bulmarc/format'
-
-#Local formatter
-#require 'lib/brown_format'
-
 
 
 # set this depending on what you want to see
@@ -88,6 +83,12 @@ to_field "access_facet" do |record, accumulator, context|
     val = "At the library"
   end
   accumulator << val
+end
+
+#Building facet
+#Unique list of 945s sf l processed through the translation map.
+to_field "building_facet", extract_marc('945l') do |record, acc|
+  acc.map!{|code| TranslationMap.new("buildings")[code.downcase[0]]}.uniq!
 end
 
 to_field 'format' do |record, accumulator|

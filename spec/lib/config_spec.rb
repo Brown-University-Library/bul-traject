@@ -2,20 +2,22 @@
 
 require 'json'
 
-describe 'From config.rb' do
-  before(:all) do
-
-  def trajectify(fixture_name)
+def trajectify(fixture_name)
     o = '/tmp/tmp.json'
     i = File.expand_path("../../fixtures/#{fixture_name}.mrc",__FILE__)
     c = File.expand_path('../../../bul_index.rb',__FILE__)
     system "traject -c #{c} #{i} -w Traject::JsonWriter -o #{o}"
     JSON.parse(IO.read(o))
-  end
+end
+
+describe 'From config.rb' do
+  before(:all) do
+
   @book_880 = trajectify('book_880')
   @newspaper = trajectify('newspaper')
   @journal = trajectify('journal')
   @dissertation = trajectify('dissertation')
+  @dissertation = trajectify('journal_multiple_items')
 
   end
 
@@ -52,6 +54,22 @@ describe 'From config.rb' do
     #it 'dissertation has correct format' do
     #  expect(@dissertation['format'][0]).to eq 'Dissertation or Thesis'
     #end
+  end
+
+end
+
+
+describe 'From journal multiple items' do
+  before do
+    @rec = trajectify('journal_multiple_items')
+  end
+
+  it 'the buildings' do
+    buildings = @rec['building_facet']
+    expect(buildings).to include 'Rockefeller'
+    expect(buildings).to include 'Annex'
+    #Make sure there aren't duplicates in the building_facet
+    expect(buildings.uniq.length).to eq (buildings.length)
   end
 
 end
