@@ -38,8 +38,9 @@
     "XX" => "Unknown",
     #"CE"=>"Electronic Resource",
     #"CF"=>"Computer File",
-    #Brown additions,
-    "BAM" => "Archive/Manuscript"
+    #Brown additions - prefix with a B
+    "BAM" => "Archive/Manuscript",
+    "BV" => "Video"
     #"BRUXC" => "Conference Publication",
     #"BRUV" => "Video",
     #"BRUNMR" => "Non-musical Recordings",
