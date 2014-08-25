@@ -73,3 +73,22 @@ describe 'From journal multiple items' do
   end
 
 end
+
+
+describe 'From has abstract' do
+  before do
+    @rec = trajectify('has_abstract')
+    @rec_no_abstract = trajectify('ejournal')
+  end
+
+  it 'correctly has the abstract' do
+    abstract = @rec['abstract_display'][0]
+    expect(abstract).to include 'Martin Luther King'
+  end
+
+  it 'correctly does not have an abstract' do
+    abstract = @rec_no_abstract['abstract_display']
+    expect(abstract).to be_nil
+  end
+
+end
