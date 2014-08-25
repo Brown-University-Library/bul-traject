@@ -174,6 +174,8 @@ to_field "published_vern_display",  extract_marc("260a", :alternate_script => :o
 
 to_field "pub_date", marc_publication_date
 
+to_field "abstract_display", extract_marc("520a", :first=>true)
+
 # Call Number fields
 #lc_callnum_display = 050ab, first
 #lc_1letter_facet = 050a[0], callnumber_map.properties, first
