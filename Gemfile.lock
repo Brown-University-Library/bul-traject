@@ -1,7 +1,7 @@
 PATH
   remote: /work/bul_marc_utils
   specs:
-    bulmarc (0.0.2)
+    bulmarc (0.0.3)
 
 GEM
   remote: https://rubygems.org/
