@@ -1,11 +1,16 @@
 # encoding: UTF-8
+=begin
+These can considered integration tests that test the entire
+traject mapping and output process.  They are quite slow
+since they start up traject for each record tested.
+=end
 
 require 'json'
 
 def trajectify(fixture_name)
     o = '/tmp/tmp.json'
-    i = File.expand_path("../../fixtures/#{fixture_name}.mrc",__FILE__)
-    c = File.expand_path('../../../bul_index.rb',__FILE__)
+    i = File.expand_path("../fixtures/#{fixture_name}.mrc",__FILE__)
+    c = File.expand_path('../../bul_index.rb',__FILE__)
     system "traject -c #{c} #{i} -w Traject::JsonWriter -o #{o}"
     JSON.parse(IO.read(o))
 end

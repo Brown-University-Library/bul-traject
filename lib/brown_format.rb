@@ -17,12 +17,12 @@ class BrownFormat < Traject::UMichFormat
       return "AJ"
     end
     #Conference publication
-    if ft.include?('BK') && ft.include?('XC')
-      return "BRUXC"
-    end
+    #if ft.include?('BK') && ft.include?('XC')
+    #  return "BRUXC"
+    #end
     #Videos
     if ft.include?('VM') && ft.include?('VD')
-      return "BRUV"
+      return "BV"
     end
     #Scores should be scores only.
     if ft.include?('MS')

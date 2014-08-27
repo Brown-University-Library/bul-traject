@@ -3,7 +3,7 @@ require 'traject/umich_format'
 
 require 'lib/brown_format'
 
-require 'bul_marc_utils'
+require 'bulmarc'
 
 extend Traject::UMichFormat::Macros
 
@@ -29,15 +29,32 @@ to_field 'brown_format' do |record, accumulator|
   accumulator << tmap[tcode]
 end
 
-#Fort debugging/printing.
-to_field 'format_and_types' do |record, accumulator|
+to_field 'bulmarc_format' do |record, accumulator|
+  #tmap = Traject::TranslationMap.new('umich/format')
+  tmap = Traject::TranslationMap.new('format')
+  bru = BulMarc::Format.new(record)
+  tcode = bru.code
+  accumulator << tmap[tcode]
+end
+
+#For debugging/printing.
+to_field 'codes_format_and_type' do |record, accumulator|
   um = Traject::UMichFormat.new(record)
   tcode = um.format_and_types
   accumulator << tcode
 end
 
-to_field "online" do |record, accumulator|
-  accumulator << online(record)
-end
+=begin
+Archives/Manuscripts
+Data Files
+Journal Titles
+Images
+Maps
+Microfilm
+Mixed Media
+Newspaper Articles
+Videos
+Theses/Dissertations
+=end
 
 

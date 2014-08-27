@@ -19,6 +19,9 @@ require 'traject/marc4j_reader'
 #Local utils gem
 require 'bulmarc'
 
+#Local format code
+require 'lib/brown_format'
+
 
 # set this depending on what you want to see
 # and how often.
@@ -94,8 +97,8 @@ end
 to_field 'format' do |record, accumulator|
   #tmap = Traject::TranslationMap.new('umich/format')
   tmap = Traject::TranslationMap.new('format')
-  bru = BulMarc::Format.new(record)
-  tcode = bru.code
+  bru = BrownFormat.new(record)
+  tcode = bru.primary
   accumulator << tmap[tcode]
 end
 

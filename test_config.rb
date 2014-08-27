@@ -26,41 +26,6 @@ require 'bulmarc'
 #require 'traject/macros/marc_format_classifier'
 #extend Traject::Macros::MarcFormats
 
-#Format.new(..)  extende the MarcFormatClassifier to meet Brown needs.
-#We will use a single format.
-#class Format < Traject::Macros::MarcFormatClassifier
-
-  #We want to reuse the logic from the
-  def formats(options = {})
-    options = {:default => "Other"}.merge(options)
-    formats = []
-    formats.concat genre
-    formats << "Manuscript/Archive" if manuscript_archive?
-    #formats << "Microform" if microform?
-    #formats << "Online"    if online?
-
-    # In our own data, if it's an audio recording, it might show up
-    # as print, but it's probably not.
-    #formats << "Print"     if print? && ! (formats.include?("Non-musical Recording") || formats.include?("Musical Recording"))
-
-    # If it's a Dissertation, we decide it's NOT a book
-    if thesis?
-      formats.delete("Book")
-      formats << "Dissertation/Thesis"
-    end
-
-    if proceeding?
-      formats <<  "Conference"
-    end
-
-    if formats.empty?
-      formats << options[:default]
-    end
-
-    return formats[0] || nil
-  end
-#end
-
 #translation maps
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
 
