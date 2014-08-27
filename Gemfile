@@ -1,4 +1,4 @@
-    source "https://rubygems.org"
+source "https://rubygems.org"
 
 platforms :jruby do 
   gem 'traject', ">= 1.0.0.beta"

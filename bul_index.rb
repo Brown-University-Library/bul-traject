@@ -97,9 +97,13 @@ end
 to_field 'format' do |record, accumulator|
   #tmap = Traject::TranslationMap.new('umich/format')
   tmap = Traject::TranslationMap.new('format')
-  bru = BrownFormat.new(record)
-  tcode = bru.primary
-  accumulator << tmap[tcode]
+  begin
+    bru = BrownFormat.new(record)
+    tcode = bru.primary
+    accumulator << tmap[tcode]
+  rescue NoMethodError
+    puts "Error at " + record_id(record)
+  end
 end
 
 to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
