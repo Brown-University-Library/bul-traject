@@ -113,11 +113,11 @@ to_field 'isbn_t', extract_marc('020a:020z')
 #material_type_display
 
 # Title fields
-to_field 'title_t', extract_marc('245ab', :first=>true, :trim_punctuation => true)
+to_field 'title_t', extract_marc('245abc', :first=>true, :trim_punctuation => true)
 #title_display
 #Here we will vary a bit from Blacklight and join other subfields.
-to_field 'title_display', extract_marc('245ab', :first=>true, :trim_punctuation => true)
-to_field 'title_vern_display', extract_marc('245ab', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
+to_field 'title_display', extract_marc('245abc', :first=>true, :trim_punctuation => true)
+to_field 'title_vern_display', extract_marc('245abc', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 
 #We will skip these for now
 #    subtitle

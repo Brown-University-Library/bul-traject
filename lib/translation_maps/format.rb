@@ -39,7 +39,7 @@
     #"CE"=>"Electronic Resource",
     #"CF"=>"Computer File",
     #Brown additions - prefix with a B
-    "BAM" => "Archive/Manuscript",
+    "BAM" => "Archives/Manuscript",
     "BV" => "Video"
     #"BRUXC" => "Conference Publication",
     #"BRUV" => "Video",
