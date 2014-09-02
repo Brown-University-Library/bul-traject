@@ -166,16 +166,14 @@ to_field "subject_t", extract_marc(%w(
   690a   690abcdevxyz
   ), :trim_punctuation=>true)
 
-to_field "subject_topic_facet", extract_marc("600abcdq:610ab:611ab:630aa:650aa:653aa:654ab:655ab", :trim_punctuation => true)
-to_field 'subject_era_facet', marc_era_facet
-to_field "subject_geo_facet", marc_geo_facet
+
+#to_field "subject_topic_facet", extract_marc("600abcdq:610ab:611ab:630aa:650aa:653aa:654ab:655ab", :trim_punctuation => true)
+#to_field 'subject_era_facet', marc_era_facet
+#to_field "subject_geo_facet", marc_geo_facet
+
+to_field "topic_facet", extract_marc("650a:690a", :trim_punctuation => true)
 
 # Publication fields
-#published_display = custom, removeTrailingPunct(260a)
-#published_vern_display = custom, getLinkedField(260a)
-# used for facet and display, and copied for sort
-#pub_date = custom, getDate
-
 to_field "published_display", extract_marc("260a", :trim_punctuation=>true)
 to_field "published_vern_display",  extract_marc("260a", :alternate_script => :only)
 
