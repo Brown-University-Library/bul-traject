@@ -97,3 +97,12 @@ describe 'From has abstract' do
   end
 
 end
+
+
+describe "Identifies OCLC number correctly" do
+  it 'book has correct OCLC number' do
+    rec = trajectify('book_880')
+    oclc = rec['oclc_t'][0]
+    expect(oclc).to eq "22503825"
+  end
+end
