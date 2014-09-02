@@ -117,8 +117,8 @@ to_field 'oclc_t', oclcnum('035a:035z')
 to_field 'title_t', extract_marc('245abc', :first=>true, :trim_punctuation => true)
 #title_display
 #Here we will vary a bit from Blacklight and join other subfields.
-to_field 'title_display', extract_marc('245abc', :first=>true, :trim_punctuation => true)
-to_field 'title_vern_display', extract_marc('245abc', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
+to_field 'title_display', extract_marc('245abk', :first=>true, :trim_punctuation => true)
+to_field 'title_vern_display', extract_marc('245abk', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 
 #We will skip these for now
 #    subtitle
@@ -135,10 +135,14 @@ to_field "title_series_t", extract_marc("440ap:800abcdfpqt:830ap")
 to_field "title_sort", marc_sortable_title
 
 # Author fields
-to_field "author_t", extract_marc('100abcd:110abcd:111abc')
-to_field 'author_addl_t', extract_marc("700abcd:710abcd:711abc")
 to_field "author_display", extract_marc("100abcdq:110abcd:111abcd", :first=>true, :trim_punctuation => true)
 to_field "author_vern_display", extract_marc('100abcdq:110abcd:111abcd', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
+to_field "author_addl_display", extract_marc('110ab:111ab:700abcd:710ab:711ab', :trim_punctuation => true)
+
+to_field "author_t", extract_marc('100abcd:110abcd:111abc')
+to_field 'author_addl_t', extract_marc("700abcd:710abcd:711abc")
+
+
 to_field "author_sort", extract_marc("100abcd:110abcd:111abc:110ab:700abcd:710ab:711ab", :first=>true)
 
 #Subject fields
