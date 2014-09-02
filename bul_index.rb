@@ -110,8 +110,6 @@ to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
 
 to_field 'isbn_t', extract_marc('020a:020z')
 to_field 'oclc_t', oclcnum('035a:035z')
-#leaving out for now
-#material_type_display
 
 # Title fields
 to_field 'title_t', extract_marc('245abc', :first=>true, :trim_punctuation => true)
@@ -121,7 +119,7 @@ to_field 'title_display', extract_marc('245abk', :first=>true, :trim_punctuation
 to_field 'title_vern_display', extract_marc('245abk', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 
 #We will skip these for now
-#    subtitle
+#subtitle
 #subtitle_t = custom, getLinkedFieldCombined(245b)
 #subtitle_display = custom, removeTrailingPunct(245b)
 #subtitle_vern_display = custom, getLinkedField(245b)
@@ -182,17 +180,16 @@ to_field "topic_facet", extract_marc("650a:690a", :trim_punctuation => true)
 to_field "published_display", extract_marc("260a", :trim_punctuation=>true)
 to_field "published_vern_display",  extract_marc("260a", :alternate_script => :only)
 
+#Display physical information.
+to_field 'physical_display', extract_marc('300abcefg:530abcd')
+
 to_field "pub_date", marc_publication_date
 
 to_field "abstract_display", extract_marc("520a", :first=>true)
 
-# Call Number fields
-#lc_callnum_display = 050ab, first
-#lc_1letter_facet = 050a[0], callnumber_map.properties, first
-#lc_alpha_facet = 050a, (pattern_map.lc_alpha), first
-#lc_b4cutter_facet = 050a, first
-
-to_field "lc_callnum_display", extract_marc("050ab", :first=>true)
+#Not sure this is necessary since we will be pulling call numbers
+#from availability service.
+#to_field "lc_callnum_display", extract_marc("050ab", :first=>true)
 
 
 # URL Fields - these will have to be custom, most likely.
