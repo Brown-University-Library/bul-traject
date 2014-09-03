@@ -109,19 +109,18 @@ end
 to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
 
 to_field 'isbn_t', extract_marc('020a:020z')
+to_field 'issn_t', extract_marc("022a:022l:022y:773x:774x:776x", :separator => nil)
 to_field 'oclc_t', oclcnum('035a:035z')
-#leaving out for now
-#material_type_display
 
 # Title fields
 to_field 'title_t', extract_marc('245abc', :first=>true, :trim_punctuation => true)
 #title_display
 #Here we will vary a bit from Blacklight and join other subfields.
-to_field 'title_display', extract_marc('245abc', :first=>true, :trim_punctuation => true)
-to_field 'title_vern_display', extract_marc('245abc', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
+to_field 'title_display', extract_marc('245abk', :first=>true, :trim_punctuation => true)
+to_field 'title_vern_display', extract_marc('245abk', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 
 #We will skip these for now
-#    subtitle
+#subtitle
 #subtitle_t = custom, getLinkedFieldCombined(245b)
 #subtitle_display = custom, removeTrailingPunct(245b)
 #subtitle_vern_display = custom, getLinkedField(245b)
@@ -135,10 +134,14 @@ to_field "title_series_t", extract_marc("440ap:800abcdfpqt:830ap")
 to_field "title_sort", marc_sortable_title
 
 # Author fields
-to_field "author_t", extract_marc('100abcd:110abcd:111abc')
-to_field 'author_addl_t', extract_marc("700abcd:710abcd:711abc")
 to_field "author_display", extract_marc("100abcdq:110abcd:111abcd", :first=>true, :trim_punctuation => true)
 to_field "author_vern_display", extract_marc('100abcdq:110abcd:111abcd', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
+to_field "author_addl_display", extract_marc('110ab:111ab:700abcd:710ab:711ab', :trim_punctuation => true)
+
+to_field "author_t", extract_marc('100abcd:110abcd:111abc')
+to_field 'author_addl_t', extract_marc("700abcd:710abcd:711abc")
+
+
 to_field "author_sort", extract_marc("100abcd:110abcd:111abc:110ab:700abcd:710ab:711ab", :first=>true)
 
 #Subject fields
@@ -178,17 +181,16 @@ to_field "topic_facet", extract_marc("650a:690a", :trim_punctuation => true)
 to_field "published_display", extract_marc("260a", :trim_punctuation=>true)
 to_field "published_vern_display",  extract_marc("260a", :alternate_script => :only)
 
+#Display physical information.
+to_field 'physical_display', extract_marc('300abcefg:530abcd')
+
 to_field "pub_date", marc_publication_date
 
 to_field "abstract_display", extract_marc("520a", :first=>true)
 
-# Call Number fields
-#lc_callnum_display = 050ab, first
-#lc_1letter_facet = 050a[0], callnumber_map.properties, first
-#lc_alpha_facet = 050a, (pattern_map.lc_alpha), first
-#lc_b4cutter_facet = 050a, first
-
-to_field "lc_callnum_display", extract_marc("050ab", :first=>true)
+#Not sure this is necessary since we will be pulling call numbers
+#from availability service.
+#to_field "lc_callnum_display", extract_marc("050ab", :first=>true)
 
 
 # URL Fields - these will have to be custom, most likely.
