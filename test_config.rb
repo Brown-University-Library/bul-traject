@@ -23,11 +23,17 @@ require 'traject/debug_writer'
 #Local utils gem
 require 'bulmarc'
 
+#Local format code
+require 'lib/brown_format'
+
 #require 'traject/macros/marc_format_classifier'
 #extend Traject::Macros::MarcFormats
 
 #translation maps
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
+
+require 'traject/macros/marc21_semantics'
+extend  Traject::Macros::Marc21Semantics
 
 
 # The add the appropriate settings
@@ -41,6 +47,12 @@ end
 # Log what version of jruby/java we're using
 
 logger.info RUBY_DESCRIPTION
+
+each_record do |rec, context|
+  if suppressed(rec) == true
+    context.skip!("Skipping suppressed record")
+  end
+end
 
 # Note that we only want one id, so we'll take the first one
 to_field "id" do |record, accumulator |
@@ -57,23 +69,51 @@ to_field "title", extract_marc('245a')
 
 format_map = Traject::TranslationMap.new('format')
 # Various librarians like to have the actual 008 language code around
-to_field 'format' do |record, accumulator|
-  # content_type_spec = Traject::MarcExtractor.cached('337a')
-  # value = content_type_spec.extract(record).first
-  # unless value.nil?
-  #   accumulator << value
-  #   next
-  # end
-  bf = BulMarc::Format.new(record).code
-  value = format_map[bf]
-  accumulator << value
-end
+# to_field 'format' do |record, accumulator|
+#   # content_type_spec = Traject::MarcExtractor.cached('337a')
+#   # value = content_type_spec.extract(record).first
+#   # unless value.nil?
+#   #   accumulator << value
+#   #   next
+#   # end
+#   bf = BulMarc::Format.new(record).code
+#   value = format_map[bf]
+#   accumulator << value
+# end
 
-to_field "building_facet", extract_marc('945l') do |record, acc|
-  acc.map!{|code| TranslationMap.new("buildings")[code.downcase[0]]}.uniq!
-end
+# to_field "building_facet", extract_marc('945l') do |record, acc|
+#   acc.map!{|code| TranslationMap.new("buildings")[code.downcase[0]]}.uniq!
+# end
 
 #Brown buildings
 # to_field "building_facet" do |record, accumulator |
 #  accumulator << TranslationMap.new("buildings")bul_buildings(record)
 # end
+
+#to_field "zed", extract_marc('bul_format')
+
+#to_field 'oclc_t', oclcnum('035a:035z')
+#to_field 'series', extract_marc('440ap:800abcdfpqt:830ap')
+
+to_field 'lcsh', marc_lcsh_formatted()
+#to_field 'physical_display', extract_marc('300abcefg:530abcd')
+
+to_field 'format' do |record, accumulator|
+  #tmap = Traject::TranslationMap.new('umich/format')
+  tmap = Traject::TranslationMap.new('format')
+  begin
+    bru = BrownFormat.new(record)
+    tcode = bru.primary
+    accumulator << tmap[tcode]
+  rescue NoMethodError
+    puts "Error at " + record_id(record)
+  end
+end
+
+
+require 'traject/umich_format'
+extend Traject::UMichFormat::Macros
+
+to_field 'bib_format', umich_format
+to_field 'bib_types', umich_types
+to_field 'bib_formats_and_types', umich_format_and_types

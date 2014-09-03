@@ -11,6 +11,18 @@ def read(name)
 end
 
 
+describe 'archive/manuscript' do
+  before do
+    @record = read('archive_manuscript.mrc')
+    @bruf = BrownFormat.new(@record)
+  end
+
+  it "gets the right format code" do
+    expect(@bruf.primary).to eq "BAM"
+  end
+end
+
+
 describe 'newspaper' do
   before do
     @record = read('newspaper.mrc')

@@ -8,6 +8,12 @@ class BrownFormat < Traject::UMichFormat
   #Return a single value format for use in bento box.
   def primary
     ft = format_and_types
+    #Grab leader values.
+    #This is a bit redudant since these are captured on
+    #initialization but will want to use here.
+    ldr = record.leader
+    type = ldr[6]
+
     #Serials and newspapers are newspapers
     if ft.include?('SE') && ft.include?('AN')
       return "AN"
@@ -32,10 +38,12 @@ class BrownFormat < Traject::UMichFormat
     if ft.include?('MU') && !(ft.include?('RM'))
       return "BRUNMR"
     end
-    #Books are just books for now.
-    if ft.include?('BK')
-      return 'BK'
+
+    #Archives manuscript.
+    if ft.include?('BK') && (archival_material(type) == true)
+      return "BAM"
     end
+
     #If we are still here, return the first UMich bib format.
     return ft[0]
   end
@@ -52,6 +60,17 @@ class BrownFormat < Traject::UMichFormat
       field.value.slice(20) == "n"
     end
     return true if found_008_21_n
+  end
+
+  #Return true if item is a archival material.
+  def archival_material(type)
+    if type == 't'
+      return true
+    elsif type == 'p'
+      return true
+    else
+      return false
+    end
   end
 
 end

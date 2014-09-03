@@ -1,6 +1,6 @@
 # encoding: UTF-8
 =begin
-These can considered integration tests that test the entire
+These can considered integration tests in that test the entire
 traject mapping and output process.  They are quite slow
 since they start up traject for each record tested.
 =end
@@ -22,7 +22,6 @@ describe 'From config.rb' do
   @newspaper = trajectify('newspaper')
   @journal = trajectify('journal')
   @dissertation = trajectify('dissertation')
-  @dissertation = trajectify('journal_multiple_items')
 
   end
 
@@ -104,5 +103,12 @@ describe "Identifies OCLC number correctly" do
     rec = trajectify('book_880')
     oclc = rec['oclc_t'][0]
     expect(oclc).to eq "22503825"
+  end
+end
+
+describe "Identifying format" do
+  it 'archive/manuscript is identified' do
+    rec = trajectify('archive_manuscript')
+    expect(rec['format'][0]).to eq 'Archives/Manuscript'
   end
 end

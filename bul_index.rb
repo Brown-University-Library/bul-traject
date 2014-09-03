@@ -47,11 +47,11 @@ marc_converter = MARC::MARC4J.new(:jardir => settings['marc4j_reader.jar_dir'])
 # Go ahead and create a marc4j record object and hang onto it on the clipboard,
 # since I know I'm gonna need it later.
 each_record do |rec, context|
-  context.clipboard[:marc4j] = {}
-  context.clipboard[:marc4j][:marc4j_record] = marc_converter.rubymarc_to_marc4j(rec)
   if suppressed(rec) == true
     context.skip!("Skipping suppressed record")
   end
+  context.clipboard[:marc4j] = {}
+  context.clipboard[:marc4j][:marc4j_record] = marc_converter.rubymarc_to_marc4j(rec)
   #We will use this twice so hang on to it.
   context.clipboard[:is_online] = online(rec)
 end
