@@ -109,6 +109,7 @@ end
 to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
 
 to_field 'isbn_t', extract_marc('020a:020z')
+to_field 'issn_t', extract_marc("022a:022l:022y:773x:774x:776x", :separator => nil)
 to_field 'oclc_t', oclcnum('035a:035z')
 
 # Title fields
