@@ -48,7 +48,8 @@ marc_converter = MARC::MARC4J.new(:jardir => settings['marc4j_reader.jar_dir'])
 # since I know I'm gonna need it later.
 each_record do |rec, context|
   if suppressed(rec) == true
-    context.skip!("Skipping suppressed record")
+    rid = record_id(record)
+    context.skip!("Skipping suppressed record #{rid}")
   end
   context.clipboard[:marc4j] = {}
   context.clipboard[:marc4j][:marc4j_record] = marc_converter.rubymarc_to_marc4j(rec)
@@ -94,16 +95,24 @@ to_field "building_facet", extract_marc('945l') do |record, acc|
   acc.map!{|code| TranslationMap.new("buildings")[code.downcase[0]]}.uniq!
 end
 
+# to_field 'format' do |record, accumulator|
+#   #tmap = Traject::TranslationMap.new('umich/format')
+#   tmap = Traject::TranslationMap.new('format')
+#   begin
+#     bru = BrownFormat.new(record)
+#     tcode = bru.primary
+#     accumulator << tmap[tcode]
+#   rescue NoMethodError
+#     puts "Error at " + record_id(record)
+#   end
+# end
+
+#Custom logic coming from bulmarc
 to_field 'format' do |record, accumulator|
-  #tmap = Traject::TranslationMap.new('umich/format')
   tmap = Traject::TranslationMap.new('format')
-  begin
-    bru = BrownFormat.new(record)
-    tcode = bru.primary
-    accumulator << tmap[tcode]
-  rescue NoMethodError
-    puts "Error at " + record_id(record)
-  end
+  bf = BulMarc::Format.new(record)
+  value = tmap[bf.code]
+  accumulator << value
 end
 
 to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
