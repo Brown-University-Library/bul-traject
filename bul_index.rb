@@ -48,7 +48,7 @@ marc_converter = MARC::MARC4J.new(:jardir => settings['marc4j_reader.jar_dir'])
 # since I know I'm gonna need it later.
 each_record do |rec, context|
   if suppressed(rec) == true
-    rid = record_id(record)
+    rid = record_id(rec)
     context.skip!("Skipping suppressed record #{rid}")
   end
   context.clipboard[:marc4j] = {}
