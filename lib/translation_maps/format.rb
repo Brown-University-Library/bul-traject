@@ -40,9 +40,10 @@
     #"CF"=>"Computer File",
     #Brown additions - prefix with a B
     "BAM" => "Archives/Manuscript",
-    "BV" => "Video"
+    "BV" => "Video",
+    "BSR" => "Sound Recording",
     #"BRUXC" => "Conference Publication",
     #"BRUV" => "Video",
     #"BRUNMR" => "Non-musical Recordings",
-    #"BTD" => "Thesis/Dissertation"
+    "BTD" => "Thesis/Dissertation",
 }
