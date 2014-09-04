@@ -94,16 +94,24 @@ to_field "building_facet", extract_marc('945l') do |record, acc|
   acc.map!{|code| TranslationMap.new("buildings")[code.downcase[0]]}.uniq!
 end
 
+# to_field 'format' do |record, accumulator|
+#   #tmap = Traject::TranslationMap.new('umich/format')
+#   tmap = Traject::TranslationMap.new('format')
+#   begin
+#     bru = BrownFormat.new(record)
+#     tcode = bru.primary
+#     accumulator << tmap[tcode]
+#   rescue NoMethodError
+#     puts "Error at " + record_id(record)
+#   end
+# end
+
+#Custom logic coming from bulmarc
 to_field 'format' do |record, accumulator|
-  #tmap = Traject::TranslationMap.new('umich/format')
   tmap = Traject::TranslationMap.new('format')
-  begin
-    bru = BrownFormat.new(record)
-    tcode = bru.primary
-    accumulator << tmap[tcode]
-  rescue NoMethodError
-    puts "Error at " + record_id(record)
-  end
+  bf = BulMarc::Format.new(record)
+  value = tmap[bf.code]
+  accumulator << value
 end
 
 to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
