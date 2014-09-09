@@ -43,7 +43,7 @@
     "BV" => "Video",
     "BSR" => "Sound Recording",
     "BP" => "Periodical Title",
-    "B3D" => "3D object"
+    "B3D" => "3D object",
     #"BRUXC" => "Conference Publication",
     #"BRUV" => "Video",
     #"BRUNMR" => "Non-musical Recordings",
