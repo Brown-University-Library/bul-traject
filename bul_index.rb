@@ -150,8 +150,10 @@ to_field "author_addl_display", extract_marc('110ab:111ab:700abcd:710ab:711ab', 
 to_field "author_t", extract_marc('100abcd:110abcd:111abc')
 to_field 'author_addl_t', extract_marc("700abcd:710abcd:711abc")
 
-
 to_field "author_sort", extract_marc("100abcd:110abcd:111abc:110ab:700abcd:710ab:711ab", :first=>true)
+
+#Currently used in VuFind.
+to_field "author_facet", extract_marc("100abcd:110ab:111ab:700abcd:710ab:711ab")
 
 #Subject fields
 #subject_t = custom, getLinkedFieldCombined(600[a-u]:610[a-u]:611[a-u]:630[a-t]:650[a-e]:651ae:653aa:654[a-e]:655[a-c])
@@ -182,7 +184,8 @@ to_field "subject_t", extract_marc(%w(
 
 #to_field "subject_topic_facet", extract_marc("600abcdq:610ab:611ab:630aa:650aa:653aa:654ab:655ab", :trim_punctuation => true)
 #to_field 'subject_era_facet', marc_era_facet
-#to_field "subject_geo_facet", marc_geo_facet
+
+to_field "region_facet", marc_geo_facet
 
 to_field "topic_facet", extract_marc("650a:690a", :trim_punctuation => true)
 
