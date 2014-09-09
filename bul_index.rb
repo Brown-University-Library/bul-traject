@@ -182,7 +182,8 @@ to_field "subject_t", extract_marc(%w(
 
 #to_field "subject_topic_facet", extract_marc("600abcdq:610ab:611ab:630aa:650aa:653aa:654ab:655ab", :trim_punctuation => true)
 #to_field 'subject_era_facet', marc_era_facet
-#to_field "subject_geo_facet", marc_geo_facet
+
+to_field "region_facet", marc_geo_facet
 
 to_field "topic_facet", extract_marc("650a:690a", :trim_punctuation => true)
 
