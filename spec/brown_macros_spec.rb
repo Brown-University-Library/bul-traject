@@ -1,4 +1,5 @@
 require 'traject'
+require 'marc/record'
 
 require 'lib/brown_macros'
 
@@ -18,16 +19,30 @@ describe "BrownMacros" do
   end
 
   describe 'author facet' do
+
+    before do
+      @rec = read('named_collection.mrc')
+    end
+
     it "ignores named collection" do
-      rec = read('named_collection.mrc')
       @indexer.instance_eval do
         to_field "author_facet", author_facet
       end
-      output = @indexer.map_record(rec)
+      output = @indexer.map_record(@rec)
       #Should be only one author for this sample rec.
       expect(output["author_facet"]).to contain_exactly('Silliman, Ronald, 1946-')
     end
-  end
 
+    it "correctly skips an author field that is just a period." do
+      @rec.append MARC::DataField.new('700', '', ' ', ['a', '.'])
+      @indexer.instance_eval do
+        to_field "author_facet", author_facet
+      end
+      output = @indexer.map_record(@rec)
+      #Should be only one author for this sample rec.
+      expect(output["author_facet"]).to contain_exactly('Silliman, Ronald, 1946-')
+    end
+
+  end
 end
 

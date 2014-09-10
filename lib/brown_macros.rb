@@ -18,6 +18,9 @@ module BrownMacros
         Marc21.trim_punctuation(s)
       end
 
+      #Remove authors thatare just '.'
+      values.delete_if {|v| v == '.' }
+
       accumulator.concat( values )
     end
   end
