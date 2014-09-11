@@ -38,7 +38,7 @@ end
 logger.info RUBY_DESCRIPTION
 
 #Handle MARC XML serialization.  See: https://github.com/traject-project/traject_sample/blob/master/index.rb#L121
-#marc_converter = MARC::MARC4J.new(:jardir => settings['marc4j_reader.jar_dir'])
+marc_converter = MARC::MARC4J.new(:jardir => settings['marc4j_reader.jar_dir'])
 
 each_record do |rec, context|
   if suppressed(rec) == true
@@ -47,6 +47,8 @@ each_record do |rec, context|
   end
   #We will use this twice so hang on to it.
   context.clipboard[:is_online] = online(rec)
+  context.clipboard[:marc4j] = {}
+  context.clipboard[:marc4j][:marc4j_record] = marc_converter.rubymarc_to_marc4j(rec)
 end
 
 #Brown record id
@@ -165,11 +167,11 @@ to_field "subject_t", extract_marc(%w(
 to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
 
 #Not using marc_display yet.
-# to_field 'marc_display' do |r, acc, context|
-#   xmlos = java.io.ByteArrayOutputStream.new
-#   writer = org.marc4j.MarcXmlWriter.new(xmlos)
-#   writer.setUnicodeNormalization(true)
-#   writer.write(context.clipboard[:marc4j][:marc4j_record])
-#   writer.writeEndDocument();
-#   acc << xmlos.toString
-# end
+to_field 'marc_display' do |r, acc, context|
+  xmlos = java.io.ByteArrayOutputStream.new
+  writer = org.marc4j.MarcXmlWriter.new(xmlos)
+  writer.setUnicodeNormalization(true)
+  writer.write(context.clipboard[:marc4j][:marc4j_record])
+  writer.writeEndDocument();
+  acc << xmlos.toString
+end
