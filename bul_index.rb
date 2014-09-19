@@ -91,11 +91,14 @@ to_field "published_vern_display",  extract_marc("260a", :alternate_script => :o
 #Display physical information.
 to_field 'physical_display', extract_marc('300abcefg:530abcd')
 to_field "abstract_display", extract_marc("520a", :first=>true)
+to_field "toc_display", extract_marc("505a:505t")
+
 to_field "pub_date", marc_publication_date
 
 #URL Fields - these will have to be custom, most likely.
 to_field "url_fulltext_display", extract_marc("856u")
 to_field "url_suppl_display", extract_marc("856z")
+
 
 #Online true/false
 to_field "online_b" do |record, accumulator, context|
