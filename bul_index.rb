@@ -69,8 +69,8 @@ to_field 'oclc_t', oclcnum('035a:035z')
 
 # Title fields
 to_field 'title_t', extract_marc('245abc', :first=>true, :trim_punctuation => true)
-to_field 'title_display', extract_marc('245abk', :first=>true, :trim_punctuation => true)
-to_field 'title_vern_display', extract_marc('245abk', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
+to_field 'title_display', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
+to_field 'title_vern_display', extract_marc('245abfgknp', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field "title_series_t", extract_marc("440ap:800abcdfpqt:830ap")
 to_field "title_sort", marc_sortable_title
 
