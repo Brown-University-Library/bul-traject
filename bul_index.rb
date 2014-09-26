@@ -170,11 +170,11 @@ to_field "subject_t", extract_marc(%w(
 to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
 
 #Not using marc_display yet.
-to_field 'marc_display' do |r, acc, context|
-  xmlos = java.io.ByteArrayOutputStream.new
-  writer = org.marc4j.MarcXmlWriter.new(xmlos)
-  writer.setUnicodeNormalization(true)
-  writer.write(context.clipboard[:marc4j][:marc4j_record])
-  writer.writeEndDocument();
-  acc << xmlos.toString
-end
+#to_field 'marc_display' do |r, acc, context|
+#  xmlos = java.io.ByteArrayOutputStream.new
+#  writer = org.marc4j.MarcXmlWriter.new(xmlos)
+#  writer.setUnicodeNormalization(true)
+#  writer.write(context.clipboard[:marc4j][:marc4j_record])
+#  writer.writeEndDocument();
+#  acc << xmlos.toString
+#end
