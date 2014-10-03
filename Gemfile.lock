@@ -6,11 +6,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    byebug (3.2.0)
-      columnize (~> 0.8)
-      debugger-linecache (~> 1.2)
-    columnize (0.8.9)
-    debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     dot-properties (0.1.3)
     ensure_valid_encoding (0.5.3)
@@ -41,10 +36,7 @@ GEM
       slop (>= 3.4.5, < 4.0)
       yell
     traject_umich_format (0.2.0)
-    unf (0.1.4)
-      unf_ext
     unf (0.1.4-java)
-    unf_ext (0.0.6)
     yell (2.0.4)
 
 PLATFORMS
@@ -52,7 +44,6 @@ PLATFORMS
 
 DEPENDENCIES
   bulmarc!
-  byebug
   marc
   marc-marc4j
   rspec

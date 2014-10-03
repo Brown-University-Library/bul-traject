@@ -9,7 +9,7 @@ platforms :jruby do
 end
 
 if ENV['TRAJECT_ENV'] == 'devbox'
-  gem 'byebug'
+  #gem 'byebug'
   gem "bulmarc", :path => "/work/bul_marc_utils"
 else
   gem "bulmarc", :git => 'git@bitbucket.org:bul/bulmarc.git'
