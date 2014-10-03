@@ -68,7 +68,7 @@ to_field 'issn_t', extract_marc("022a:022l:022y:773x:774x:776x", :separator => n
 to_field 'oclc_t', oclcnum('035a:035z')
 
 # Title fields
-to_field 'title_t', extract_marc('245abc', :first=>true, :trim_punctuation => true)
+to_field 'title_t', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
 to_field 'title_display', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
 to_field 'title_vern_display', extract_marc('245abfgknp', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field "title_series_t", extract_marc("440ap:800abcdfpqt:830ap")
@@ -170,11 +170,11 @@ to_field "subject_t", extract_marc(%w(
 to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
 
 #Not using marc_display yet.
-#to_field 'marc_display' do |r, acc, context|
-#  xmlos = java.io.ByteArrayOutputStream.new
-#  writer = org.marc4j.MarcXmlWriter.new(xmlos)
-#  writer.setUnicodeNormalization(true)
-#  writer.write(context.clipboard[:marc4j][:marc4j_record])
-#  writer.writeEndDocument();
-#  acc << xmlos.toString
-#end
+to_field 'marc_display' do |r, acc, context|
+ xmlos = java.io.ByteArrayOutputStream.new
+ writer = org.marc4j.MarcXmlWriter.new(xmlos)
+ writer.setUnicodeNormalization(true)
+ writer.write(context.clipboard[:marc4j][:marc4j_record])
+ writer.writeEndDocument();
+ acc << xmlos.toString
+end
