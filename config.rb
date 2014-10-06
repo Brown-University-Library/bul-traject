@@ -1,10 +1,9 @@
 #
 #Brown MARC to Solr indexing
-#Uses tracject: https://github.com/traject-project/traject
+#Uses traject: https://github.com/traject-project/traject
 #
 
-# I like to keep my local files under 'lib'. Adding this will also
-# allow Traject::TranslationMap to find files in
+#Translation maps.
 # './lib/translation_maps/'
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
 
@@ -25,8 +24,7 @@ require 'lib/bul_utils'
 require 'lib/bul_format'
 
 
-# set this depending on what you want to see
-# and how often.
+# Setup
 settings do
   store "log.batch_progress", 10_000
   provide "reader_class_name", "Traject::Marc4JReader"
@@ -76,8 +74,6 @@ to_field "author_vern_display", extract_marc('100abcdq:110abcd:111abcd', :altern
 to_field "author_addl_display", extract_marc('110ab:111ab:700abcd:710ab:711ab', :trim_punctuation => true)
 to_field "author_t", extract_marc('100abcd:110abcd:111abc')
 to_field 'author_addl_t', extract_marc("700abcd:710abcd:711abc")
-
-
 
 #
 # - Publication details fields

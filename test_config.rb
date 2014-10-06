@@ -1,33 +1,9 @@
-# A traject file is (a) totally self-contained,
-# and (b) just uses a debug writer to write things out.
-
-# For a more complete example of indexing code, look at
-# the index.rb file in this directory
-
-
-# You can run this against a binary marc file 'myfile.mrc' as:
 #
-#     traject -c ./simplest_possible_traject_config myfile.mrc
-
-
-
-
-
-# Set up a reader and a writer
-# First we need to require the reader/writer we want
-
+# Bare config for testing new mappings.
+#
 require 'traject'
 require 'traject/marc4j_reader'
 require 'traject/debug_writer'
-
-#Local utils gem
-#require 'bulmarc'
-
-#Local format code
-#require 'lib/brown_format'
-
-#require 'traject/macros/marc_format_classifier'
-#extend Traject::Macros::MarcFormats
 
 #translation maps
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
@@ -41,7 +17,6 @@ require 'lib/bul_utils'
 
 extend  Traject::Macros::Marc21Semantics
 extend BulMacros
-
 
 
 # The add the appropriate settings
@@ -61,11 +36,6 @@ each_record do |rec, context|
     context.skip!("Skipping suppressed record")
   end
 end
-
-# Note that we only want one id, so we'll take the first one
-#to_field "id" do |record, accumulator |
-#  accumulator << record_id(record)
-#end
 
 to_field "id", record_id
 
@@ -127,9 +97,6 @@ to_field "title", extract_marc('245a')
 #   value = tmap[bf.code]
 #   accumulator << value
 # end
-
-
-
 
 #to_field "author_facet", extract_marc("100abcd:110ab:111ab:700abcd:710ab:711ab")
 
