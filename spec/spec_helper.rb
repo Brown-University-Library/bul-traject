@@ -76,3 +76,11 @@ RSpec.configure do |config|
   end
 =end
 end
+
+require 'marc'
+
+def read(name)
+  path = File.expand_path(File.join("fixtures", name), File.dirname(__FILE__))
+  record = MARC::Reader.new(path).to_a.first
+  return record
+end

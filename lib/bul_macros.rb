@@ -4,7 +4,31 @@ require 'traject/marc_extractor'
 Marc21 = Traject::Macros::Marc21
 MarcExtractor = Traject::MarcExtractor
 
-module BrownMacros
+module BulMacros
+
+  #Find the record id, remove leading . and strip trailing check digit.
+  def record_id
+    extractor = MarcExtractor.new("907a", :first => true)
+    lambda do |record, accumulator|
+      accumulator << extractor.extract(record).first.slice(1..8)
+    end
+  end
+
+  # #Returns true if a record is suppressed.
+  # #
+  # #Identify whether a given record is suppressed.  Local system uses
+  # #field 998 subfield e with a value of n to indicate the item is
+  # #suppressed.
+  # def suppressed
+  #   extractor = MarcExtractor.new("998e", :first => true)
+  #   lambda do |record, accumulator|
+  #     val = extractor.extract(record).first
+  #     if val == 'n'
+  #       accumulator << true
+  #     end
+  #   end
+  # end
+
   def author_facet(spec = "100abcd:110ab:111ab:700abcd:710ab:711ab")
     extractor = MarcExtractor.new(spec)
 
