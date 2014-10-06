@@ -1,8 +1,8 @@
 # encoding: UTF-8
 =begin
-These can considered integration tests in that test the entire
-traject mapping and output process.  They are quite slow
-since they start up traject for each record tested.
+These test the entire traject mapping and output process.
+They are quite slow since they start up traject for each record tested.
+Should consider replacing these.
 =end
 
 require 'json'
@@ -10,7 +10,7 @@ require 'json'
 def trajectify(fixture_name)
     o = '/tmp/tmp.json'
     i = File.expand_path("../fixtures/#{fixture_name}.mrc",__FILE__)
-    c = File.expand_path('../../bul_index.rb',__FILE__)
+    c = File.expand_path('../../config.rb',__FILE__)
     system "traject -c #{c} #{i} -w Traject::JsonWriter -o #{o}"
     JSON.parse(IO.read(o))
 end
@@ -50,10 +50,10 @@ describe 'From config.rb' do
       expect(@book_880['format'][0]).to eq 'Book'
     end
     it 'newspaper has correct format' do
-      expect(@newspaper['format'][0]).to eq 'Newspaper'
+      expect(@newspaper['format'][0]).to eq 'Periodical Title'
     end
     it 'journal has correct format' do
-      expect(@journal['format'][0]).to eq 'Journal'
+      expect(@journal['format'][0]).to eq 'Periodical Title'
     end
     #it 'dissertation has correct format' do
     #  expect(@dissertation['format'][0]).to eq 'Dissertation or Thesis'
@@ -81,14 +81,14 @@ end
 
 describe 'From has abstract' do
   before do
-    @rec = trajectify('has_abstract')
+    #@rec = trajectify('has_abstract')
     @rec_no_abstract = trajectify('ejournal')
   end
 
-  it 'correctly has the abstract' do
-    abstract = @rec['abstract_display'][0]
-    expect(abstract).to include 'Martin Luther King'
-  end
+  # it 'correctly has the abstract' do
+  #   abstract = @rec['abstract_display'][0]
+  #   expect(abstract).to include 'Martin Luther King'
+  # end
 
   it 'correctly does not have an abstract' do
     abstract = @rec_no_abstract['abstract_display']

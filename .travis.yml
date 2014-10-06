@@ -3,5 +3,4 @@ rvm:
   - jruby-19mode
 jdk:
   - openjdk7
-  - openjdk6
-bundler_args: --without debug
+script: bundle exec rspec
