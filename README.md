@@ -1,14 +1,8 @@
-# Brown MARC record indexer
-
-Based off (https://github.com/traject-project/traject_sample)
+# bul-traject
+This project transforms MARC records into Solr documents using the [Traject](https://github.com/traject-project/traject) tools developed by [Bill Dueber](https://github.com/billdueber/) and [Jonathan Rochkind](https://github.com/jrochkind).
 
 Run as:
-`time traject -c bul_index.rb -u http://localhost:8983/solr/blacklight-core /full/path/to/marcfile.mrc`
+`time traject -c config.rb -u http://localhost:8983/solr/core /full/path/to/marcfile.mrc`
 
-or for a directory of records:
-`cat /dock/josiahdata/updates/*mrc | time traject -c bul_index.rb -u http://localhost:8983/solr/blacklight-core --stdin -s solrj_writer.commit_on_close=true`
-
-##Errors
-`ocm51195954` at file position 56043 undefined method `upcase' for nil:NilClass
 
 

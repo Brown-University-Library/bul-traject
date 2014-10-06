@@ -1,8 +1,3 @@
-PATH
-  remote: /work/bul_marc_utils
-  specs:
-    bulmarc (0.0.4.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -35,7 +30,6 @@ GEM
       marc-marc4j (>= 0.1.1)
       slop (>= 3.4.5, < 4.0)
       yell
-    traject_umich_format (0.2.0)
     unf (0.1.4-java)
     yell (2.0.4)
 
@@ -43,9 +37,7 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  bulmarc!
   marc
   marc-marc4j
   rspec
   traject (>= 1.0.0.beta)
-  traject_umich_format
