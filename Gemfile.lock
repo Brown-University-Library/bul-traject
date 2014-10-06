@@ -1,0 +1,51 @@
+PATH
+  remote: /work/bul_marc_utils
+  specs:
+    bulmarc (0.0.4.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    diff-lcs (1.2.5)
+    dot-properties (0.1.3)
+    ensure_valid_encoding (0.5.3)
+    hashie (2.0.5)
+    marc (0.8.1)
+      ensure_valid_encoding
+      unf
+    marc-marc4j (0.2.0-java)
+      marc (>= 0.7.1)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
+    rspec-core (3.0.4)
+      rspec-support (~> 3.0.0)
+    rspec-expectations (3.0.4)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.0.0)
+    rspec-mocks (3.0.4)
+      rspec-support (~> 3.0.0)
+    rspec-support (3.0.4)
+    slop (3.6.0)
+    traject (1.1.0)
+      dot-properties (>= 0.1.1)
+      hashie (>= 2.0.5, < 2.1)
+      marc (>= 0.8.0)
+      marc-marc4j (>= 0.1.1)
+      slop (>= 3.4.5, < 4.0)
+      yell
+    traject_umich_format (0.2.0)
+    unf (0.1.4-java)
+    yell (2.0.4)
+
+PLATFORMS
+  java
+
+DEPENDENCIES
+  bulmarc!
+  marc
+  marc-marc4j
+  rspec
+  traject (>= 1.0.0.beta)
+  traject_umich_format

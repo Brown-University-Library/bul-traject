@@ -1,0 +1,8 @@
+*.env
+debug_output.txt
+#MARC files opened with MARCEdit
+*.mrk
+
+test_config.rb
+tc_format.rb
+vufind.properties
