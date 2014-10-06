@@ -4,6 +4,8 @@ require 'traject/marc_extractor'
 Marc21 = Traject::Macros::Marc21
 MarcExtractor = Traject::MarcExtractor
 
+require 'lib/bul_utils'
+
 module BulMacros
 
   #Find the record id, remove leading . and strip trailing check digit.
@@ -13,21 +15,6 @@ module BulMacros
       accumulator << extractor.extract(record).first.slice(1..8)
     end
   end
-
-  # #Returns true if a record is suppressed.
-  # #
-  # #Identify whether a given record is suppressed.  Local system uses
-  # #field 998 subfield e with a value of n to indicate the item is
-  # #suppressed.
-  # def suppressed
-  #   extractor = MarcExtractor.new("998e", :first => true)
-  #   lambda do |record, accumulator|
-  #     val = extractor.extract(record).first
-  #     if val == 'n'
-  #       accumulator << true
-  #     end
-  #   end
-  # end
 
   def author_facet(spec = "100abcd:110ab:111ab:700abcd:710ab:711ab")
     extractor = MarcExtractor.new(spec)
@@ -48,4 +35,22 @@ module BulMacros
       accumulator.concat( values )
     end
   end
+
+  #Returns date record was last updated
+  #
+  #Converts date string found in MARC 907 b to Ruby date obj.
+  #Will return nil if date parsing fails.
+  def updated_date
+    extractor = MarcExtractor.new("907b", :first => true)
+    lambda do |record, acc|
+      datestr = extractor.extract(record).first
+      begin
+        date = Date.strptime(datestr, "%m-%d-%y")
+        acc << solr_date(date)
+      rescue ArgumentError
+        yell.debug "Unable to parse datestr #{datestr}"
+      end
+    end
+  end
+
 end

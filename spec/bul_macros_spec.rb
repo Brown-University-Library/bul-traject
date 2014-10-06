@@ -27,6 +27,15 @@ describe "BulMacros" do
     expect(output["id"]).to eq ["b7311191"]
   end
 
+  it "correctly identifies the last update date" do
+    @indexer.instance_eval do
+      to_field "updated_dt", updated_date
+    end
+    rec = read('book_880.mrc')
+    output = @indexer.map_record(rec)
+    expect(output['updated_dt'][0].to_s).to eq "2013-04-30 00:00:00 UTC"
+  end
+
   describe 'author facet' do
 
     it "ignores named collection" do
