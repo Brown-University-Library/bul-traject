@@ -21,10 +21,10 @@ require 'traject/marc4j_reader'
 require 'traject/debug_writer'
 
 #Local utils gem
-require 'bulmarc'
+#require 'bulmarc'
 
 #Local format code
-require 'lib/brown_format'
+#require 'lib/brown_format'
 
 #require 'traject/macros/marc_format_classifier'
 #extend Traject::Macros::MarcFormats
@@ -36,10 +36,11 @@ require 'traject/macros/marc21_semantics'
 require 'traject/macros/marc21'
 require 'traject/marc_extractor'
 
-require 'lib/brown_macros'
+require 'lib/bul_macros'
+require 'lib/bul_utils'
 
 extend  Traject::Macros::Marc21Semantics
-extend BrownMacros
+extend BulMacros
 
 
 
@@ -62,14 +63,16 @@ each_record do |rec, context|
 end
 
 # Note that we only want one id, so we'll take the first one
-to_field "id" do |record, accumulator |
-  accumulator << record_id(record)
-end
+#to_field "id" do |record, accumulator |
+#  accumulator << record_id(record)
+#end
+
+to_field "id", record_id
 
 #Brown last updated date
-to_field "updated_dt" do |record, accumulator |
- accumulator << updated_date(record)
-end
+# to_field "updated_dt" do |record, accumulator |
+#  accumulator << updated_date(record)
+# end
 
 to_field "title", extract_marc('245a')
 
