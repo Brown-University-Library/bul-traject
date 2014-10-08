@@ -1,4 +1,4 @@
-require 'traject/marc_extractor'
+require 'traject'
 #shortcut
 MarcExtractor = Traject::MarcExtractor
 
