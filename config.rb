@@ -155,4 +155,4 @@ to_field "subject_t", extract_marc(%w(
 # Get the values for all the fields between 100 and 999
 to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
 
-to_field "marc_display", serialized_marc(:format => "binary", :binary_escape => false, :allow_oversized => true)
+to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => true)
