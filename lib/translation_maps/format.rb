@@ -39,7 +39,7 @@
     #"CE"=>"Electronic Resource",
     "CF"=>"Computer File",
     #Brown additions - prefix with a B
-    "BAM" => "Archives/Manuscript",
+    "BAM" => "Archives/Manuscripts",
     "BV" => "Video",
     "BSR" => "Sound Recording",
     "BP" => "Periodical Title",
