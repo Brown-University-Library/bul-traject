@@ -4,7 +4,7 @@ require 'traject/marc_extractor'
 Marc21 = Traject::Macros::Marc21
 MarcExtractor = Traject::MarcExtractor
 
-require 'lib/bul_utils'
+require 'bul_utils'
 
 module BulMacros
 
