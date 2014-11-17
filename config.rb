@@ -61,7 +61,6 @@ to_field 'title_display', extract_marc('245abfgknp', :first=>true, :trim_punctua
 to_field 'title_vern_display', extract_marc('245abfgknp', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field "title_series_t", extract_marc("440ap:800abcdfpqt:830ap")
 to_field "title_sort", marc_sortable_title
-to_field "statement_of_responsibility_display", extract_marc('245c', :first => true, :trim_punctuation => true)
 
 # Author fields
 to_field "author_display", extract_marc("100abcdq:110abcd:111abcd", :first=>true, :trim_punctuation => true)
@@ -73,7 +72,6 @@ to_field 'author_addl_t', extract_marc("700abcdq:710abcd:711abcdeq:810abc:811aqd
 #
 # - Publication details fields
 #
-#to_field "imprint_display", extract_marc("260abcdefg:264abc", :first=>true)
 to_field "published_display", extract_marc("260a", :trim_punctuation=>true)
 to_field "published_vern_display",  extract_marc("260a", :alternate_script => :only)
 #Display physical information.
