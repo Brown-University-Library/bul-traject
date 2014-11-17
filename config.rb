@@ -13,25 +13,25 @@ extend  Traject::Macros::Marc21Semantics
 require 'traject/macros/marc_format_classifier'
 extend Traject::Macros::MarcFormats
 
-require 'traject/marc4j_reader'
+#require 'traject/marc4j_reader'
 
 #local macros
-require 'lib/bul_macros'
+require 'bul_macros'
 extend BulMacros
 
 #local utils
-require 'lib/bul_utils'
-require 'lib/bul_format'
+require 'bul_utils'
+require 'bul_format'
 
 
 # Setup
 settings do
   store "log.batch_progress", 10_000
-  provide "reader_class_name", "Traject::Marc4JReader"
-  provide "marc4j_reader.source_encoding", "UTF-8"
+  #provide "reader_class_name", "Traject::Marc4JReader"
+  #provide "marc4j_reader.source_encoding", "UTF-8"
   provide "solr.url", ENV['SOLR_URL']
-  provide "solrj_writer.commit_on_close", "true"
-  provide 'processing_thread_pool', 3
+  #provide "solrj_writer.commit_on_close", "true"
+  #provide 'processing_thread_pool', 3
 end
 
 logger.info RUBY_DESCRIPTION
