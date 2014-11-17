@@ -67,8 +67,8 @@ to_field "statement_of_responsibility_display", extract_marc('245c', :first => t
 to_field "author_display", extract_marc("100abcdq:110abcd:111abcd", :first=>true, :trim_punctuation => true)
 to_field "author_vern_display", extract_marc('100abcdq:110abcd:111abcd', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field "author_addl_display", extract_marc('110ab:111ab:700abcd:710ab:711ab', :trim_punctuation => true)
-to_field "author_t", extract_marc('100abcd:110abcd:111abc')
-to_field 'author_addl_t', extract_marc("700abcd:710abcd:711abc")
+to_field "author_t", extract_marc('100abcdq:110abcd:111abcdeq')
+to_field 'author_addl_t', extract_marc("700abcdq:710abcd:711abcdeq:810abc:811aqdce")
 
 #
 # - Publication details fields
