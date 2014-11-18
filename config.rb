@@ -56,7 +56,30 @@ to_field 'issn_t', extract_marc("022a:022l:022y:773x:774x:776x", :separator => n
 to_field 'oclc_t', oclcnum('035a:035z')
 
 # Title fields
-to_field 'title_t', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
+to_field 'title_t', extract_marc(%w(
+  245abfgknp
+  100tflnp
+  110tflnp
+  111tfklpsv
+  130adfklmnoprst
+  210ab
+  222ab
+  240adfklmnoprs
+  242abnp
+  246abnp
+  247abnp
+  505t
+  700tflnp
+  710tflnp
+  711tfklpsv
+  730adfklmnoprstv
+  740ap
+  ),
+  :first=>true,
+  :trim_punctuation => true
+)
+
+
 to_field 'title_display', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
 to_field 'title_vern_display', extract_marc('245abfgknp', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field "title_series_t", extract_marc("440ap:800abcdfpqt:830ap")
