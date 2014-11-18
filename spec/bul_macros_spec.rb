@@ -1,7 +1,7 @@
 require 'traject'
 require 'marc/record'
 
-require 'lib/bul_macros'
+require 'bul_macros'
 
 
 def read(name)

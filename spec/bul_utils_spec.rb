@@ -1,4 +1,4 @@
-require 'lib/bul_utils'
+require 'bul_utils'
 
 describe "bul_utils" do
   it "identifies a suppressed record" do
