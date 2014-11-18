@@ -2,7 +2,6 @@
 # Bare config for testing new mappings.
 #
 require 'traject'
-require 'traject/marc4j_reader'
 require 'traject/debug_writer'
 
 #translation maps
@@ -12,8 +11,8 @@ require 'traject/macros/marc21_semantics'
 require 'traject/macros/marc21'
 require 'traject/marc_extractor'
 
-require 'lib/bul_macros'
-require 'lib/bul_utils'
+require 'bul_macros'
+require 'bul_utils'
 
 extend  Traject::Macros::Marc21Semantics
 extend BulMacros
@@ -21,7 +20,8 @@ extend BulMacros
 
 # The add the appropriate settings
 settings do
-  provide "reader_class_name", "Traject::Marc4JReader"
+  #provide "reader_class_name", "Traject::Marc4JReader"
+  provide "solr.url", ENV['SOLR_URL']
   #provide "reader_class_name", "Traject::MarcReader"
   # Right now, logging is going to $stderr. Uncomment
   # this line to send it to a file
@@ -32,6 +32,7 @@ end
 logger.info RUBY_DESCRIPTION
 
 each_record do |rec, context|
+  puts rec
   if suppressed(rec) == true
     context.skip!("Skipping suppressed record")
   end
@@ -45,6 +46,34 @@ to_field "id", record_id
 # end
 
 to_field "title", extract_marc('245a')
+#to_field "brown_author_facet", author_facet
+#to_field "author", extract_marc("100abcdq:110abcd:111abcd", :first=>true, :trim_punctuation => true)
+#to_field "imprint_display", extract_marc("260abcdefg:264abc", :first=>true)
+
+# Title fields
+to_field 'title_t', extract_marc(%w(
+  245abfgknp
+  100tflnp
+  110tflnp
+  111tfklpsv
+  130adfklmnoprst
+  210ab
+  222ab
+  240adfklmnoprs
+  242abnp
+  246abnp
+  247abnp
+  505t
+  700tflnp
+  710tflnp
+  711tfklpsv
+  730adfklmnoprstv
+  740ap
+  ),
+  :first=>true,
+  :trim_punctuation => true
+)
+
 
 
 #format_map = Traject::TranslationMap.new('format')
@@ -100,4 +129,3 @@ to_field "title", extract_marc('245a')
 
 #to_field "author_facet", extract_marc("100abcd:110ab:111ab:700abcd:710ab:711ab")
 
-to_field "brown_author_facet", author_facet
