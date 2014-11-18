@@ -78,11 +78,24 @@ to_field 'title_t', extract_marc(%w(
   :first=>true,
   :trim_punctuation => true
 )
-
-
 to_field 'title_display', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
 to_field 'title_vern_display', extract_marc('245abfgknp', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field "title_series_t", extract_marc("440ap:800abcdfpqt:830ap")
+to_field 'title_series_t', extract_marc(%w(
+  400flnptv
+  410flnptv
+  411fklnptv
+  440ap
+  490a
+  800abcdflnpqt
+  810tflnp
+  811tfklpsv
+  830adfklmnoprstv
+  ),
+  :first=>true,
+  :trim_punctuation => true
+)
+
 to_field "title_sort", marc_sortable_title
 
 # Author fields
