@@ -3,6 +3,12 @@
 #Uses traject: https://github.com/traject-project/traject
 #
 
+#Check if we are using jruby and store.
+is_jruby = RUBY_ENGINE == 'jruby'
+if is_jruby
+  require 'traject/marc4j_reader'
+end
+
 #Translation maps.
 # './lib/translation_maps/'
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
@@ -13,8 +19,6 @@ extend  Traject::Macros::Marc21Semantics
 require 'traject/macros/marc_format_classifier'
 extend Traject::Macros::MarcFormats
 
-#require 'traject/marc4j_reader'
-
 #local macros
 require 'bul_macros'
 extend BulMacros
@@ -23,15 +27,17 @@ extend BulMacros
 require 'bul_utils'
 require 'bul_format'
 
-
 # Setup
 settings do
   store "log.batch_progress", 10_000
-  #provide "reader_class_name", "Traject::Marc4JReader"
-  #provide "marc4j_reader.source_encoding", "UTF-8"
   provide "solr.url", ENV['SOLR_URL']
-  #provide "solrj_writer.commit_on_close", "true"
-  #provide 'processing_thread_pool', 3
+  #Use Marc4JReader and solrj writer when available.
+  if is_jruby
+    provide "reader_class_name", "Traject::Marc4JReader"
+    provide "marc4j_reader.source_encoding", "UTF-8"
+    provide "solrj_writer.commit_on_close", "true"
+    provide 'processing_thread_pool', 3
+  end
 end
 
 logger.info RUBY_DESCRIPTION
