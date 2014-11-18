@@ -3,7 +3,7 @@
 #
 
 require 'marc'
-require 'lib/bul_format'
+require 'bul_format'
 
 def get_format(rec_name)
   rec = read(rec_name)
