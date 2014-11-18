@@ -109,6 +109,16 @@ end
 describe "Identifying format" do
   it 'archive/manuscript is identified' do
     rec = trajectify('archive_manuscript')
-    expect(rec['format'][0]).to eq 'Archives/Manuscript'
+    expect(rec['format'][0]).to eq 'Archives/Manuscripts'
   end
 end
+
+
+describe "author_t parsed properly" do
+  it "finds sf q" do
+    rec = trajectify('map')
+    actual = ["Hayes, C. W. (Charles Willard), 1859-1916"]
+    expect(rec['author_t']).to eq actual
+  end
+end
+
