@@ -21,7 +21,6 @@ describe 'From config.rb' do
   @book_880 = trajectify('book_880')
   @newspaper = trajectify('newspaper')
   @journal = trajectify('journal')
-  @dissertation = trajectify('dissertation')
 
   end
 
