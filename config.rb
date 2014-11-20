@@ -81,7 +81,6 @@ to_field 'title_t', extract_marc(%w(
   730adfklmnoprstv
   740ap
   ),
-  :first=>true,
   :trim_punctuation => true
 )
 to_field 'title_display', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
@@ -97,7 +96,6 @@ to_field 'title_series_t', extract_marc(%w(
   811tfklpsv
   830adfklmnoprstv
   ),
-  :first=>true,
   :trim_punctuation => true
 )
 to_field "title_sort", marc_sortable_title
