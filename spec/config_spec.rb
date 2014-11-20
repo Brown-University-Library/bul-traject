@@ -121,3 +121,18 @@ describe "author_t parsed properly" do
   end
 end
 
+
+describe "title_t parsed properly" do
+  it "finds multiple subfields" do
+    rec = trajectify('gothic-classics-700t')
+    title_t = rec['title_t']
+    #245
+    expect(title_t).to include "Gothic classics"
+    #505t
+    expect(title_t).to include "I've a pain in my head [poem]"
+    #700ts
+    expect(title_t).to include "Northanger Abbey"
+    expect(title_t).to include "Oval portrait"
+  end
+end
+
