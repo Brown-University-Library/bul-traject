@@ -73,6 +73,11 @@ describe 'Format video' do
     expect(fmt.code).to eq "BV"
   end
 
+  it "looks at all 007s to determine format" do
+    fmt = get_format('video_gathering_moss.mrc')
+    expect(fmt.code).to eq "BV"
+  end
+
 end
 
 describe 'Format score' do

@@ -9,7 +9,6 @@ Brown VuFind code
 https://bitbucket.org/bul/traject-indexer/src/5d3308001783849a33827def6a5f04081510d940/docs/vufind_format.bsh?at=formats
 
 =end
-
 class Format
   attr_reader :record, :code, :type, :level, :fixed
 
@@ -82,14 +81,13 @@ class Format
     return "SE" if lev == 's'
   end
 
-  #Return MARC 007
+  #Return MARC 007s as array
   def phys_desc
-    oh7 = record['007']
-    if oh7.respond_to?(:value)
-      return oh7.value
-    else
-      return
+    out = []
+    found_007 = @record.fields('007').each do |field|
+      out << field.value
     end
+    return out
   end
 
   #Return true if item is a Brown University thesis or dissertation.
@@ -144,12 +142,12 @@ class Format
 
   #Check 007[0] for video.
   def video
-    pd = phys_desc()
-    if pd.nil?
-      return false
-    else
-      return (pd.include? "v" or pd.include? "m")
+    phys_desc().each do |val|
+      if (val.include? "v") or (val.include? "m")
+        return true
+      end
     end
+    return false
     #Inspect location codes for common format abbrvs.
     # record.fields('945').each do |item|
     #   item.subfields.each do |sf|
