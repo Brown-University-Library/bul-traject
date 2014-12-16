@@ -59,7 +59,7 @@ to_field "updated_dt", updated_date
 #Identifiers
 to_field 'isbn_t', extract_marc('020a:020z')
 to_field 'issn_t', extract_marc("022a:022l:022y:773x:774x:776x", :separator => nil)
-to_field 'oclc_t', oclcnum('035a:035z')
+to_field 'oclc_t', oclcnum('001:035a:035z')
 
 # Title fields
 to_field 'title_t', extract_marc(%w(
