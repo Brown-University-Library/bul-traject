@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 
-gem 'byebug'
 gem 'marc'
 gem 'rspec'
 
@@ -10,5 +9,6 @@ if is_jruby
   gem 'traject', ">= 1.0.0.beta"
   gem 'marc-marc4j'
 else
+  gem 'byebug'
   gem 'traject', '>=2.0.pre', :git => 'https://github.com/traject-project/traject.git', :branch => 'dev-2.0'
 end

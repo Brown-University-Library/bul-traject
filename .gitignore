@@ -4,6 +4,8 @@ debug_output.txt
 *.mrk
 bin/*
 
+Gemfile.lock
+
 test_config.rb
 tc_format.rb
 vufind.properties
