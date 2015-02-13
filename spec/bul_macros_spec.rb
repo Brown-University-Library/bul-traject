@@ -38,7 +38,7 @@ describe "BulMacros" do
     end
     rec = read('book_880.mrc')
     output = @indexer.map_record(rec)
-    expect(output['updated_dt'][0].to_s).to eq "2013-04-30 00:00:00 UTC"
+    expect(output['updated_dt'][0].to_s).to eq "2013-04-30T00:00:00Z"
   end
 
   describe 'author facet' do
