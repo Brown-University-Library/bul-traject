@@ -189,6 +189,9 @@ to_field "subject_t", extract_marc(%w(
   690a   690abcdevxyz
   ), :trim_punctuation=>true)
 
+#Callnumber
+to_field "callnumber_t", extract_marc("090ab:091ab:092ab:096ab:099ab", :trim_punctuation => true)
+
 #Text - for search
 # Get the values for all the fields between 100 and 999
 to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
