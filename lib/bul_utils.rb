@@ -39,5 +39,5 @@ end
 #https://github.com/sunspot/sunspot/blob/ec64df6a526d738f9f77c039679b344f908d3298/sunspot/lib/sunspot/type.rb#L244
 #https://cwiki.apache.org/confluence/display/solr/Working+with+Dates
 def solr_date(date)
-  return Time.utc(date.year, date.mon, date.mday)
+  return Time.utc(date.year, date.mon, date.mday).iso8601()
 end
