@@ -1,0 +1,467 @@
+{  
+   "leader":"02100cgi a2200481 i 4500",
+   "fields":[  
+      {  
+         "001":"ocn870971864"
+      },
+      {  
+         "003":"OCoLC"
+      },
+      {  
+         "005":"20140627111425.3"
+      },
+      {  
+         "006":"m     o  c        "
+      },
+      {  
+         "006":"suu d o     0    2"
+      },
+      {  
+         "007":"vz mzazzu"
+      },
+      {  
+         "007":"cr |||||||||||"
+      },
+      {  
+         "008":"140224c20129999vau000        o   vleng c"
+      },
+      {  
+         "010":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"2014238031"
+               }
+            ]
+         }
+      },
+      {  
+         "035":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"(OCoLC)796933967"
+               }
+            ]
+         }
+      },
+      {  
+         "040":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"IUL"
+               },
+               {  
+                  "b":"eng"
+               },
+               {  
+                  "e":"rda"
+               },
+               {  
+                  "c":"IUL"
+               },
+               {  
+                  "d":"IUL"
+               },
+               {  
+                  "d":"COO"
+               },
+               {  
+                  "d":"CUS"
+               },
+               {  
+                  "d":"ALSTP"
+               },
+               {  
+                  "d":"OCLCO"
+               },
+               {  
+                  "d":"ZCU"
+               },
+               {  
+                  "d":"WAU"
+               }
+            ]
+         }
+      },
+      {  
+         "042":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"pcc"
+               }
+            ]
+         }
+      },
+      {  
+         "049":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"RBNN"
+               }
+            ]
+         }
+      },
+      {  
+         "050":{  
+            "ind1":"1",
+            "ind2":"4",
+            "subfields":[  
+               {  
+                  "a":"PN1995.75"
+               }
+            ]
+         }
+      },
+      {  
+         "245":{  
+            "ind1":"0",
+            "ind2":"0",
+            "subfields":[  
+               {  
+                  "a":"Silent film online."
+               }
+            ]
+         }
+      },
+      {  
+         "246":{  
+            "ind1":"1",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"SILF."
+               }
+            ]
+         }
+      },
+      {  
+         "264":{  
+            "ind1":" ",
+            "ind2":"1",
+            "subfields":[  
+               {  
+                  "a":"Alexandria, VA :"
+               },
+               {  
+                  "b":"Alexander Street Press,"
+               },
+               {  
+                  "c":"[2012?]-"
+               }
+            ]
+         }
+      },
+      {  
+         "300":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"1 online resource."
+               }
+            ]
+         }
+      },
+      {  
+         "336":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"two-dimensional moving image"
+               },
+               {  
+                  "b":"tdi"
+               },
+               {  
+                  "2":"rdacontent."
+               }
+            ]
+         }
+      },
+      {  
+         "336":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"text"
+               },
+               {  
+                  "b":"txt"
+               },
+               {  
+                  "2":"rdacontent."
+               }
+            ]
+         }
+      },
+      {  
+         "337":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"computer"
+               },
+               {  
+                  "b":"c"
+               },
+               {  
+                  "2":"rdamedia."
+               }
+            ]
+         }
+      },
+      {  
+         "338":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"online resource"
+               },
+               {  
+                  "b":"cr"
+               },
+               {  
+                  "2":"rdacarrier."
+               }
+            ]
+         }
+      },
+      {  
+         "362":{  
+            "ind1":"1",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"Began in 2012."
+               }
+            ]
+         }
+      },
+      {  
+         "520":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"Silent Film Online brings together films which represent the basis of modern cinematic technique and film theory. This database covers silent features, serials, and shorts from the 1890s to the 1930s and includes examples of the silent film movement from Germany, Britain, the Soviet Union, and France. The resource complements its feature films with a selection of related documentaries."
+               }
+            ]
+         }
+      },
+      {  
+         "546":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"Site in English; multiple language interface."
+               }
+            ]
+         }
+      },
+      {  
+         "588":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"Description based on contents viewed on February 24, 2014; title from home page (Alexander Street Press)"
+               }
+            ]
+         }
+      },
+      {  
+         "650":{  
+            "ind1":" ",
+            "ind2":"0",
+            "subfields":[  
+               {  
+                  "a":"Silent films"
+               },
+               {  
+                  "v":"Databases."
+               }
+            ]
+         }
+      },
+      {  
+         "650":{  
+            "ind1":" ",
+            "ind2":"0",
+            "subfields":[  
+               {  
+                  "a":"History, Modern"
+               },
+               {  
+                  "y":"20th century."
+               }
+            ]
+         }
+      },
+      {  
+         "710":{  
+            "ind1":"2",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"Alexander Street Press,"
+               },
+               {  
+                  "e":"issuing body."
+               }
+            ]
+         }
+      },
+      {  
+         "856":{  
+            "ind1":"4",
+            "ind2":"0",
+            "subfields":[  
+               {  
+                  "u":"http://search.alexanderstreet.com.revproxy.brown.edu/silf"
+               }
+            ]
+         }
+      },
+      {  
+         "907":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":".b70749474"
+               },
+               {  
+                  "b":"07-31-14"
+               },
+               {  
+                  "c":"01-10-14"
+               }
+            ]
+         }
+      },
+      {  
+         "998":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"es001"
+               },
+               {  
+                  "b":"01-17-14"
+               },
+               {  
+                  "c":"i"
+               },
+               {  
+                  "d":"g"
+               },
+               {  
+                  "e":"-"
+               },
+               {  
+                  "f":"eng"
+               },
+               {  
+                  "g":"vau"
+               },
+               {  
+                  "h":"0"
+               },
+               {  
+                  "i":"0"
+               }
+            ]
+         }
+      },
+      {  
+         "910":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"OCLC BibNote"
+               },
+               {  
+                  "b":"Master record variable field(s) change: 050, 650 - OCLC control number change"
+               }
+            ]
+         }
+      },
+      {  
+         "910":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"OCLC BibNote"
+               },
+               {  
+                  "b":"Master record variable field(s) change: 650"
+               }
+            ]
+         }
+      },
+      {  
+         "910":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"OCLC BibNote"
+               },
+               {  
+                  "b":"Master record variable field(s) change: 650"
+               }
+            ]
+         }
+      },
+      {  
+         "910":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"RDA ENRICHED"
+               }
+            ]
+         }
+      },
+      {  
+         "910":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"Backstage"
+               }
+            ]
+         }
+      },
+      {  
+         "995":{  
+            "ind1":" ",
+            "ind2":" ",
+            "subfields":[  
+               {  
+                  "a":"140117,gsy,CATALOG"
+               }
+            ]
+         }
+      }
+   ]
+}
