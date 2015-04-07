@@ -62,11 +62,12 @@ describe 'From config.rb' do
     #end
   end
 
-  describe 'the callnumber' do
-    it 'has the correct callnumber' do
-      expect(@book_880['callnumber_t'][0]).to eq 'HV6018 .Y35'
-    end
-  end
+  #Not currently indexed.
+  #describe 'the callnumber' do
+  #  it 'has the correct callnumber' do
+  #    expect(@book_880['callnumber_t'][0]).to eq 'HV6018 .Y35'
+  #  end
+  #end
 
 end
 
