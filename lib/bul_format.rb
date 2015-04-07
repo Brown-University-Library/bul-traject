@@ -62,6 +62,11 @@ class Format
       return "BP"
     end
 
+    #JCB items with old style codes - consider books.
+    if (type == "a") and (level == "p")
+      return "BK"
+    end
+
     #Return default code if none is found.
     return code || 'XX'
 

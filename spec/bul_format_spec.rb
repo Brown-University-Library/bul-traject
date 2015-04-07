@@ -114,3 +114,13 @@ describe 'Computer file' do
   end
 end
 
+
+describe 'Identify JCB items' do
+
+  it "identifies a level type a and level p as book" do
+    #These were previously "unknopwn"
+    fmt = get_format('jcb_type_a_level_b.json')
+    expect(fmt.code).to eq "BK"
+  end
+
+end
