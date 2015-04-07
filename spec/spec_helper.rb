@@ -6,7 +6,7 @@ end
 
 
 
-def read(name)
+def read_marc(name)
   path = File.expand_path(File.join("fixtures", name), File.dirname(__FILE__))
   if path.end_with? "json"
     json_file = File.read(path)

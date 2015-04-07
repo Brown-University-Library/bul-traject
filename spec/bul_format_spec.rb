@@ -5,8 +5,9 @@
 require 'marc'
 require 'bul_format'
 
+
 def get_format(rec_name)
-  rec = read(rec_name)
+  rec = read_marc(rec_name)
   return Format.new(rec)
 end
 
@@ -78,6 +79,11 @@ describe 'Format video' do
     expect(fmt.code).to eq "BV"
   end
 
+  it "gets the right format from blevel i" do
+    fmt = get_format('was_unknown_blevel_i.json')
+    expect(fmt.code).to eq "BV"
+  end
+
 end
 
 describe 'Format score' do
@@ -107,3 +113,4 @@ describe 'Computer file' do
     expect(fmt.code).to eq "CF"
   end
 end
+

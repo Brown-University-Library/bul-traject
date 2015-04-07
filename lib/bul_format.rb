@@ -25,7 +25,6 @@ class Format
   end
 
   def primary(type, lev, fixed)
-    default = 'XX'
     code = format_code(type, lev)
 
     #Special logic
@@ -63,8 +62,8 @@ class Format
       return "BP"
     end
 
-    #Return default code.
-    return code || default
+    #Return default code if none is found.
+    return code || 'XX'
 
   end
 
@@ -178,24 +177,25 @@ class Format
     return type == 'm'
   end
 
+  #computer files, videos, sound recordings, maps
   def bibformat_bk(type, lev)
     %w[a t].include?(type) && %w[a c d m].include?(lev)
   end
 
   def bibformat_cf(type, lev)
-    (type == 'm') && %w[a b c d m s].include?(lev)
+    (type == 'm') && %w[a b c d i m s].include?(lev)
   end
 
   def bibformat_vm(type, lev)
-    %w[g k o r].include?(type) && %w[a b c d m s].include?(lev)
+    %w[g k o r].include?(type) && %w[a b c d i m s].include?(lev)
   end
 
   def bibformat_mu(type, lev)
-    %w[c d i j].include?(type) && %w[a b c d m s].include?(lev)
+    %w[c d i j].include?(type) && %w[a b c d i m s].include?(lev)
   end
 
   def bibformat_mp(type, lev)
-    %w[e f].include?(type) && %w[a b c d m s].include?(lev)
+    %w[e f].include?(type) && %w[a b c d i m s].include?(lev)
   end
 
   def bibformat_se(type, lev)
