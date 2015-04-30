@@ -63,7 +63,6 @@ to_field 'oclc_t', oclcnum('001:035a:035z')
 
 # Title fields
 to_field 'title_t', extract_marc(%w(
-  245abfgknp
   100tflnp
   110tflnp
   111tfklpsv
