@@ -192,7 +192,7 @@ to_field "subject_t", extract_marc(%w(
 to_field "callnumber_t", extract_marc("090ab:091ab:092ab:096ab:099ab", :trim_punctuation => true)
 
 #Text - for search
-# Get the values for all the fields between 100 and 999
-to_field "text", extract_all_marc_values(:from=>'100', :to=>'999')
+# Get the values for all the fields between 090 and 999
+to_field "text", extract_all_marc_values(:from=>'090', :to=>'900')
 
 to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => true)
