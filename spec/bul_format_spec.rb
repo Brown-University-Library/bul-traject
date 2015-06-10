@@ -36,6 +36,11 @@ describe 'Identify dissertations' do
     fmt = get_format('brown_dissertation.mrc')
     expect(fmt.code).to eq "BTD"
   end
+
+  it "correctly identifies a brown dissertation from 502c" do
+    fmt = get_format('brown_dissertation_502c.json')
+    expect(fmt.code).to eq "BK"
+  end
 end
 
 describe 'Identify format periodical titles' do
