@@ -39,7 +39,7 @@ describe 'Identify dissertations' do
 
   it "correctly identifies a brown dissertation from 502c" do
     fmt = get_format('brown_dissertation_502c.json')
-    expect(fmt.code).to eq "BK"
+    expect(fmt.code).to eq "BTD"
   end
 end
 
