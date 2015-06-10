@@ -19,6 +19,12 @@ describe "bul_utils" do
     expect(is_online).to be true
   end
 
+  it "correctly identifies an online record from the bib location" do
+    rec = read_marc('online_from_bib_location.json')
+    is_online = is_online(rec)
+    expect(is_online).to be true
+  end
+
   it "correctly identifies a non-online record" do
     rec = read('book_880.mrc')
     is_online = is_online(rec)

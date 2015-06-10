@@ -2,6 +2,13 @@ require 'traject'
 #shortcut
 MarcExtractor = Traject::MarcExtractor
 
+def run_extractor(record, extractor)
+  values = extractor.collect_matching_lines(record) do |field, spec, extractor|
+    extractor.collect_subfields(field, spec)
+  end.compact
+  return values
+end
+
 #Returns true if a record is suppressed.
 #
 #Identify whether a given record is suppressed.  Local system uses
@@ -22,12 +29,16 @@ end
 #Brown location codes beginning with "es" indicate the item
 #is available online.
 def is_online(record)
-  extractor = MarcExtractor.new("945l")
-  values = extractor.collect_matching_lines(record) do |field, spec, extractor|
-    extractor.collect_subfields(field, spec)
-  end.compact
-  values.each do |val|
+  item_locs = run_extractor(record, MarcExtractor.new("945l"))
+  item_locs.each do |val|
     if val.start_with?("es")
+      return true
+    end
+  end
+  # Also check bib location 998 a
+  bib_locs = run_extractor(record, MarcExtractor.new("998a", :first =>true))
+  bib_locs.each do |val|
+    if val == "es001"
       return true
     end
   end
