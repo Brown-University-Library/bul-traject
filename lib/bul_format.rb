@@ -94,19 +94,16 @@ class Format
     return out
   end
 
-  #Return true if item is a Brown University thesis or dissertation.
+  #Return true if 502 contains Brown Univ.
   def dissertation
     @record.fields('502').each do |f|
       values = [f['a'], f['c']]
       values.each do |value|
         if value.nil?
-          return nil
-        else
-          return ( \
-            (/thesis|ph\.d|phd/ === value.downcase) \
-            && \
-            (/brown univ/ === value.downcase) \
-          )
+          next
+        end
+        if (/brown univ/ === value.downcase)
+          return true
         end
       end
     end
