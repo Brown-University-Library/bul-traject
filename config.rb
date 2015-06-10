@@ -36,7 +36,12 @@ settings do
     provide "reader_class_name", "Traject::Marc4JReader"
     provide "marc4j_reader.source_encoding", "UTF-8"
     provide "solrj_writer.commit_on_close", "true"
-    provide 'processing_thread_pool', 3
+    # Use more threads on local box.
+    if ENV['TRAJECT_ENV'] == "devbox"
+      provide 'processing_thread_pool', 8
+    else
+      provide 'processing_thread_pool', 3
+    end
   end
 end
 
