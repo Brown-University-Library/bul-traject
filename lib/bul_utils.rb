@@ -52,3 +52,7 @@ end
 def solr_date(date)
   return Time.utc(date.year, date.mon, date.mday).iso8601()
 end
+
+def map_code_to_building code
+  Traject::TranslationMap.new("buildings")[code.downcase[0]]
+end
