@@ -35,5 +35,10 @@ describe "bul_utils" do
     expect(map_code_to_building('qhs')).to eq 'Annex'
     expect(map_code_to_building('QHS')).to eq 'Annex'
     expect(map_code_to_building('iii')).to eq nil
+    expect(map_code_to_building('arc')).to eq 'Hay'
+    expect(map_code_to_building('esb')).to eq nil
+    expect(map_code_to_building('eacg')).to eq 'Rockefeller'
+    expect(map_code_to_building('gar')).to eq 'Rockefeller'
+    expect(map_code_to_building('GAR')).to eq 'Rockefeller'
   end
 end

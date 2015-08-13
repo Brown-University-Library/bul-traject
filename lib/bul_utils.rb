@@ -54,5 +54,9 @@ def solr_date(date)
 end
 
 def map_code_to_building code
-  Traject::TranslationMap.new("buildings")[code.downcase[0]]
+  bldg = Traject::TranslationMap.new("buildings")[code.downcase]
+  if bldg.nil?
+    bldg = Traject::TranslationMap.new("buildings")[code.downcase[0]]
+  end
+  bldg
 end
