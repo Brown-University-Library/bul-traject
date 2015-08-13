@@ -31,4 +31,9 @@ describe "bul_utils" do
     expect(is_online).to be false
   end
 
+  it "correctly maps codes to buildings" do
+    expect(map_code_to_building('qhs')).to eq 'Annex'
+    expect(map_code_to_building('QHS')).to eq 'Annex'
+    expect(map_code_to_building('iii')).to eq nil
+  end
 end
