@@ -164,7 +164,7 @@ to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
 
 #Buildings - Unique list of 945s sf l processed through the translation map.
 to_field "building_facet", extract_marc('945l') do |record, acc|
-  acc.map!{|code| TranslationMap.new("buildings")[code.downcase[0]]}.uniq!
+  acc.map!{|code| map_code_to_building(code)}.uniq!
 end
 to_field "region_facet", marc_geo_facet
 to_field "topic_facet", extract_marc("650a:690a", :trim_punctuation => true)
