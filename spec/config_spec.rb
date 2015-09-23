@@ -159,6 +159,7 @@ describe "970 table of contents processing" do
     expect(toc_970_info[0]['label']).to be nil
     expect(toc_970_info[0]['title']).to eq 'Forward'
     expect(toc_970_info[0]['authors']).to eq ['Anne C. Peterson']
+    expect(toc_970_info[2]['indent']).to eq '2'
     expect(toc_970_info[2]['label']).to eq '1'
     expect(toc_970_info[2]['title']).to eq 'Early Adolescence: Toward an Agenda for the Integration of Research, Policy, and Intervention'
     expect(toc_970_info[2]['page']).to eq '1'

@@ -58,7 +58,7 @@ module BulMacros
     extractor = MarcExtractor.new("970")
     toc_970_chapters = []
     extractor.each_matching_line(record) do |field, spec|
-      chapter = {'authors' => []}
+      chapter = {'authors' => [], 'indent' => field.indicator2}
       field.subfields.each do |subfield|
         if subfield.code == 'l'
           chapter['label'] = subfield.value
