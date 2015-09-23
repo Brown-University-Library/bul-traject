@@ -143,3 +143,19 @@ describe "title_t parsed properly" do
   end
 end
 
+describe "970 table of contents processing" do
+  before do
+    @toc_970 = trajectify('970record')
+  end
+
+  it "has the id" do
+    expect(@toc_970['id'][0]).to eq "b2105985"
+  end
+
+  it "has the correct 970 information" do
+    toc_970_text = @toc_970['toc_970_display'][0]
+    expect(toc_970_text).not_to be nil
+    toc_970_info = JSON.parse(toc_970_text)
+    expect(toc_970_info[0]['title']).to eq 'Forward'
+  end
+end

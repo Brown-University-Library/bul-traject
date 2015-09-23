@@ -1,3 +1,4 @@
+require 'json'
 require 'traject/macros/marc21'
 require 'traject/marc_extractor'
 #shortcut
@@ -53,4 +54,11 @@ module BulMacros
     end
   end
 
+  def get_toc_970_info record
+    extractor = MarcExtractor.new("970t")
+    toc_970_records = []
+    fields = extractor.extract(record)
+    fields.each {|field| toc_970_records << {'title' => field}}
+    JSON.generate(toc_970_records)
+  end
 end
