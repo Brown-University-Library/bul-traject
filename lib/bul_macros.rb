@@ -1,3 +1,4 @@
+require 'json'
 require 'traject/macros/marc21'
 require 'traject/marc_extractor'
 #shortcut
@@ -53,4 +54,27 @@ module BulMacros
     end
   end
 
+  def get_toc_970_info record
+    extractor = MarcExtractor.new("970")
+    toc_970_chapters = []
+    extractor.each_matching_line(record) do |field, spec|
+      chapter = {'authors' => [], 'indent' => field.indicator2}
+      field.subfields.each do |subfield|
+        if subfield.code == 'l'
+          chapter['label'] = subfield.value
+        end
+        if subfield.code == 't'
+          chapter['title'] = subfield.value
+        end
+        if ['c', 'd', 'e'].include? subfield.code
+          chapter['authors'] << subfield.value
+        end
+        if subfield.code == 'p'
+          chapter['page'] = subfield.value
+        end
+      end
+      toc_970_chapters << chapter
+    end
+    JSON.generate(toc_970_chapters)
+  end
 end
