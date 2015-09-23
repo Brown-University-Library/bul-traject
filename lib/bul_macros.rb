@@ -55,10 +55,26 @@ module BulMacros
   end
 
   def get_toc_970_info record
-    extractor = MarcExtractor.new("970t")
-    toc_970_records = []
-    fields = extractor.extract(record)
-    fields.each {|field| toc_970_records << {'title' => field}}
-    JSON.generate(toc_970_records)
+    extractor = MarcExtractor.new("970")
+    toc_970_chapters = []
+    extractor.each_matching_line(record) do |field, spec|
+      chapter = {'authors' => []}
+      field.subfields.each do |subfield|
+        if subfield.code == 'l'
+          chapter['label'] = subfield.value
+        end
+        if subfield.code == 't'
+          chapter['title'] = subfield.value
+        end
+        if ['c', 'd', 'e'].include? subfield.code
+          chapter['authors'] << subfield.value
+        end
+        if subfield.code == 'p'
+          chapter['page'] = subfield.value
+        end
+      end
+      toc_970_chapters << chapter
+    end
+    JSON.generate(toc_970_chapters)
   end
 end

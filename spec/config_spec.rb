@@ -156,6 +156,12 @@ describe "970 table of contents processing" do
     toc_970_text = @toc_970['toc_970_display'][0]
     expect(toc_970_text).not_to be nil
     toc_970_info = JSON.parse(toc_970_text)
+    expect(toc_970_info[0]['label']).to be nil
     expect(toc_970_info[0]['title']).to eq 'Forward'
+    expect(toc_970_info[0]['authors']).to eq ['Anne C. Peterson']
+    expect(toc_970_info[2]['label']).to eq '1'
+    expect(toc_970_info[2]['title']).to eq 'Early Adolescence: Toward an Agenda for the Integration of Research, Policy, and Intervention'
+    expect(toc_970_info[2]['page']).to eq '1'
+    expect(toc_970_info[3]['authors']).to eq ['Kevin W. Allison', 'Richard M. Lerner']
   end
 end
