@@ -77,4 +77,17 @@ module BulMacros
     end
     JSON.generate(toc_970_chapters)
   end
+
+  def get_toc_970_indexing record, accumulator
+    extractor = MarcExtractor.new("970")
+    extractor.each_matching_line(record) do |field, spec|
+      if field.indicator1 == '1'
+        field.subfields.each do |subfield|
+          if ['f', 't'].include? subfield.code
+            accumulator << subfield.value
+          end
+        end
+      end
+    end
+  end
 end

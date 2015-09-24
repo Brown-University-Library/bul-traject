@@ -165,4 +165,12 @@ describe "970 table of contents processing" do
     expect(toc_970_info[2]['page']).to eq '1'
     expect(toc_970_info[3]['authors']).to eq ['Kevin W. Allison', 'Richard M. Lerner']
   end
+
+  it "indexes 970 info in text field for searching" do
+    text = @toc_970['text']
+    expect(text).to include 'Allison, Kevin W.'
+    expect(text).not_to include 'Kevin W. Allison'
+    expect(text).to include 'Early Adolescent Family Formation'
+    expect(text).not_to include 'Forward'
+  end
 end
