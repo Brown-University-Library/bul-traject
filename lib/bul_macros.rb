@@ -75,7 +75,11 @@ module BulMacros
       end
       toc_970_chapters << chapter
     end
-    JSON.generate(toc_970_chapters)
+    if toc_970_chapters.empty?
+      nil
+    else
+      JSON.generate(toc_970_chapters)
+    end
   end
 
   def get_toc_970_indexing record, accumulator

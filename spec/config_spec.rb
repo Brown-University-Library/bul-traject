@@ -148,6 +148,13 @@ describe "970 table of contents processing" do
     @toc_970 = trajectify('970record')
   end
 
+  it "doesn't have a 970 key if there's no info" do
+    @book_880 = trajectify('book_880')
+    expect(@book_880['id'][0]).to eq 'b5526960'
+    expect(@book_880['toc_display']).to be nil
+    expect(@book_880['toc_970_display']).to be nil
+  end
+
   it "has the id" do
     expect(@toc_970['id'][0]).to eq "b2105985"
   end
