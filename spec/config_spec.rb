@@ -66,6 +66,11 @@ describe 'From config.rb' do
    it 'has the correct callnumber' do
      expect(@book_880['callnumber_t'][0]).to eq 'HV6018 .Y35'
    end
+
+   it 'has the correct 050 callnumber' do
+     record_970 = trajectify('970record')
+     expect(record_970['callnumber_t'][0]).to eq 'HV1431 .E25 1993'
+   end
   end
 
 end
