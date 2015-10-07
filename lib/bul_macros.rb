@@ -54,6 +54,60 @@ module BulMacros
     end
   end
 
+  def get_505_enhanced_data field
+    chapters = []
+    chapter = {'authors' => []}
+    field.subfields.each do |subfield|
+      if subfield.code == 't'
+        chapter['title'] = subfield.value
+      end
+      if subfield.code == 'r'
+        chapter['authors'] << subfield.value.gsub('--', '').strip
+      end
+      if subfield.code == 'g'
+        chapter['misc'] = subfield.value
+      end
+      #see if this subfield is the end of the chapter
+      if subfield.value.end_with?(' --')
+        chapters << chapter
+        chapter = {'authors' => []}
+      end
+    end
+    chapters << chapter
+    chapters
+  end
+
+  def get_505_basic_data field
+    chapters = []
+    field.subfields.each do |subfield|
+      if subfield.code == 'a'
+        list_of_chapters = subfield.value.split('--')
+        list_of_chapters.each do |chapter|
+          chapter_info = {'authors' => [], 'title' => chapter.strip}
+          chapters << chapter_info
+        end
+      end
+    end
+    chapters
+  end
+
+  def get_toc_505_info record
+    extractor = MarcExtractor.new("505")
+    toc_505_chapters = []
+    extractor.each_matching_line(record) do |field, spec|
+      if field.indicator2 == '0'
+        toc_505_chapters += get_505_enhanced_data(field)
+      else
+        toc_505_chapters += get_505_basic_data(field)
+      end
+    end
+    if toc_505_chapters.empty?
+      nil
+    else
+      JSON.generate(toc_505_chapters)
+    end
+  end
+
   def get_toc_970_info record
     extractor = MarcExtractor.new("970")
     toc_970_chapters = []
@@ -75,7 +129,11 @@ module BulMacros
       end
       toc_970_chapters << chapter
     end
-    JSON.generate(toc_970_chapters)
+    if toc_970_chapters.empty?
+      nil
+    else
+      JSON.generate(toc_970_chapters)
+    end
   end
 
   def get_toc_970_indexing record, accumulator
