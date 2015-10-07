@@ -119,7 +119,12 @@ to_field "published_vern_display",  extract_marc("260a", :alternate_script => :o
 #Display physical information.
 to_field 'physical_display', extract_marc('300abcefg:530abcd')
 to_field "abstract_display", extract_marc("520a", :first=>true)
-to_field "toc_display", extract_marc("505a:505t")
+to_field "toc_display" do |record, accumulator, context|
+  info = get_toc_505_info(record)
+  if !info.nil?
+    accumulator << info
+  end
+end
 to_field "toc_970_display" do |record, accumulator, context|
   info = get_toc_970_info(record)
   if !info.nil?

@@ -151,7 +151,6 @@ describe "970 table of contents processing" do
   it "doesn't have a 970 key if there's no info" do
     @book_880 = trajectify('book_880')
     expect(@book_880['id'][0]).to eq 'b5526960'
-    expect(@book_880['toc_display']).to be nil
     expect(@book_880['toc_970_display']).to be nil
   end
 
@@ -179,5 +178,33 @@ describe "970 table of contents processing" do
     expect(text).not_to include 'Kevin W. Allison'
     expect(text).to include 'Early Adolescent Family Formation'
     expect(text).not_to include 'Forward'
+  end
+end
+
+describe "505 table of contents processing" do
+
+  it "doesn't have a 505 key if there's no info" do
+    book_880 = trajectify('book_880')
+    expect(book_880['id'][0]).to eq 'b5526960'
+    expect(book_880['toc_display']).to be nil
+  end
+
+  it "indexes a 505 basic field" do
+    toc_record = trajectify('505record')
+    expect(toc_record['id'][0]).to eq('b4758876')
+    toc_info = JSON.parse(toc_record['toc_display'][0])
+    expect(toc_info[0]['title']).to eq('Gold : the emperor\'s dream')
+    expect(toc_info[-1]['title']).to eq('Orange : European revolutions.')
+  end
+
+  it "indexes 505 titles/chapters field" do
+    toc_record = trajectify('505record_titles_authors')
+    expect(toc_record['id'][0]).to eq('b1003703')
+    toc_info = JSON.parse(toc_record['toc_display'][0])
+    expect(toc_info[0]['title']).to eq('Myth and reason: an introduction /')
+    expect(toc_info[0]['authors']).to eq(['Walter D. Wetzels'])
+    expect(toc_info[-1]['title']).to eq('Myth and reason?: a round-table discussion.')
+    expect(toc_info[-1]['authors']).to eq([])
+    expect(toc_info[-1]['misc']).to eq('Appendix:')
   end
 end
