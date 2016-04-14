@@ -213,3 +213,15 @@ describe "505 table of contents processing" do
     expect(toc_info[-1]['misc']).to eq('Appendix:')
   end
 end
+
+describe "index uniform titles" do
+
+  it "indexes 130 & 730 field" do
+    record_130 = trajectify('uniform_130')
+    expect(record_130['id'][0]).to eq('b1004749')
+    expect(record_130['uniform_title_display'][0]).to eq('Bible. N.T. Syriac (Palestinian) Selections. 1909.')
+    expect(record_130['uniform_related_title_display'][0]).to eq('Bible. New Testament. Greek. Selections.')
+    expect(record_130['uniform_title_search_facet'][0]).to eq('Bible. N.T. Syriac (Palestinian) Selections. 1909.')
+    expect(record_130['uniform_title_search_facet'][1]).to eq('Bible. New Testament. Greek. Selections.')
+  end
+end
