@@ -227,4 +227,10 @@ describe "index uniform titles" do
     expect(record_130['uniform_title_search_facet'].length).to eq 2
   end
 
+  it "indexes 240 field" do
+    record_240 = trajectify('uniform_240')
+    expect(record_240['id'][0]).to eq('b6354523')
+    expect(record_240['uniform_title_author_display'][0]).to eq('Musicals. Selections. Vocal scores.')
+  end
+
 end

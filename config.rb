@@ -107,6 +107,7 @@ to_field "title_sort", marc_sortable_title
 # Uniform Titles
 to_field 'uniform_title_display', extract_marc('130adfgklmnoprst', :trim_punctuation => false)
 to_field 'uniform_related_title_display', extract_marc('730adfgklmnoprst', :trim_punctuation => false)
+to_field 'uniform_title_author_display', extract_marc('240adfgklmnoprs', :trim_punctuation => false)
 # use *_facet, because that's an indexed, not stored, multivalued string
 to_field 'uniform_title_search_facet', extract_marc('130adfgklmnoprst:730adfgklmnoprst', :trim_punctuation => false)
 
