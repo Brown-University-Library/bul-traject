@@ -231,6 +231,9 @@ describe "index uniform titles" do
     record_240 = trajectify('uniform_240')
     expect(record_240['id'][0]).to eq('b6354523')
     expect(record_240['uniform_title_author_display'][0]).to eq('Musicals. Selections. Vocal scores.')
+    expect(record_240['uniform_title_search_facet'][0]).to eq('Dick Tracy (Motion picture : 1990)')
+    expect(record_240['uniform_title_search_facet'][1]).to eq('Musicals. Selections. Vocal scores.')
+    expect(record_240['uniform_title_search_facet'].length).to eq 2
   end
 
 end
