@@ -148,4 +148,59 @@ module BulMacros
       end
     end
   end
+
+  def get_uniform_related_title_author_info record
+    extractor = MarcExtractor.new("700")
+    extractor_710 = MarcExtractor.new("710")
+    extractor_711 = MarcExtractor.new("711")
+    uniform_7xx_info = []
+    extractor.each_matching_line(record) do |field, spec|
+      field_info = {'author' => '', 'title' => ''}
+      field.subfields.each do |subfield|
+        if ['a', 'b', 'c', 'd', 'e', 'q' 'u'].include? subfield.code
+          field_info['author'] += " #{subfield.value}"
+        end
+        if ['f', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v'].include? subfield.code
+          field_info['title'] += " #{subfield.value}"
+        end
+      end
+      field_info['author'].strip!
+      field_info['title'].strip!
+      uniform_7xx_info << field_info
+    end
+    extractor_710.each_matching_line(record) do |field, spec|
+      field_info = {'author' => '', 'title' => ''}
+      field.subfields.each do |subfield|
+        if ['a', 'b', 'c', 'd', 'g', 'n' 'u'].include? subfield.code
+          field_info['author'] += " #{subfield.value}"
+        end
+        if ['f', 'k', 'l', 'm', 'o', 'r', 's', 't', 'v'].include? subfield.code
+          field_info['title'] += " #{subfield.value}"
+        end
+      end
+      field_info['author'].strip!
+      field_info['title'].strip!
+      uniform_7xx_info << field_info
+    end
+    extractor_711.each_matching_line(record) do |field, spec|
+      field_info = {'author' => '', 'title' => ''}
+      field.subfields.each do |subfield|
+        if ['a', 'c', 'd', 'e', 'g', 'n' 'u'].include? subfield.code
+          field_info['author'] += " #{subfield.value}"
+        end
+        if ['f', 'k', 'l', 'p', 't'].include? subfield.code
+          field_info['title'] += " #{subfield.value}"
+        end
+      end
+      field_info['author'].strip!
+      field_info['title'].strip!
+      uniform_7xx_info << field_info
+    end
+    if uniform_7xx_info.empty?
+      nil
+    else
+      JSON.generate(uniform_7xx_info)
+    end
+  end
+
 end
