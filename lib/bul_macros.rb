@@ -160,6 +160,8 @@ module BulMacros
       end
     end
     field_info['author'].strip!
+    field_info['author'].chomp!(',')
+    field_info['author'].chomp!('.')
     field_info['title'].strip!
     field_info
   end
@@ -170,7 +172,7 @@ module BulMacros
     extractor_711 = MarcExtractor.new("711")
     uniform_7xx_info = []
     extractor.each_matching_line(record) do |field, spec|
-      author_subfields = ['a', 'b', 'c', 'd', 'e', 'q' 'u']
+      author_subfields = ['a', 'b', 'c', 'd', 'q' 'u']
       title_subfields = ['f', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
       field_info = get_field_info(field, author_subfields, title_subfields)
       if ! field_info['title'].empty?
@@ -186,7 +188,7 @@ module BulMacros
       end
     end
     extractor_711.each_matching_line(record) do |field, spec|
-      author_subfields = ['a', 'c', 'd', 'e', 'g', 'n' 'u']
+      author_subfields = ['a', 'c', 'd', 'g', 'n' 'u']
       title_subfields = ['f', 'k', 'l', 'p', 't']
       field_info = get_field_info(field, author_subfields, title_subfields)
       if ! field_info['title'].empty?
