@@ -104,6 +104,21 @@ to_field 'title_series_t', extract_marc(%w(
 )
 to_field "title_sort", marc_sortable_title
 
+# Uniform Titles
+to_field 'uniform_title_display', extract_marc('130adfgklmnoprst', :trim_punctuation => false)
+to_field 'uniform_related_title_display', extract_marc('730adfgklmnoprst', :trim_punctuation => false)
+to_field 'uniform_title_author_display', extract_marc('240adfgklmnoprs', :trim_punctuation => false)
+# use *_facet, because that's an indexed, not stored, multivalued string
+to_field 'uniform_title_search_facet', extract_marc('130adfgklmnoprst:730adfgklmnoprst', :trim_punctuation => false)
+to_field 'uniform_title_search_facet', extract_marc('240adfgklmnoprs', :trim_punctuation => false)
+to_field 'uniform_title_search_facet', extract_marc('700fiklmnoprstv:710fklmorstv:711fklpt', :trim_punctuation => false)
+to_field 'uniform_related_title_author_display' do |record, accumulator, context|
+  info = get_uniform_related_title_author_info(record)
+  if !info.nil?
+    accumulator << info
+  end
+end
+
 # Author fields
 to_field "author_display", extract_marc("100abcdq:110abcd:111abcd", :first=>true, :trim_punctuation => true)
 to_field "author_vern_display", extract_marc('100abcdq:110abcd:111abcd', :alternate_script=>:only, :trim_punctuation => true, :first=>true)

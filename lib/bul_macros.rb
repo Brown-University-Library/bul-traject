@@ -148,4 +148,47 @@ module BulMacros
       end
     end
   end
+
+  def get_field_info field, author_subfields, title_subfields
+    field_info = {'author' => '', 'title' => ''}
+    field.subfields.each do |subfield|
+      if author_subfields.include? subfield.code
+        field_info['author'] += " #{subfield.value}"
+      end
+      if title_subfields.include? subfield.code
+        field_info['title'] += " #{subfield.value}"
+      end
+    end
+    field_info['author'].strip!
+    field_info['title'].strip!
+    field_info
+  end
+
+  def get_uniform_related_title_author_info record
+    extractor = MarcExtractor.new("700")
+    extractor_710 = MarcExtractor.new("710")
+    extractor_711 = MarcExtractor.new("711")
+    uniform_7xx_info = []
+    extractor.each_matching_line(record) do |field, spec|
+      author_subfields = ['a', 'b', 'c', 'd', 'e', 'q' 'u']
+      title_subfields = ['f', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
+      uniform_7xx_info << get_field_info(field, author_subfields, title_subfields)
+    end
+    extractor_710.each_matching_line(record) do |field, spec|
+      author_subfields = ['a', 'b', 'c', 'd', 'g', 'n' 'u']
+      title_subfields = ['f', 'k', 'l', 'm', 'o', 'r', 's', 't', 'v']
+      uniform_7xx_info << get_field_info(field, author_subfields, title_subfields)
+    end
+    extractor_711.each_matching_line(record) do |field, spec|
+      author_subfields = ['a', 'c', 'd', 'e', 'g', 'n' 'u']
+      title_subfields = ['f', 'k', 'l', 'p', 't']
+      uniform_7xx_info << get_field_info(field, author_subfields, title_subfields)
+    end
+    if uniform_7xx_info.empty?
+      nil
+    else
+      JSON.generate(uniform_7xx_info)
+    end
+  end
+
 end
