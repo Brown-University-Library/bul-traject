@@ -225,20 +225,12 @@ describe "index uniform titles" do
     composite_uniform_titles = JSON.parse(record_130['uniform_related_title_author_display'][0])
     expect(composite_uniform_titles[0]['author']).to eq('Lewis, Agnes Smith, 1843-1926')
     expect(composite_uniform_titles[0]['title']).to eq('Codex Climaci rescriptus.')
-    expect(record_130['uniform_title_search_facet'][0]).to eq('Bible. N.T. Syriac (Palestinian) Selections. 1909.')
-    expect(record_130['uniform_title_search_facet'][1]).to eq('Bible. New Testament. Greek. Selections.')
-    expect(record_130['uniform_title_search_facet'][2]).to eq('Codex Climaci rescriptus.')
-    expect(record_130['uniform_title_search_facet'].length).to eq 3
   end
 
   it "indexes 240 field" do
     record_240 = trajectify('uniform_240')
     expect(record_240['id'][0]).to eq('b6354523')
     expect(record_240['uniform_title_author_display'][0]).to eq('Musicals. Selections. Vocal scores.')
-    expect(record_240['uniform_title_search_facet'][0]).to eq('Dick Tracy (Motion picture : 1990)')
-    expect(record_240['uniform_title_search_facet'][1]).to eq('Musicals. Selections. Vocal scores.')
-    expect(record_240['uniform_title_search_facet'][-1]).to eq('Sweeney Todd. Not while I\'m around. Vocal score.')
-    expect(record_240['uniform_title_search_facet'].length).to eq 54
     composite_uniform_titles = JSON.parse(record_240['uniform_related_title_author_display'][0])
     expect(composite_uniform_titles[0]['author']).to eq('Sondheim, Stephen')
     expect(composite_uniform_titles[0]['title']).to eq('Anyone can whistle. Anyone can whistle. Vocal score.')
