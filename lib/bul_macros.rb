@@ -173,7 +173,7 @@ module BulMacros
     uniform_7xx_info = []
     extractor.each_matching_line(record) do |field, spec|
       author_subfields = ['a', 'b', 'c', 'd', 'q' 'u']
-      title_subfields = ['f', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
+      title_subfields = ['f', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
       field_info = get_field_info(field, author_subfields, title_subfields)
       if ! field_info['title'].empty?
         uniform_7xx_info << field_info
@@ -199,6 +199,117 @@ module BulMacros
       nil
     else
       JSON.generate(uniform_7xx_info)
+    end
+  end
+
+  def get_field_info_no_author field, title_subfields
+    field_info = {'title' => []}
+    full_title = ''
+    field.subfields.each do |subfield|
+      if title_subfields.include? subfield.code
+        full_title += " #{subfield.value}"
+        title_info = {'display' => subfield.value.strip, 'query' => full_title.strip}
+        field_info['title'] << title_info
+      end
+    end
+    field_info
+  end
+
+  def get_new_field_info field, author_subfields, title_subfields
+    field_info = {'author' => '', 'title' => []}
+    full_title = ''
+    field.subfields.each do |subfield|
+      if author_subfields.include? subfield.code
+        field_info['author'] += " #{subfield.value}"
+      end
+      if title_subfields.include? subfield.code
+        full_title += " #{subfield.value}"
+        title_info = {'display' => subfield.value.strip, 'query' => full_title.strip}
+        field_info['title'] << title_info
+      end
+    end
+    field_info['author'].strip!
+    field_info['author'].chomp!(',')
+    field_info['author'].chomp!('.')
+    field_info
+  end
+
+  def get_uniform_titles_info record
+    extractor_130 = MarcExtractor.new("130")
+    uniform_titles = []
+    extractor_130.each_matching_line(record) do |field, spec|
+      title_subfields = ['a','d','f','g','k','l','m','n','o','p','r','s','t']
+      field_info = get_field_info_no_author(field, title_subfields)
+      if ! field_info['title'].empty?
+        uniform_titles << field_info
+      end
+    end
+    if uniform_titles.empty?
+      nil
+    else
+      JSON.generate(uniform_titles)
+    end
+  end
+
+  def get_uniform_title_author_info record
+    extractor_240 = MarcExtractor.new("240")
+    uniform_titles = []
+    extractor_240.each_matching_line(record) do |field, spec|
+      title_subfields = ['a','d','f','g','k','l','m','n','o','p','r','s']
+      field_info = get_field_info_no_author(field, title_subfields)
+      if ! field_info['title'].empty?
+        uniform_titles << field_info
+      end
+    end
+    if uniform_titles.empty?
+      nil
+    else
+      JSON.generate(uniform_titles)
+    end
+  end
+
+  def get_uniform_related_works_info record
+    uniform_related_works = []
+    extractor_730 = MarcExtractor.new("730")
+    extractor_700 = MarcExtractor.new("700")
+    extractor_710 = MarcExtractor.new("710")
+    extractor_711 = MarcExtractor.new("711")
+    extractor_730.each_matching_line(record) do |field, spec|
+      author_subfields = []
+      title_subfields = ['a','d','f','g','k','l','m','n','o','p','r','s','t']
+      field_info = get_new_field_info(field, author_subfields, title_subfields)
+      if ! field_info['title'].empty?
+        uniform_related_works << field_info
+      end
+    end
+    extractor_700.each_matching_line(record) do |field, spec|
+      author_subfields = ['a', 'b', 'c', 'd', 'q' 'u']
+      title_subfields = ['f', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
+      field_info = get_new_field_info(field, author_subfields, title_subfields)
+      if ! field_info['title'].empty?
+        uniform_related_works << field_info
+      end
+    end
+    extractor_710.each_matching_line(record) do |field, spec|
+      author_subfields = ['a', 'b', 'c', 'd', 'g', 'n' 'u']
+      title_subfields = ['f', 'k', 'l', 'm', 'o', 'r', 's', 't', 'v']
+      field_info = get_new_field_info(field, author_subfields, title_subfields)
+      if ! field_info['title'].empty?
+        uniform_related_works << field_info
+      end
+    end
+    extractor_711.each_matching_line(record) do |field, spec|
+      author_subfields = ['a', 'c', 'd', 'g', 'n' 'u']
+      title_subfields = ['f', 'k', 'l', 'p', 't']
+      field_info = get_new_field_info(field, author_subfields, title_subfields)
+      if ! field_info['title'].empty?
+        uniform_related_works << field_info
+      end
+    end
+    if uniform_related_works.empty?
+      nil
+    else
+      JSON.generate(uniform_related_works)
     end
   end
 
