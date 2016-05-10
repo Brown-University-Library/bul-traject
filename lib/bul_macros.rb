@@ -173,7 +173,7 @@ module BulMacros
     uniform_7xx_info = []
     extractor.each_matching_line(record) do |field, spec|
       author_subfields = ['a', 'b', 'c', 'd', 'q' 'u']
-      title_subfields = ['f', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
+      title_subfields = ['f', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
       field_info = get_field_info(field, author_subfields, title_subfields)
       if ! field_info['title'].empty?
         uniform_7xx_info << field_info
@@ -284,7 +284,7 @@ module BulMacros
     end
     extractor_700.each_matching_line(record) do |field, spec|
       author_subfields = ['a', 'b', 'c', 'd', 'q' 'u']
-      title_subfields = ['f', 'i', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
+      title_subfields = ['f', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
       field_info = get_new_field_info(field, author_subfields, title_subfields)
       if ! field_info['title'].empty?
         uniform_related_works << field_info
