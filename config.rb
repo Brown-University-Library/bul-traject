@@ -79,9 +79,9 @@ to_field 'title_t', extract_marc(%w(
   246abnp
   247abnp
   505t
-  700tflnp
-  710tflnp
-  711tfklpsv
+  700fklmnoprstv
+  710fklmorstv
+  711fklpt
   730adfklmnoprstv
   740ap
   ),
