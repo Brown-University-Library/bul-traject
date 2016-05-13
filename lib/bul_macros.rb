@@ -149,59 +149,6 @@ module BulMacros
     end
   end
 
-  def get_field_info field, author_subfields, title_subfields
-    field_info = {'author' => '', 'title' => ''}
-    field.subfields.each do |subfield|
-      if author_subfields.include? subfield.code
-        field_info['author'] += " #{subfield.value}"
-      end
-      if title_subfields.include? subfield.code
-        field_info['title'] += " #{subfield.value}"
-      end
-    end
-    field_info['author'].strip!
-    field_info['author'].chomp!(',')
-    field_info['author'].chomp!('.')
-    field_info['title'].strip!
-    field_info
-  end
-
-  def get_uniform_related_title_author_info record
-    extractor = MarcExtractor.new("700")
-    extractor_710 = MarcExtractor.new("710")
-    extractor_711 = MarcExtractor.new("711")
-    uniform_7xx_info = []
-    extractor.each_matching_line(record) do |field, spec|
-      author_subfields = ['a', 'b', 'c', 'd', 'q' 'u']
-      title_subfields = ['f', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'v']
-      field_info = get_field_info(field, author_subfields, title_subfields)
-      if ! field_info['title'].empty?
-        uniform_7xx_info << field_info
-      end
-    end
-    extractor_710.each_matching_line(record) do |field, spec|
-      author_subfields = ['a', 'b', 'c', 'd', 'g', 'n' 'u']
-      title_subfields = ['f', 'k', 'l', 'm', 'o', 'r', 's', 't', 'v']
-      field_info = get_field_info(field, author_subfields, title_subfields)
-      if ! field_info['title'].empty?
-        uniform_7xx_info << field_info
-      end
-    end
-    extractor_711.each_matching_line(record) do |field, spec|
-      author_subfields = ['a', 'c', 'd', 'g', 'n' 'u']
-      title_subfields = ['f', 'k', 'l', 'p', 't']
-      field_info = get_field_info(field, author_subfields, title_subfields)
-      if ! field_info['title'].empty?
-        uniform_7xx_info << field_info
-      end
-    end
-    if uniform_7xx_info.empty?
-      nil
-    else
-      JSON.generate(uniform_7xx_info)
-    end
-  end
-
   def get_field_info_no_author field, title_subfields
     field_info = {'title' => []}
     full_title = ''

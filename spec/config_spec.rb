@@ -220,13 +220,6 @@ describe "index uniform titles" do
     record_130 = trajectify('uniform_130')
     expect(record_130['id'][0]).to eq('b1004749')
     expect(record_130['title_display'][0]).to eq('Codex Climaci rescriptus')
-    #legacy fields
-    expect(record_130['uniform_title_display'][0]).to eq('Bible. N.T. Syriac (Palestinian) Selections. 1909.')
-    expect(record_130['uniform_related_title_display'][0]).to eq('Bible. New Testament. Greek. Selections.')
-    composite_uniform_titles = JSON.parse(record_130['uniform_related_title_author_display'][0])
-    expect(composite_uniform_titles[0]['author']).to eq('Lewis, Agnes Smith, 1843-1926')
-    expect(composite_uniform_titles[0]['title']).to eq('Codex Climaci rescriptus.')
-    #new fields
     uniform_titles_info = JSON.parse(record_130['uniform_titles_display'][0])
     expect(uniform_titles_info[0]['title'][0]['display']).to eq('Bible. N.T. Syriac (Palestinian) Selections. 1909.')
     expect(uniform_titles_info[0]['title'][0]['query']).to eq('Bible. N.T. Syriac (Palestinian) Selections. 1909.')
@@ -248,14 +241,6 @@ describe "index uniform titles" do
   it "indexes 240 & 7xx fields" do
     record_240 = trajectify('uniform_240')
     expect(record_240['id'][0]).to eq('b6354523')
-    #legacy fields
-    expect(record_240['uniform_title_author_display'][0]).to eq('Musicals. Selections. Vocal scores.')
-    composite_uniform_titles = JSON.parse(record_240['uniform_related_title_author_display'][0])
-    expect(composite_uniform_titles[0]['author']).to eq('Sondheim, Stephen')
-    expect(composite_uniform_titles[0]['title']).to eq('Anyone can whistle. Anyone can whistle. Vocal score.')
-    expect(composite_uniform_titles[-1]['author']).to eq('Sondheim, Stephen')
-    expect(composite_uniform_titles[-1]['title']).to eq('Sweeney Todd. Not while I\'m around. Vocal score.')
-    #new fields
     new_uniform_title_author_info = JSON.parse(record_240['new_uniform_title_author_display'][0])
     expect(new_uniform_title_author_info[0]['title'][0]['display']).to eq('Musicals.')
     expect(new_uniform_title_author_info[0]['title'][0]['query']).to eq('Musicals.')
