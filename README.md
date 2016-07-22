@@ -4,7 +4,8 @@ This project transforms MARC records into Solr documents using the [Traject](htt
 [![Build Status](https://secure.travis-ci.org/Brown-University-Library/bul-traject.png?branch=master)](https://travis-ci.org/Brown-University-Library/bul-traject)
 
 Run as:
-`time traject -c config.rb -u http://localhost:8983/solr/core /full/path/to/marcfile.mrc`
+```
+traject -c config.rb -u http://localhost:8081/solr/blacklight-core /full/path/to/marcfile.mrc
 
-
-
+curl http://localhost:8081/solr/blacklight-core/update?commit=true
+```
