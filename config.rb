@@ -197,6 +197,11 @@ to_field 'language_facet', marc_languages("008[35-37]:041a:041d:041e:041j")
 to_field "building_facet", extract_marc('945l') do |record, acc|
   acc.map!{|code| map_code_to_building(code)}.uniq!
 end
+
+# There can be 0-N location codes per BIB record
+# because the location code is at the item level.
+to_field "location_code_t", extract_marc('945l', :trim_punctuation => true)
+
 to_field "region_facet", marc_geo_facet
 to_field "topic_facet", extract_marc("650a:690a", :trim_punctuation => true)
 
@@ -234,3 +239,7 @@ to_field "text" do |record, accumulator, context|
 end
 
 to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => true)
+
+# There can be 0-N bookplate codes per BIB record
+# because the bookplate info is at the item level.
+to_field "bookplate_code_t", extract_marc("945f", :trim_punctuation => true)
