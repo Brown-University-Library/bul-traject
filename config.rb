@@ -242,4 +242,6 @@ to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => 
 
 # There can be 0-N bookplate codes per BIB record
 # because the bookplate info is at the item level.
-to_field "bookplate_code_t", extract_marc("945f", :trim_punctuation => true)
+# We use unstem because the bookplate codes sometimes
+# contain spaces!
+to_field "bookplate_code_unstem_search", extract_marc("945f", :trim_punctuation => true)
