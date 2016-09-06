@@ -242,6 +242,7 @@ to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => 
 
 # There can be 0-N bookplate codes per BIB record
 # because the bookplate info is at the item level.
-# We use unstem because the bookplate codes sometimes
-# contain spaces!
-to_field "bookplate_code_unstem_search", extract_marc("945f", :trim_punctuation => true)
+# I am using "_facet" because that is a string,
+# indexed, multivalue field and I don't want to alter
+# Solr's config to add a new field type just yet.
+to_field "bookplate_code_facet", extract_marc("945f")
