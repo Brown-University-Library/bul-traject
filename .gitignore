@@ -2,6 +2,8 @@
 debug_output.txt
 #MARC files opened with MARCEdit
 *.mrk
+.DS_Store
+.byebug_history
 bin/*
 data/*
 
