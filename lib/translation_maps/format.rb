@@ -4,7 +4,6 @@
     "BI" => "Biography",
     "BK" => "Book",
     "CE" => "Data File",
-    "CF" => "Data File",
     "CR" => "CDROM",
     "CS" => "Software",
     "DI" => "Dictionaries",
