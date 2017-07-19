@@ -19,17 +19,20 @@ def suppressed(record)
   extractor = MarcExtractor.new("998e", :first => true)
   val = extractor.extract(record).first
   if val == 'n'
-    extractor = MarcExtractor.new("998a", :first => true)
-    val = extractor.extract(record).first
-    if val == "xxxxx"
-      # Don't suppress the record if its location (998a) indicates
-      # RESERVES (xxxxx). These are items used for course reserves
-      # and students search for them in Josiah.
-      return false
-    end
     return true
   end
-  return false
+  # if val == 'n'
+  #   extractor = MarcExtractor.new("998a", :first => true)
+  #   val = extractor.extract(record).first
+  #   if val == "xxxxx"
+  #     # Don't suppress the record if its location (998a) indicates
+  #     # RESERVES (xxxxx). These are items used for course reserves
+  #     # and students search for them in Josiah.
+  #     return false
+  #   end
+  #   return true
+  # end
+  # return false
 end
 
 #Returns true if record is available online
