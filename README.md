@@ -16,3 +16,4 @@ display the output to the console (and not push the data to Solr).
 ```
 traject --debug-mode -c config.rb /full/path/to/marcfile.mrc
 ```
+ 
