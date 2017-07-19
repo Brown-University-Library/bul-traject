@@ -9,3 +9,10 @@ traject -c config.rb -u http://localhost:8081/solr/blacklight-core /full/path/to
 
 curl http://localhost:8081/solr/blacklight-core/update?commit=true
 ```
+
+For testing purposes you can run `traject` with the `--debug-mode` flag to
+display the output to the console (and not push the data to Solr).
+
+```
+traject --debug-mode -c config.rb /full/path/to/marcfile.mrc
+```

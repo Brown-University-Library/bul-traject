@@ -104,6 +104,18 @@ to_field 'title_series_t', extract_marc(%w(
 )
 to_field "title_sort", marc_sortable_title
 
+
+# If we want a specific field to mark course reserve records we
+# could do something like this:
+#
+# to_field "course_reserve" do |record, accumulator, context|
+#   extractor = MarcExtractor.new("998a", :first => true)
+#   val = extractor.extract(record).first
+#   if val == "xxxxx"
+#     accumulator << "YES"
+#   end
+# end
+
 # Uniform Titles
 to_field 'uniform_titles_display' do |record, accumulator, context|
   info = get_uniform_titles_info(record)
