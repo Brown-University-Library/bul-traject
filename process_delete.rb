@@ -124,5 +124,6 @@ if ENV["SOLR_URL"] == nil
   abort("No SOLR_URL was found on the environment")
 end
 
-p = Processor.new(ARGV[0], ENV["SOLR_URL"], true)
+debug_only = true
+p = Processor.new(ARGV[0], ENV["SOLR_URL"], debug_only)
 p.process_file()
