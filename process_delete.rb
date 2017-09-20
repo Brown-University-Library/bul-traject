@@ -17,7 +17,7 @@ class Processor
   def initialize(file_name, solr_url, debug_mode)
     @file_name = file_name
     @solr_url = solr_url
-    @debug_mode = true
+    @debug_mode = debug_mode
     if @debug_mode
       @MockResponse = Struct.new(:code)
     end
