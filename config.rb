@@ -252,9 +252,10 @@ end
 
 to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => true)
 
-# There can be 0-N bookplate codes per BIB record
-# because the bookplate info is at the item level.
-# I am using "_facet" because that is a string,
-# indexed, multivalue field and I don't want to alter
-# Solr's config to add a new field type just yet.
+# Bookplate information is on 935a (bib level) and
+# 945f (item level). Each item in a BIB record can
+# have a different book plate codes.
+#
+# TODO: remove the _facet field.
 to_field "bookplate_code_facet", extract_marc("945f")
+to_field "bookplate_code_ss", extract_marc("935a:945f")
