@@ -256,6 +256,10 @@ to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => 
 # 945f (item level). Each item in a BIB record can
 # have a different book plate codes.
 #
+# There is also bookplate information in the "checkin"
+# records but we do not get that data in our MARC files
+# so we cannot take those records into account. *sad trombone*s
+#
 # TODO: remove the _facet field.
 to_field "bookplate_code_facet", extract_marc("945f")
 to_field "bookplate_code_ss", extract_marc("935a:945f")
