@@ -1,3 +1,9 @@
+#
+# ==============================================================
+# NOTE: As of 2018 this is not used anymore.
+# We now detect deleted/suppressed records via the Sierra API.
+# ==============================================================
+#
 # Processes a line delimited file where each line contains the JSON
 # representation of a Solr document ID to delete. The file to process
 # is produced via Traject with the `config_delete.rb` configurationn.
