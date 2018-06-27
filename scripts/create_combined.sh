@@ -12,10 +12,10 @@ BATCH_SIZE=100
 echo "Deleting previous files..."
 rm $COMBINED_PATH/combined_*.mrc
 
-for FILE in `ls -m1 $MARC_FILES_PATH`
+for FILE in `find $MARC_FILES_PATH -name "*.mrc"`
 do
 
-  FILE_TYPE=$(file -b $MARC_FILES_PATH/$FILE)
+  FILE_TYPE=$(file -b $FILE)
   if [[ "$FILE_TYPE" == "MARC21 Bibliographic" || "$FILE_TYPE" == "data" ]]; then
 
     if [ "$FILE_COUNT" -eq "$BATCH_SIZE" ]; then
@@ -29,9 +29,9 @@ do
 
     echo "Processing $FILE"
     if [ "$FILE_COUNT" -eq 1 ]; then
-      cat $MARC_FILES_PATH/$FILE > $COMBINED_FILE
+      cat $FILE > $COMBINED_FILE
     else
-      cat $MARC_FILES_PATH/$FILE >> $COMBINED_FILE
+      cat $FILE >> $COMBINED_FILE
     fi
 
   else
