@@ -6,6 +6,7 @@ debug_output.txt
 .byebug_history
 bin/*
 data/*
+tmp/*
 
 Gemfile.lock
 
