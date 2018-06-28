@@ -18,6 +18,12 @@ display the output to the console (and not push the data to Solr).
 traject --debug-mode -c config.rb /full/path/to/marcfile.mrc
 ```
 
+
 ## Handling suppressed records
 We use a separate process to handle deleted/suppressed records.
 See [bibService project] for more information on this.
+
+
+## Scripts
+Folder `./scripts` contains a few sample Bash scripts used to run Traject to
+import a group of files, individual files, or for debug purposes.
