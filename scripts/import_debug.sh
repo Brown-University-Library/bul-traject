@@ -1,3 +1,2 @@
-MARC_FILE=/Users/hectorcorrea/dev/marc_missing/combined.mrc
-
-traject --debug-mode -w JsonWriter -c config.rb $MARC_FILE
+MARC_FILE=./data/combined_1.mrc
+bundle exec traject --debug-mode -w JsonWriter -c config.rb $MARC_FILE
