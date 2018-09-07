@@ -242,8 +242,14 @@ to_field "subject_t", extract_marc(%w(
   ), :trim_punctuation=>true)
 
 #Callnumber
-to_field "callnumber_t", extract_marc("050ab:090ab:091ab:092ab:096ab:099ab", :trim_punctuation => true)
-to_field "callnumber_ss", extract_marc("050ab:090ab:091ab:092ab:096ab:099ab:945ab", :trim_punctuation => false)
+callnumber_spec = "050ab:090ab:091ab:092ab:096ab:099ab"
+to_field "callnumber_t", extract_marc(callnumber_spec, :trim_punctuation => true)
+to_field "callnumber_ss", extract_marc(callnumber_spec, :trim_punctuation => false) do |record, acc|
+  new_callnumbers = callnumbers_from_945(record)
+  new_callnumbers.each do |callnumber|
+    acc << callnumber
+  end
+end
 
 #Text - for search
 to_field "text", extract_all_marc_values(:from=>'090', :to=>'900')
