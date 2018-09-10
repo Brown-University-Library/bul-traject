@@ -89,7 +89,7 @@ def build_callnumber(a, b, c, g, alternate_stem)
   else
     ab = [a, b].compact.join(" ")
   end
-  if g == "1"
+  if g == "1" || g == "0"
     g = nil
   end
   if g != nil
