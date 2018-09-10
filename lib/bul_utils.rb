@@ -113,6 +113,7 @@ end
 def callnumbers_from_945(record)
   callnumbers = []
   # Get the and b values to use as alternates
+  # TODO: do we need to consider other fields (e.g. 099)?
   values_090ab = []
   x090ab = extract_marc("090ab", :trim_punctuation => false)
   x090ab.call(record, values_090ab, nil)
