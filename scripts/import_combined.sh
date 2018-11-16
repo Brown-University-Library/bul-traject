@@ -13,7 +13,7 @@ echo "Started importing at echo $(date)"
 for FILE in `ls -m1 ./data/combined_*.mrc`
 do
   echo "Processing $FILE"
-  traject -c config.rb -u $SOLR_URL $FILE
+  bundle exec traject -c config.rb -u $SOLR_URL $FILE
   curl $SOLR_URL/update?commit=true
 done
 
