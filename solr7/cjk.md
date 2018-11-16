@@ -204,6 +204,13 @@ that will mimic the settings that we use in Solr 4.
 
 ## Solr 7 changes
 
+https://lucene.apache.org/solr/guide/7_0/major-changes-in-solr-7.html
+http://pychuang-blog.logdown.com/posts/230677-upgrade-solr-for-citeseerx
+https://lucene.apache.org/solr/guide/6_6/requestdispatcher-in-solrconfig.html
+
+qt parameter now behaves different and BL relies on it. Must use `<requestDispatcher handleSelect="true">`
+and make sure there is no `/select` request handler defined.
+
 Links from Ben Cail:
 * Here's a commit for our solr config for SOW (split-on-whitespace) setting ("SOW is a parameter that caused issues for us, until I changed it back to
 the old default."): https://bitbucket.org/bul/bdr_solr_conf/commits/40fe0d387b3fda461208bbd04a6d5a81da199605
