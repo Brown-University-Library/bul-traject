@@ -270,3 +270,25 @@ to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => 
 # TODO: remove the _facet field.
 to_field "bookplate_code_facet", extract_marc("945f")
 to_field "bookplate_code_ss", extract_marc("935a:945f")
+
+# =====================
+# TEST CODE FOR CJK
+# =====================
+# Authors for CJK languages
+# lang_lambda = marc_languages("008[35-37]:041a:041d:041e:041j")
+# author_vern_lambda = extract_marc('100abcdq:110abcd:111abcd', :alternate_script=>:only)
+# to_field "author_cjk" do |rec, acc, context|
+#   langs = lang_lambda.call(rec,[])
+#   if langs == ["English"]
+#     # nothing to do for 80% of our materials
+#   else
+#     is_cjk = langs.include?("Chinese") || langs.include?("Japanese") || langs.include?("Korean")
+#     if is_cjk
+#       authors_cjk = []
+#       author_vern_lambda.call(rec,authors_cjk,nil)
+#       authors_cjk.each do |author|
+#         acc << author
+#       end
+#     end
+#   end
+# end
