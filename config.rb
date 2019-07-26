@@ -251,6 +251,29 @@ to_field "callnumber_ss", extract_marc(callnumber_spec, :trim_punctuation => fal
   end
 end
 
+to_field "callnumber_std_ss" do |record, acc|
+
+  # Get the call number as usual (see above)...
+  callnumbers = []
+  cn_lambda = extract_marc(callnumber_spec, :trim_punctuation => false)
+  cn_lambda.call(record, callnumbers, nil)
+  new_callnumbers = callnumbers_from_945(record)
+
+  # ...and then calculate a "standard" format by tokenizing
+  # the values. This field will be used to try to find
+  # callnumbers even if the punctuation is different.
+  all = (callnumbers + new_callnumbers).map {|x| x.upcase.strip}
+  all.sort.uniq.each do |cn|
+    if cn != nil
+      cn_std = cn.scan(/\w+|\d+/).join("|")
+      if cn_std != ""
+        acc << cn_std
+      end
+    end
+  end
+end
+
+
 #Text - for search
 to_field "text", extract_all_marc_values(:from=>'090', :to=>'900')
 to_field "text" do |record, accumulator, context|
