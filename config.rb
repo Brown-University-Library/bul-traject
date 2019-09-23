@@ -265,7 +265,7 @@ to_field "callnumber_std_ss" do |record, acc|
   all = (callnumbers + new_callnumbers).map {|x| x.upcase.strip}
   all.sort.uniq.each do |cn|
     if cn != nil
-      cn_std = cn.scan(/\w+|\d+/).join("|")
+      cn_std = cn.scan(/[A-Z]+|\d+/).join("|")
       if cn_std != ""
         acc << cn_std
       end
