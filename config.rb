@@ -142,6 +142,7 @@ to_field "author_vern_display", extract_marc('100abcdq:110abcd:111abcd', :altern
 to_field "author_addl_display", extract_marc('700abcd:710ab:711ab', :trim_punctuation => true)
 to_field "author_t", extract_marc('100abcdq:110abcd:111abcdeq', :trim_punctuation => true)
 to_field 'author_addl_t', extract_marc("700abcdq:710abcd:711abcdeq:810abc:811aqdce")
+to_field "author_sort", extract_marc("100abcd:110abcd:111abc:110ab:700abcd:710ab:711ab", :first=>true)
 
 #
 # - Publication details fields
