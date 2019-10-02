@@ -291,7 +291,10 @@ to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => 
 # records but we do not get that data in our MARC files
 # so we cannot take those records into account. *sad trombone*s
 #
-# TODO: remove the _facet field.
+# TODO: remove the _facet field, or we could repurpose this field to
+# have a shortened version of the bookplate code, one without the
+# "bookplate_" prefix and without the purchased_yyyy suffix (where
+# yyyy is the year)
 to_field "bookplate_code_facet", extract_marc("945f")
 to_field "bookplate_code_ss", extract_marc("935a:945f")
 
