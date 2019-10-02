@@ -1,61 +1,5 @@
-Start by reading (Indexing Chinese in Solr)[https://opensourceconnections.com/blog/2011/12/23/indexing-chinese-in-solr/] by Jason Hull (2011).
 
-
-## Create a Solr core for demo purposes
-```
-# solr delete -c cjktest
-$ solr create -c cjktest
-$ post -c cjktest data.json
-```
-
-
-## Queries using the English fields returns too many results
-```
-# Search for 胡志明 (Hồ Chí Minh)
-$ ue "localhost:8983/solr/cjktest/select?q=title_txt_en:胡志明" | xargs curl
-
-# Search for 胡 (recklessly)
-$ ue "localhost:8983/solr/cjktest/select?q=title_txt_en:胡" | xargs curl
-
-# Search for 胡说 (nonsense)
-$ ue "localhost:8983/solr/cjktest/select?q=title_txt_en:胡说" | xargs curl
-```
-
-If we inspect the debugQuery values (debugQuery=true) for the nonsense (胡说)
-example we'll see that the query was parsed as two pieces "胡" and "说" when we
-used the English field:
-
-```
-"parsedquery":"title_txt_en:胡 title_txt_en:说",
-```
-
-## Queries using the CJK fields return the correct results
-```
-# Search for 胡志明 (Hồ Chí Minh)
-$ ue "localhost:8983/solr/cjktest/select?q=title_txt_cjk:胡志明" | xargs curl
-
-# Search for 胡 (recklessly)
-$ ue "localhost:8983/solr/cjktest/select?q=title_txt_cjk:胡" | xargs curl
-
-# Search for 胡说 (nonsense)
-$ ue "localhost:8983/solr/cjktest/select?q=title_txt_cjk:胡说" | xargs curl
-```
-
-but it is correctly parsed as a single token when we used the CJK field:
-
-```
-"parsedquery":"title_txt_cjk:胡说",
-```
-
-
-## A query in English
-This query shows how Solr picks up documents with the word "hello" regardless
-of where it is found in the title.
-
-```
-$ ue "localhost:8983/solr/cjktest/select?q=title_txt_en:hello" | xargs curl
-```
-
+# Before October/2019
 
 ## Field definitions
 
@@ -117,7 +61,7 @@ $ curl localhost:8983/solr/cjktest/schema/fieldtypes/text_en
     }
   }
 }
-```  
+```
 
 The definition of the **text_cjk** field type uses CJK specific filters
 (CJKWidthFilterFactory and CJKBigramFilterFactory)
@@ -167,7 +111,12 @@ Some incorrect matches from new Josiah for the same search:
 * b7996223 (author 王爱玲, 1971-)
 
 
+CJK readings
+* CJK with Solr for Libraries, part 8  http://discovery-grindstone.blogspot.com/2014/01/cjk-with-solr-for-libraries-part-8.html
 
+* Multilingual Issues Part 1: Word Segmentation https://www.hathitrust.org/blogs/large-scale-search/multilingual-issues-part-1-word-segmentation
+
+* Some info on bigrams https://ocelot.ca/blog/blog/2014/01/01/mroonga-and-me-and-mariadb/
 
 ## More Solr stuff
 
@@ -207,6 +156,9 @@ that will mimic the settings that we use in Solr 4.
 https://lucene.apache.org/solr/guide/7_0/major-changes-in-solr-7.html
 http://pychuang-blog.logdown.com/posts/230677-upgrade-solr-for-citeseerx
 https://lucene.apache.org/solr/guide/6_6/requestdispatcher-in-solrconfig.html
+
+
+Information of `handleSelect`: http://pychuang-blog.logdown.com/posts/230677-upgrade-solr-for-citeseerx
 
 qt parameter now behaves different and BL relies on it. Must use `<requestDispatcher handleSelect="true">`
 and make sure there is no `/select` request handler defined.

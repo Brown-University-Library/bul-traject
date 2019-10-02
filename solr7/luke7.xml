@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+
+<lst name="responseHeader">
+  <int name="status">0</int>
+  <int name="QTime">7</int>
+</lst>
+<lst name="index">
+  <int name="numDocs">195143</int>
+  <int name="maxDoc">195143</int>
+  <int name="deletedDocs">0</int>
+  <long name="indexHeapUsageBytes">-1</long>
+  <long name="version">189</long>
+  <int name="segmentCount">23</int>
+  <bool name="current">false</bool>
+  <bool name="hasDeletions">false</bool>
+  <str name="directory">org.apache.lucene.store.NRTCachingDirectory:NRTCachingDirectory(MMapDirectory@/Users/hectorcorrea/solr-7.4.0/server/solr/cjkdemo/data/index lockFactory=org.apache.lucene.store.NativeFSLockFactory@14058b83; maxCacheMB=48.0 maxMergeSizeMB=4.0)</str>
+  <str name="segmentsFile">segments_v</str>
+  <long name="segmentsFileSizeInBytes">1652</long>
+  <lst name="userData">
+    <str name="commitTimeMSec">1570040581166</str>
+    <str name="commitCommandVer">1646306872436719616</str>
+  </lst>
+  <date name="lastModified">2019-10-02T18:23:01.166Z</date>
+</lst>
+<lst name="fields">
+  <lst name="_version_">
+    <str name="type">plong</str>
+    <str name="schema">---D-------------</str>
+  </lst>
+  <lst name="abstract_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="access_facet">
+    <str name="type">strings</str>
+    <str name="schema">I--DM----OF-----l</str>
+    <str name="dynamicBase">*_facet</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="author_addl_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="author_addl_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">99841</int>
+  </lst>
+  <lst name="author_addl_unstem_search">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*_unstem_search</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">99841</int>
+  </lst>
+  <lst name="author_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="author_facet">
+    <str name="type">strings</str>
+    <str name="schema">I--DM----OF-----l</str>
+    <str name="dynamicBase">*_facet</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">193955</int>
+  </lst>
+  <lst name="author_sort">
+    <str name="type">alphaOnlySort</str>
+    <str name="schema">IT-------O------l</str>
+    <str name="dynamicBase">*_sort</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">194267</int>
+  </lst>
+  <lst name="author_spell">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*spell</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">194292</int>
+  </lst>
+  <lst name="author_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">163284</int>
+  </lst>
+  <lst name="author_unstem_search">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*_unstem_search</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">163284</int>
+  </lst>
+  <lst name="author_vern_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="bookplate_code_facet">
+    <str name="type">strings</str>
+    <str name="schema">I--DM----OF-----l</str>
+    <str name="dynamicBase">*_facet</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">2021</int>
+  </lst>
+  <lst name="bookplate_code_ss">
+    <str name="type">strings</str>
+    <str name="schema">I-SDM----OF-----l</str>
+    <str name="dynamicBase">*_ss</str>
+    <str name="index">ITS------OF------</str>
+    <int name="docs">2022</int>
+  </lst>
+  <lst name="building_facet">
+    <str name="type">strings</str>
+    <str name="schema">I--DM----OF-----l</str>
+    <str name="dynamicBase">*_facet</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">195110</int>
+  </lst>
+  <lst name="callnumber_ss">
+    <str name="type">strings</str>
+    <str name="schema">I-SDM----OF-----l</str>
+    <str name="dynamicBase">*_ss</str>
+    <str name="index">ITS------OF------</str>
+    <int name="docs">195097</int>
+  </lst>
+  <lst name="callnumber_std_ss">
+    <str name="type">strings</str>
+    <str name="schema">I-SDM----OF-----l</str>
+    <str name="dynamicBase">*_ss</str>
+    <str name="index">ITS------OF------</str>
+    <int name="docs">195097</int>
+  </lst>
+  <lst name="callnumber_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">145301</int>
+  </lst>
+  <lst name="format">
+    <str name="type">string</str>
+    <str name="schema">I-SD-----OF-----l</str>
+    <str name="index">ITS------OF------</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="id">
+    <str name="type">string</str>
+    <str name="schema">I-SD-----OF-----l</str>
+    <str name="index">ITS------OF------</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="isbn_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">122632</int>
+  </lst>
+  <lst name="issn_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">4</int>
+  </lst>
+  <lst name="language_facet">
+    <str name="type">strings</str>
+    <str name="schema">I--DM----OF-----l</str>
+    <str name="dynamicBase">*_facet</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">195104</int>
+  </lst>
+  <lst name="location_code_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">195110</int>
+  </lst>
+  <lst name="marc_display">
+    <str name="type">string</str>
+    <str name="schema">--S--------------</str>
+  </lst>
+  <lst name="new_uniform_title_author_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="oclc_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">194774</int>
+  </lst>
+  <lst name="online_b">
+    <str name="type">boolean</str>
+    <str name="schema">I-S------OF-----l</str>
+    <str name="dynamicBase">*_b</str>
+    <str name="index">ITS------OF------</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="opensearch_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="physical_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="pub_date">
+    <str name="type">string</str>
+    <str name="schema">I-SD-----OF-----l</str>
+    <str name="index">ITS------OF------</str>
+    <int name="docs">194866</int>
+  </lst>
+  <lst name="pub_date_sort">
+    <str name="type">pint</str>
+    <str name="schema">I-SD-----OF------</str>
+  </lst>
+  <lst name="published_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="published_vern_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="region_facet">
+    <str name="type">strings</str>
+    <str name="schema">I--DM----OF-----l</str>
+    <str name="dynamicBase">*_facet</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">69832</int>
+  </lst>
+  <lst name="spell">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*spell</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="subject_spell">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*spell</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">165338</int>
+  </lst>
+  <lst name="subject_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">165338</int>
+  </lst>
+  <lst name="subject_unstem_search">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*_unstem_search</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">165338</int>
+  </lst>
+  <lst name="text">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="text_str">
+    <str name="type">strings</str>
+    <str name="schema">---DM-----------l</str>
+    <str name="dynamicBase">*_str</str>
+  </lst>
+  <lst name="title_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="title_other_unstem_search">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*_unstem_search</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">26101</int>
+  </lst>
+  <lst name="title_series_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">77256</int>
+  </lst>
+  <lst name="title_series_unstem_search">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*_unstem_search</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">77256</int>
+  </lst>
+  <lst name="title_sort">
+    <str name="type">alphaOnlySort</str>
+    <str name="schema">IT-------O------l</str>
+    <str name="dynamicBase">*_sort</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="title_spell">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*spell</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">93565</int>
+  </lst>
+  <lst name="title_t">
+    <str name="type">text_general</str>
+    <str name="schema">ITS-M------------</str>
+    <str name="index">ITS--------------</str>
+    <int name="docs">26101</int>
+  </lst>
+  <lst name="title_unstem_search">
+    <str name="type">text_general</str>
+    <str name="schema">IT--M------------</str>
+    <str name="dynamicBase">*_unstem_search</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">195143</int>
+  </lst>
+  <lst name="title_vern_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="toc_970_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="toc_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="topic_facet">
+    <str name="type">strings</str>
+    <str name="schema">I--DM----OF-----l</str>
+    <str name="dynamicBase">*_facet</str>
+    <str name="index">(unstored field)</str>
+    <int name="docs">133303</int>
+  </lst>
+  <lst name="uniform_related_works_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="uniform_titles_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="updated_dt">
+    <str name="type">pdate</str>
+    <str name="schema">I-SD-----OF------</str>
+    <str name="dynamicBase">*_dt</str>
+  </lst>
+  <lst name="url_fulltext_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+  <lst name="url_suppl_display">
+    <str name="type">strings</str>
+    <str name="schema">--SDM-----------l</str>
+    <str name="dynamicBase">*_display</str>
+  </lst>
+</lst>
+<lst name="info">
+  <lst name="key">
+    <str name="I">Indexed</str>
+    <str name="T">Tokenized</str>
+    <str name="S">Stored</str>
+    <str name="D">DocValues</str>
+    <str name="M">Multivalued</str>
+    <str name="V">TermVector Stored</str>
+    <str name="o">Store Offset With TermVector</str>
+    <str name="p">Store Position With TermVector</str>
+    <str name="y">Store Payloads With TermVector</str>
+    <str name="O">Omit Norms</str>
+    <str name="F">Omit Term Frequencies &amp; Positions</str>
+    <str name="P">Omit Positions</str>
+    <str name="H">Store Offsets with Positions</str>
+    <str name="L">Lazy</str>
+    <str name="B">Binary</str>
+    <str name="f">Sort Missing First</str>
+    <str name="l">Sort Missing Last</str>
+  </lst>
+  <str name="NOTE">Document Frequency (df) is not updated when a document is marked for deletion.  df values include deleted documents.</str>
+</lst>
+</response>
