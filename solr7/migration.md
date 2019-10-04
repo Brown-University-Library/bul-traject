@@ -163,6 +163,8 @@ Information of `handleSelect`: http://pychuang-blog.logdown.com/posts/230677-upg
 qt parameter now behaves different and BL relies on it. Must use `<requestDispatcher handleSelect="true">`
 and make sure there is no `/select` request handler defined.
 
+`solrQueryParser defaultOperator` used to be defined in schema.xml but is not supported anymore, we now need to define it as `q.op` in solrconfig.xml. See [Changed default operator in Solr 5](https://www.drupal.org/project/1600962/issues/2486533) and also https://issues.apache.org/jira/browse/SOLR-2724
+
 Links from Ben Cail:
 * Here's a commit for our solr config for SOW (split-on-whitespace) setting ("SOW is a parameter that caused issues for us, until I changed it back to
 the old default."): https://bitbucket.org/bul/bdr_solr_conf/commits/40fe0d387b3fda461208bbd04a6d5a81da199605
@@ -170,3 +172,29 @@ the old default."): https://bitbucket.org/bul/bdr_solr_conf/commits/40fe0d387b3f
 * See also: http://lucene.apache.org/solr/7_0_0/changes/Changes.html#v7.0.0.upgrading_from_solr_6.x
 
 
+## Issues
+A search for "Young heart" in production returns ["Movie Standards"](https://search.library.brown.edu/catalog/b2724484) as one of the first 3 results because the text appears in the TOC for this record.
+
+In Solr 7 it is not picking this result, but it does if I search for "Young at heart". It's almost like the stop word "at" is getting in the way since we are indexing the TOC into the text.
+
+In Solr 7 "Young at heart" works (3 docs found):
+```
+SOLR4=http://plibsolr2cit.services.brown.edu:8081/solr/blacklight-core/select
+SOLR7=http://localhost:8983/solr/cjkdemo/select
+
+SEARCH1="debugQuery=on&fq=pub_date_sort:1995&q=%22Young%20heart%22&rows=10&wt=json&indent=true"
+SEARCH2="debugQuery=on&fq=pub_date_sort:1995&q=%22Young%20at%20heart%22&rows=10&wt=json&indent=true"
+
+echo "Solr4, search 1"
+curl -s "$SOLR4?$SEARCH1" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
+
+echo "Solr4, search 2"
+curl -s "$SOLR4?$SEARCH2" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
+
+echo "Solr7, search 1"
+curl -s "$SOLR7?$SEARCH1" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
+
+echo "Solr7, search 2"
+curl -s "$SOLR7?$SEARCH2" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
+
+```

@@ -1,34 +1,28 @@
-SOLR_CORE=cjkdemo
-SOLR_PORT=8983
-SOLR_CORE_URL=http://localhost:$SOLR_PORT/solr/$SOLR_CORE
-SOLR_RELOAD_URL=http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE
-SOLR_CONFIG_XML=~/solr-7.4.0/server/solr/$SOLR_CORE/conf/solrconfig.xml
+SOLR_CORE="cjksearch"
+SOLR_PORT="8983"
+SOLR_CORE_URL="http://localhost:$SOLR_PORT/solr/$SOLR_CORE"
+SOLR_RELOAD_URL="http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE"
+SOLR_CONFIG_XML="/Users/hectorcorrea/solr-7.4.0/server/solr/$SOLR_CORE/conf/solrconfig.xml"
 
 # ====================
-# Recreate the Solr core
+# Recreate the Solr core and update the solrconfig.xml file
 # ====================
 echo "Recreating core: $SOLR_CORE_URL ..."
 solr delete -c $SOLR_CORE
 solr create -c $SOLR_CORE
 solr config -c $SOLR_CORE -p $SOLR_PORT -action set-user-property -property update.autoCreateFields -value false
 
-echo "Loading new config.."
-cp solrconfig7.xml $SOLR_CONFIG_XML
-curl $SOLR_RELOAD_URL
-
-echo "Defining new fields..."
-
-# ====================
-# Use this to export all the *actual* fields defined in the code
-# *after* importing data
-#
-# curl $SOLR_CORE_URL/admin/luke?numTerms=0 > luke7.xml
-# ====================
+echo "Loading new config..."
+echo "$SOLR_RELOAD_URL"
+cp ./solr7/solrconfig7.xml $SOLR_CONFIG_XML
+curl "$SOLR_RELOAD_URL"
 
 
 # ====================
 # Field types
 # ====================
+echo "Defining new types..."
+
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field-type" : {
      "name":"alphaOnlySort",
@@ -59,16 +53,23 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 # ====================
 # Fields
 #
-# Notice that we specifically define several _t fields as multi-value
-# to prevent them being defined by the dynamic-field definition *_t
-# that comes with Solr and creates them as single-value.
+# Notice that we specifically define several fields to be different
+# from what the dynamic field definitions would do (e.g. set some
+# *_display fields as single value) so that we are compatible with
+# the schema that we are migrating from.
 # ====================
+echo "Defining fields..."
+
+# Notice that the core must be reloaded for this field (that has a default value)
+# to be registered and become effective. See note at the bottom of this script.
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"timestamp",
     "type":"pdate",
+    "default":"NOW",
     "multiValued":false,
-    "default":"NOW"
+    "stored":true,
+    "indexed":true
   }
 }' $SOLR_CORE_URL/schema
 
@@ -94,10 +95,11 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
+# Why is this multi-value? (if pub_date_sort is single value)
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"pub_date",
-    "type":"string",
+    "type":"strings",
     "stored":true,
     "indexed":true
   }
@@ -221,7 +223,46 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"author_display",
     "type":"string",
-    "multiValued":false,
+    "stored":true,
+    "indexed":false
+  }
+}' $SOLR_CORE_URL/schema
+
+# Must be single value
+# curl -X POST -H 'Content-type:application/json' --data-binary '{
+#   "add-field":{
+#     "name":"abstract_display",
+#     "type":"strings",
+#     "stored":true,
+#     "indexed":false
+#   }
+# }' $SOLR_CORE_URL/schema
+
+# Must be single value
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"published_vern_display",
+    "type":"strings",
+    "stored":true,
+    "indexed":false
+  }
+}' $SOLR_CORE_URL/schema
+
+# Must be single value
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"title_display",
+    "type":"string",
+    "stored":true,
+    "indexed":false
+  }
+}' $SOLR_CORE_URL/schema
+
+# Must be single value
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"title_vern_display",
+    "type":"string",
     "stored":true,
     "indexed":false
   }
@@ -240,10 +281,39 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
+# docValues=false allows to store more than 32K in the field, otherwise
+# we get error: "DocValuesField toc_display is too large, must be <= 32766"
+#
+# TODO: should this be indexed?
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"toc_display",
+    "type":"strings",
+    "stored":true,
+    "indexed":false,
+    "docValues":false
+  }
+}' $SOLR_CORE_URL/schema
+
+# docValues=false allows to store more than 32K in the field, otherwise
+# we get error: "DocValuesField toc_970_display is too large, must be <= 32766"
+#
+# TODO: should this be indexed?
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":" toc_970_display",
+    "type":"strings",
+    "stored":true,
+    "indexed":false,
+    "docValues":false
+  }
+}' $SOLR_CORE_URL/schema
 
 # ====================
 # Dynamic fields
 # ====================
+echo "Defining dynamic fields..."
+
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":{
     "name":"*_display",
@@ -294,6 +364,8 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 # ====================
 # Copy fields
 # ====================
+echo "Defining copy fields..."
+
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"title_display",
@@ -427,4 +499,16 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' $SOLR_CORE_URL/schema
 
 
+# This is required so that the timestamp field takes effect
+# on new documents.
+# See https://stackoverflow.com/questions/37352306/add-document-insert-timestamp-to-all-documents
+echo "Reloading Solr core one last time..."
+curl "$SOLR_RELOAD_URL"
 
+
+# ====================
+# Use this to export all the *actual* fields defined in the code
+# *after* importing data
+#
+# curl $SOLR_CORE_URL/admin/luke?numTerms=0 > luke7.xml
+# ====================

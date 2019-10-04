@@ -3,25 +3,25 @@
 
 <lst name="responseHeader">
   <int name="status">0</int>
-  <int name="QTime">7</int>
+  <int name="QTime">73</int>
 </lst>
 <lst name="index">
   <int name="numDocs">195143</int>
   <int name="maxDoc">195143</int>
   <int name="deletedDocs">0</int>
   <long name="indexHeapUsageBytes">-1</long>
-  <long name="version">189</long>
-  <int name="segmentCount">23</int>
-  <bool name="current">false</bool>
+  <long name="version">182</long>
+  <int name="segmentCount">21</int>
+  <bool name="current">true</bool>
   <bool name="hasDeletions">false</bool>
-  <str name="directory">org.apache.lucene.store.NRTCachingDirectory:NRTCachingDirectory(MMapDirectory@/Users/hectorcorrea/solr-7.4.0/server/solr/cjkdemo/data/index lockFactory=org.apache.lucene.store.NativeFSLockFactory@14058b83; maxCacheMB=48.0 maxMergeSizeMB=4.0)</str>
-  <str name="segmentsFile">segments_v</str>
-  <long name="segmentsFileSizeInBytes">1652</long>
+  <str name="directory">org.apache.lucene.store.NRTCachingDirectory:NRTCachingDirectory(MMapDirectory@/Users/hectorcorrea/solr-7.4.0/server/solr/cjkdemo/data/index lockFactory=org.apache.lucene.store.NativeFSLockFactory@38a303c0; maxCacheMB=48.0 maxMergeSizeMB=4.0)</str>
+  <str name="segmentsFile">segments_u</str>
+  <long name="segmentsFileSizeInBytes">1520</long>
   <lst name="userData">
-    <str name="commitTimeMSec">1570040581166</str>
-    <str name="commitCommandVer">1646306872436719616</str>
+    <str name="commitTimeMSec">1570116432469</str>
+    <str name="commitCommandVer">1646386408292614144</str>
   </lst>
-  <date name="lastModified">2019-10-02T18:23:01.166Z</date>
+  <date name="lastModified">2019-10-03T15:27:12.469Z</date>
 </lst>
 <lst name="fields">
   <lst name="_version_">
@@ -46,7 +46,7 @@
     <str name="dynamicBase">*_display</str>
   </lst>
   <lst name="author_addl_t">
-    <str name="type">text_general</str>
+    <str name="type">text_en</str>
     <str name="schema">ITS-M------------</str>
     <str name="index">ITS--------------</str>
     <int name="docs">99841</int>
@@ -59,9 +59,8 @@
     <int name="docs">99841</int>
   </lst>
   <lst name="author_display">
-    <str name="type">strings</str>
-    <str name="schema">--SDM-----------l</str>
-    <str name="dynamicBase">*_display</str>
+    <str name="type">string</str>
+    <str name="schema">--SD------------l</str>
   </lst>
   <lst name="author_facet">
     <str name="type">strings</str>
@@ -85,7 +84,7 @@
     <int name="docs">194292</int>
   </lst>
   <lst name="author_t">
-    <str name="type">text_general</str>
+    <str name="type">text_en</str>
     <str name="schema">ITS-M------------</str>
     <str name="index">ITS--------------</str>
     <int name="docs">163284</int>
@@ -213,8 +212,8 @@
     <str name="dynamicBase">*_display</str>
   </lst>
   <lst name="pub_date">
-    <str name="type">string</str>
-    <str name="schema">I-SD-----OF-----l</str>
+    <str name="type">strings</str>
+    <str name="schema">I-SDM----OF-----l</str>
     <str name="index">ITS------OF------</str>
     <int name="docs">194866</int>
   </lst>
@@ -228,9 +227,8 @@
     <str name="dynamicBase">*_display</str>
   </lst>
   <lst name="published_vern_display">
-    <str name="type">strings</str>
-    <str name="schema">--SDM-----------l</str>
-    <str name="dynamicBase">*_display</str>
+    <str name="type">string</str>
+    <str name="schema">--SD------------l</str>
   </lst>
   <lst name="region_facet">
     <str name="type">strings</str>
@@ -254,10 +252,10 @@
     <int name="docs">165338</int>
   </lst>
   <lst name="subject_t">
-    <str name="type">text_general</str>
+    <str name="type">text_en</str>
     <str name="schema">ITS-M------------</str>
     <str name="index">ITS--------------</str>
-    <int name="docs">165338</int>
+    <int name="docs">165333</int>
   </lst>
   <lst name="subject_unstem_search">
     <str name="type">text_general</str>
@@ -267,20 +265,18 @@
     <int name="docs">165338</int>
   </lst>
   <lst name="text">
-    <str name="type">text_general</str>
-    <str name="schema">ITS-M------------</str>
-    <str name="index">ITS--------------</str>
+    <str name="type">text_en</str>
+    <str name="schema">IT--M------------</str>
+    <str name="index">(unstored field)</str>
     <int name="docs">195143</int>
   </lst>
-  <lst name="text_str">
-    <str name="type">strings</str>
-    <str name="schema">---DM-----------l</str>
-    <str name="dynamicBase">*_str</str>
+  <lst name="timestamp">
+    <str name="type">pdate</str>
+    <str name="schema">I-SD-----OF------</str>
   </lst>
   <lst name="title_display">
-    <str name="type">strings</str>
-    <str name="schema">--SDM-----------l</str>
-    <str name="dynamicBase">*_display</str>
+    <str name="type">string</str>
+    <str name="schema">--SD------------l</str>
   </lst>
   <lst name="title_other_unstem_search">
     <str name="type">text_general</str>
@@ -290,7 +286,7 @@
     <int name="docs">26101</int>
   </lst>
   <lst name="title_series_t">
-    <str name="type">text_general</str>
+    <str name="type">text_en</str>
     <str name="schema">ITS-M------------</str>
     <str name="index">ITS--------------</str>
     <int name="docs">77256</int>
@@ -317,7 +313,7 @@
     <int name="docs">93565</int>
   </lst>
   <lst name="title_t">
-    <str name="type">text_general</str>
+    <str name="type">text_en</str>
     <str name="schema">ITS-M------------</str>
     <str name="index">ITS--------------</str>
     <int name="docs">26101</int>
@@ -330,9 +326,8 @@
     <int name="docs">195143</int>
   </lst>
   <lst name="title_vern_display">
-    <str name="type">strings</str>
-    <str name="schema">--SDM-----------l</str>
-    <str name="dynamicBase">*_display</str>
+    <str name="type">string</str>
+    <str name="schema">--SD------------l</str>
   </lst>
   <lst name="toc_970_display">
     <str name="type">strings</str>
