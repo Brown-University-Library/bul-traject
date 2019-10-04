@@ -1,8 +1,12 @@
-SOLR_CORE="cjksearch"
+SOLR_CORE="cjkdemo"
 SOLR_PORT="8983"
 SOLR_CORE_URL="http://localhost:$SOLR_PORT/solr/$SOLR_CORE"
 SOLR_RELOAD_URL="http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE"
-SOLR_CONFIG_XML="/Users/hectorcorrea/solr-7.4.0/server/solr/$SOLR_CORE/conf/solrconfig.xml"
+SOLR_CONF_PATH="/Users/hectorcorrea/solr-7.4.0/server/solr/$SOLR_CORE/conf"
+SOLR_CONFIG_XML="$SOLR_CONF_PATH/solrconfig.xml"
+STOPWORDS_FILE="$SOLR_CONF_PATH/stopwords.txt"
+STOPWORDS_EN_FILE="$SOLR_CONF_PATH/lang/stopwords_en.txt"
+
 
 # ====================
 # Recreate the Solr core and update the solrconfig.xml file
@@ -12,9 +16,16 @@ solr delete -c $SOLR_CORE
 solr create -c $SOLR_CORE
 solr config -c $SOLR_CORE -p $SOLR_PORT -action set-user-property -property update.autoCreateFields -value false
 
-echo "Loading new config..."
+echo "Updating config files..."
 echo "$SOLR_RELOAD_URL"
+
+# Our custom solrconfig to mimic Solr 4 behavior that Blacklight needs
 cp ./solr7/solrconfig7.xml $SOLR_CONFIG_XML
+
+# Use english stop words for text_general fields (to behave like our Solr 4 instance did)
+cp $STOPWORDS_EN_FILE $STOPWORDS_FILE
+
+echo "Loading new config..."
 curl "$SOLR_RELOAD_URL"
 
 
@@ -119,7 +130,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"isbn_t",
-    "type":"text_general",
+    "type":"text_en",
     "multiValued":true,
     "stored":true,
     "indexed":true
@@ -284,7 +295,10 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 # docValues=false allows to store more than 32K in the field, otherwise
 # we get error: "DocValuesField toc_display is too large, must be <= 32766"
 #
-# TODO: should this be indexed?
+# TODO: should this be indexed? I think it is indexed through "text" field
+# combined directly in Traject.
+#
+# See also field toc_970_display below.
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"toc_display",
@@ -295,13 +309,9 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
-# docValues=false allows to store more than 32K in the field, otherwise
-# we get error: "DocValuesField toc_970_display is too large, must be <= 32766"
-#
-# TODO: should this be indexed?
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
-    "name":" toc_970_display",
+    "name":"toc_970_display",
     "type":"strings",
     "stored":true,
     "indexed":false,
@@ -319,7 +329,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "name":"*_display",
     "type":"strings",
     "stored":true,
-    "indexed": false
+    "indexed":false
   }
 }' $SOLR_CORE_URL/schema
 
@@ -337,7 +347,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "name":"*_unstem_search",
     "type":"text_general",
     "stored":false,
-    "indexed": true
+    "indexed":true
   }
 }' $SOLR_CORE_URL/schema
 

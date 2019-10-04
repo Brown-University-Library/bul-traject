@@ -1,4 +1,4 @@
-MARC_FILE=~/data/combined_03.mrc
+MARC_FILE=~/data/combined_09.mrc
 SOLR_URL=http://localhost:8983/solr/cjkdemo
 #SOLR_URL=http://localhost:8081/solr/blacklight-core
 

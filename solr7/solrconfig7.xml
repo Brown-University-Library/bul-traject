@@ -721,10 +721,23 @@
         deprecated defaultOperator="OR" in schema.xml used in Solr 4.
         (see https://issues.apache.org/jira/browse/SOLR-2724 and
         https://www.drupal.org/project/1600962/issues/2486533)
-        -->
-        <str name="q.op">OR</str>
 
+        <str name="q.op">OR</str>
+        -->
+
+        <!-- TODO SOLR-4-MIGRATION
+        Figure out if we need to add "sow" here as Ben did on the BDR
+        https://bitbucket.org/bul/bdr_solr_conf/commits/40fe0d387b3fda461208bbd04a6d5a81da199605
+
+        <str name="sow">true</str>
+        -->
+
+        <!--
+          6<-1    6 or fewer terms all must match.
+          6<90%   if more than 6 terms, 90% must match after that.
+        -->
        <str name="mm">6&lt;-1 6&lt;90%</str>
+
        <str name="sort">score desc, title_sort asc</str>
 
        <!-- this qf and pf are used by default, if not otherwise specified by
