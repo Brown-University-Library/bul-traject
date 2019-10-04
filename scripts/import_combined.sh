@@ -1,20 +1,15 @@
-#!/bin/sh
-#
-# Imports the combined files created by create_combined.#!/bin/sh
-SOLR_URL=http://localhost:8081/solr/blacklight-core
+MARC_PATH=~/data/combined_*.mrc
+SOLR_URL=http://localhost:8983/solr/cjkdemo
 
-echo "Started importing at echo $(date)"
+echo "Import started at $(date)" >>combined.txt
+echo "  $MARC_PATH" >>combined.txt
+echo "  $SOLR_URL" >>combined.txt
 
-# echo "Deleting all Solr documents..."
-# curl "$SOLR_URL/update?commit=true" \
-# -H "Content-Type: text/xml" \
-# --data-binary '<delete><query>*:*</query></delete>'
-
-for FILE in `ls -m1 ./data/combined_*.mrc`
+for FILE in `ls -m1 $MARC_PATH`
 do
-  echo "Processing $FILE"
-  bundle exec traject -c config.rb -u $SOLR_URL $FILE
-  curl $SOLR_URL/update?commit=true
+  echo "Processing $FILE" >>combined.txt
+  bundle exec traject -c config.rb -u $SOLR_URL $FILE >>combined.txt 2>&1
+  curl $SOLR_URL/update?commit=true >>combined.txt
 done
 
-echo "Done importing at $(date)"
+echo "Done importing at $(date)" >>combined.txt
