@@ -1,4 +1,3 @@
-
 # Before October/2019
 
 ## Field definitions
@@ -141,16 +140,6 @@ Documents found: b4034277 and b4065326
 
 
 
-## ERRORS IN JOSIAH
-We are getting the error on Blacklight because the `stats` data for `pub_date`
-is coming incorrectly. I am not sure if Solr 7 is giving the information different
-from Solr 4 or if there is a setting `solrconfig.xml` that I need to tweak to
-get the same results as I am getting in production.
-
-I am currently looking into adding a new request handler in `solrconfig.xml`
-that will mimic the settings that we use in Solr 4.
-
-
 ## Solr 7 changes
 
 https://lucene.apache.org/solr/guide/7_0/major-changes-in-solr-7.html
@@ -172,29 +161,45 @@ the old default."): https://bitbucket.org/bul/bdr_solr_conf/commits/40fe0d387b3f
 * See also: http://lucene.apache.org/solr/7_0_0/changes/Changes.html#v7.0.0.upgrading_from_solr_6.x
 
 
-## Issues
-A search for "Young heart" in production returns ["Movie Standards"](https://search.library.brown.edu/catalog/b2724484) as one of the first 3 results because the text appears in the TOC for this record.
 
-In Solr 7 it is not picking this result, but it does if I search for "Young at heart". It's almost like the stop word "at" is getting in the way since we are indexing the TOC into the text.
+## LocalParams
+Local Parameters have been drastically changed in Solr 7, they are [not supported by default](https://lucene.apache.org/solr/guide/7_5/solr-upgrade-notes.html) unless you are using the Lucene parser as the starting point.
 
-In Solr 7 "Young at heart" works (3 docs found):
-```
-SOLR4=http://plibsolr2cit.services.brown.edu:8081/solr/blacklight-core/select
-SOLR7=http://localhost:8983/solr/cjkdemo/select
+In Solr 4 (using `defType=dismax`) the search `q={!dismax%20qf=title_t}gothic&rows=0&debug=true` searches for the word "gothic" in `title_f` but also on all the fields indicated in `qf` value in solrconfig.xml (title_unstem_search, title_series_t, author_addl_t, ...)
 
-SEARCH1="debugQuery=on&fq=pub_date_sort:1995&q=%22Young%20heart%22&rows=10&wt=json&indent=true"
-SEARCH2="debugQuery=on&fq=pub_date_sort:1995&q=%22Young%20at%20heart%22&rows=10&wt=json&indent=true"
+In Solr 7 (using `defType=dismax`) however, the same search will issue a search for "dismax", "qf", "title_t", and "gothic" as it did not parse the text inside the `{! ... }`
 
-echo "Solr4, search 1"
-curl -s "$SOLR4?$SEARCH1" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
-
-echo "Solr4, search 2"
-curl -s "$SOLR4?$SEARCH2" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
-
-echo "Solr7, search 1"
-curl -s "$SOLR7?$SEARCH1" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
-
-echo "Solr7, search 2"
-curl -s "$SOLR7?$SEARCH2" | if grep b2724484 > tmp.txt; then echo "yes"; else echo "no"; fi;
+I understand that you can get back the old behavior by switching to LuceneMatchVersion 7.1.0. That change alone does not work for me.
 
 ```
+  <luceneMatchVersion>7.1.0</luceneMatchVersion>
+```
+
+See also https://blog.andornot.com/blog/restore-local-params-in-solr-7.5/ in which he recommends adding a `uf` parameter. Did not work for me.
+
+```
+    <str name="uf">* _query_</str>
+```
+
+
+### Local Params - test using lucene as default defType
+Updated `solrconfig.xml` as follows:
+
+```
+    <str name="defType">lucene</str>
+    <str name="qf">...
+    <str name="pf">...
+```
+
+A search for `rows=0&debug=true&q={!dismax}gothic` works as expected.
+
+Pros:
+* Uses default `qf` and `pf` from solrconfig.xml
+
+Cons:
+* Must specify `dismax` via LocalParams in each query.
+
+Notice that although I can pass a new `qf` via LocalParams, and it will be honored, it will be used **in addition** to the `qf` value in `solrconfig.xml`. It seems that this was the behavior in Solr 4 as well.
+
+Using `q={!qf=$title_qf}gothic` gives also a different number of results (~1300) than using `q=gothic` (~5000).
+
