@@ -6,6 +6,7 @@ SOLR_CONF_PATH="/Users/hectorcorrea/solr-7.4.0/server/solr/$SOLR_CORE/conf"
 SOLR_CONFIG_XML="$SOLR_CONF_PATH/solrconfig.xml"
 STOPWORDS_FILE="$SOLR_CONF_PATH/stopwords.txt"
 STOPWORDS_EN_FILE="$SOLR_CONF_PATH/lang/stopwords_en.txt"
+SYNONYMS_FILE="$SOLR_CONF_PATH/synonyms.txt"
 
 
 # ====================
@@ -24,6 +25,9 @@ cp ./solr7/solrconfig7.xml $SOLR_CONFIG_XML
 
 # Use english stop words for text_general fields (to behave like our Solr 4 instance did)
 cp $STOPWORDS_EN_FILE $STOPWORDS_FILE
+
+# Use our custom synonyms file
+cp ./solr7/synonyms7.txt $SYNONYMS_FILE
 
 echo "Loading new config..."
 curl "$SOLR_RELOAD_URL"
@@ -312,6 +316,17 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"toc_970_display",
+    "type":"strings",
+    "stored":true,
+    "indexed":false,
+    "docValues":false
+  }
+}' $SOLR_CORE_URL/schema
+
+# docValues=false allows to store more than 32K in the field
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"uniform_related_works_display",
     "type":"strings",
     "stored":true,
     "indexed":false,
