@@ -55,8 +55,15 @@
        found in it are included as if you had used the following
        syntax...
 
-              <lib dir="./lib" />
+    <lib dir="./lib" />
+
+      SOLR-4-MIGRATION
+      Force to load these two libraries so that we can use the ICUFoldingFilterFactory
+      filter for the text_search fieldtype. This is needed to preserve compatibility
+      with the way our searches for accented characters worked in Solr 4.
     -->
+    <lib dir="../../../contrib/analysis-extras/lib" regex="icu4j.*\.jar" />
+    <lib dir="../../../contrib/analysis-extras/lucene-libs" regex="lucene-analyzers-icu.*\.jar" />
 
   <!-- A 'dir' option by itself adds any files found in the directory
        to the classpath, this is useful for including all jars in a

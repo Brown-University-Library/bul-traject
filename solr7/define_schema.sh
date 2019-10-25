@@ -65,6 +65,36 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' $SOLR_CORE_URL/schema
 
 
+# This field type is used to emulate the "text" field in Solr 4 that
+# included the ICUFoldingFilterFactory and SnowballPorterFilterFactory
+# filters.
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field-type" : {
+     "name":"text_search",
+     "class":"solr.TextField",
+     "positionIncrementGap":"100",
+     "multiValued":true,
+     "sortMissingLast":"true",
+     "omitNorms":"true",
+     "analyzer" : {
+        "tokenizer":{"class":"solr.StandardTokenizerFactory"},
+        "filters":[
+          {
+            "class":"solr.ICUFoldingFilterFactory"
+          },
+          {
+            "class":"solr.StopFilterFactory",
+            "words":"stopwords.txt",
+            "ignoreCase": "true"
+          },
+          {
+            "class":"solr.SnowballPorterFilterFactory"
+          }
+      ]
+    }
+  }
+}' $SOLR_CORE_URL/schema
+
 # ====================
 # Fields
 #
@@ -88,13 +118,12 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
-# Notice that we map "text" to "text_en" rather than to "text_general"
-# because Solr 4's "text" field behaved like "text_en" due to the
-# use the SnowballFilter.
+# Notice that we map "text" to "text_search" to preserve Solr 4's
+# compatibility.
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"text",
-    "type":"text_en",
+    "type":"text_search",
     "multiValued":true,
     "stored":false,
     "indexed":true

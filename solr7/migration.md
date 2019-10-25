@@ -203,3 +203,51 @@ Notice that although I can pass a new `qf` via LocalParams, and it will be honor
 
 Using `q={!qf=$title_qf}gothic` gives also a different number of results (~1300) than using `q=gothic` (~5000).
 
+
+
+In summary:
+
+If the server is set to DisMax then Solr won't parse `{!qf=$title_qf}` at all.
+
+If the server is set to Lucene then Solr will recognized these two forms:
+
+```
+q={!dismax qf=$title_qf pf=$title_pf}Coffee&df=id
+
+
+q={!type=dismax qf=$title_qf pf=$title_pf}Coffee&df=id
+```
+
+passing `defType=dismax` on the URL does not work.
+
+## ICUFolding
+In Solr 4 the `text` field type used the `ICUFoldingFilter` which handles accents so that "José" is equivalent to "Jose". In Solr 7 there is no `text` field and there is no field that uses the `ICUFoldingFilter` in the default Schema.
+
+We need to re-enable the [ICUFoldingFilter](https://lucene.apache.org/solr/guide/7_0/filter-descriptions.html#icu-folding-filter) by referencing the proper libraries in `solrconfig.xml`
+
+```
+<lib dir="../../../contrib/analysis-extras/lib" regex="icu4j.*\.jar" />
+<lib dir="../../../contrib/analysis-extras/lucene-libs" regex="lucene-analyzers-icu.*\.jar" />
+```
+
+and declare a new field type to use it
+
+```
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field-type" : {
+     "name":"text_snow",
+     "class":"solr.TextField",
+     "analyzer" : {
+        "tokenizer":{"class":"solr.StandardTokenizerFactory"},
+        "filters":[
+          {"class":"solr.ICUFoldingFilterFactory"},
+          ...
+      ]
+    }
+  }
+}' $SOLR_CORE_URL/schema
+```
+
+
+
+
