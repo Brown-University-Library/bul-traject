@@ -1,4 +1,4 @@
-SOLR_CORE="cjkdemo"
+SOLR_CORE="cjkdemo99"
 SOLR_PORT="8983"
 SOLR_CORE_URL="http://localhost:$SOLR_PORT/solr/$SOLR_CORE"
 SOLR_RELOAD_URL="http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE"
@@ -76,11 +76,33 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
      "multiValued":true,
      "sortMissingLast":"true",
      "omitNorms":"true",
-     "analyzer" : {
+     "indexAnalyzer" : {
         "tokenizer":{"class":"solr.StandardTokenizerFactory"},
         "filters":[
           {
             "class":"solr.ICUFoldingFilterFactory"
+          },
+          {
+            "class":"solr.StopFilterFactory",
+            "words":"stopwords.txt",
+            "ignoreCase": "true"
+          },
+          {
+            "class":"solr.SnowballPorterFilterFactory"
+          }
+      ]
+    },
+    "queryAnalyzer" : {
+        "tokenizer":{"class":"solr.StandardTokenizerFactory"},
+        "filters":[
+          {
+            "class":"solr.ICUFoldingFilterFactory"
+          },
+          {
+            "class":"solr.SynonymGraphFilterFactory",
+            "expand": "true",
+            "synonyms": "synonyms.txt",
+            "ignoreCase": "true"
           },
           {
             "class":"solr.StopFilterFactory",
