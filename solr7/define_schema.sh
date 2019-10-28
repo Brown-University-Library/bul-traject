@@ -1,4 +1,4 @@
-SOLR_CORE="cjkdemo99"
+SOLR_CORE="cjkdemo"
 SOLR_PORT="8983"
 SOLR_CORE_URL="http://localhost:$SOLR_PORT/solr/$SOLR_CORE"
 SOLR_RELOAD_URL="http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE"
