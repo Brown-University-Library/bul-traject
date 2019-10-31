@@ -249,5 +249,54 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 ```
 
 
+## Single character tokens
+Wow...this is a big improvement. A search for "Davis T Edward" in Solr 7 takes into account the "T" but not a search in Solr 4.
 
+TODO: Figure out if this is due to stop words or another field-level configuration or a Solr7-wide improvement.
+
+```
+http://localhost:8983/solr/cjkdemo/select?wt=json&qt=search&facet.field=access_facet&facet.field=format&facet.field=author_facet&facet.field=pub_date_sort&facet.field=topic_facet&facet.field=region_facet&facet.field=language_facet&facet.field=building_facet&&&&&rows=100&spellcheck=false&spellcheck.dictionary=author&q={!type=dismax+qf=$author_qf+pf=$author_pf}Davis+T+Edward&spellcheck.q=Davis+T+Edward&facet=true&f.format.facet.limit=11&f.author_facet.facet.limit=21&f.topic_facet.facet.limit=21&f.region_facet.facet.limit=21&f.language_facet.facet.limit=21&sort=score+desc,+pub_date_sort+desc,+title_sort+asc&stats=true&stats.field=pub_date_sort&debug=true
+
+"parsedquery_toString": "+(((author_addl_t:davi | (author_t:davi)^20.0 | (author_addl_unstem_search:davis)^50.0 | (author_unstem_search:davis)^200.0)~0.01 (author_addl_t:t | (author_t:t)^20.0 | (author_addl_unstem_search:t)^50.0 | (author_unstem_search:t)^200.0)~0.01 (author_addl_t:edward | (author_t:edward)^20.0 | (author_addl_unstem_search:edward)^50.0 | (author_unstem_search:edward)^200.0)~0.01)~3) ((author_addl_t:\"davi t edward\"~3)^10.0 | (author_t:\"davi t edward\"~3)^200.0 | (author_addl_unstem_search:\"davis t edward\"~3)^500.0 | (author_unstem_search:\"davis t edward\"~3)^2000.0)~0.01",
+
+
+Solr 7
+"parsedquery_toString": "+((
+    (author_addl_t:davi |
+    (author_t:davi)^20.0 |
+    (author_addl_unstem_search:davis)^50.0 |
+    (author_unstem_search:davis)^200.0)~0.01
+
+    (author_addl_t:t |
+    (author_t:t)^20.0 |
+    (author_addl_unstem_search:t)^50.0 |
+    (author_unstem_search:t)^200.0)~0.01
+
+    (author_addl_t:edward |
+    (author_t:edward)^20.0 |
+    (author_addl_unstem_search:edward)^50.0 |
+    (author_unstem_search:edward)^200.0)~0.01)~3)
+
+    ((author_addl_t:\"davi t edward\"~3)^10.0 |
+    (author_t:\"davi t edward\"~3)^200.0 |
+    (author_addl_unstem_search:\"davis t edward\"~3)^500.0 |
+    (author_unstem_search:\"davis t edward\"~3)^2000.0)~0.01",
+
+Solr 4
+"parsedquery_toString": "+((
+    (author_addl_t:davi |
+    author_t:davi^20.0 |
+    author_addl_unstem_search:davis^50.0 |
+    author_unstem_search:davis^200.0)~0.01
+
+    (author_addl_t:edward |
+    author_t:edward^20.0 |
+    author_addl_unstem_search:edward^50.0 |
+    author_unstem_search:edward^200.0)~0.01)~2)
+
+    (author_addl_t:\"davi ? edward\"~3^10.0 |
+    author_t:\"davi ? edward\"~3^200.0 |
+    author_addl_unstem_search:\"davis ? edward\"~3^500.0 |
+    author_unstem_search:\"davis ? edward\"~3^2000.0)~0.01",
+```
 
