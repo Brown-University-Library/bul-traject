@@ -47,18 +47,37 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
      "analyzer" : {
         "tokenizer":{"class":"solr.KeywordTokenizerFactory"},
         "filters":[
-          {
-            "class":"solr.LowerCaseFilterFactory"
-          },
-          {
-            "class":"solr.TrimFilterFactory"
-          },
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.TrimFilterFactory" },
           {
             "class":"solr.PatternReplaceFilterFactory",
             "pattern":"([^a-z])",
             "replacement":"",
             "replace":"all"
           }
+      ]
+    }
+  }
+}' $SOLR_CORE_URL/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field-type" : {
+     "name":"textSpell",
+     "class":"solr.TextField",
+     "sortMissingLast":"true",
+     "multiValued":true,
+     "omitNorms":"true",
+     "analyzer" : {
+        "tokenizer":{"class":"solr.KeywordTokenizerFactory"},
+        "filters":[
+          {
+            "class":"solr.StopFilterFactory",
+            "words":"stopwords.txt",
+            "ignoreCase": "true"
+          },
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.RemoveDuplicatesTokenFilterFactory" },
+          { "class":"solr.SnowballPorterFilterFactory" }
       ]
     }
   }
@@ -181,21 +200,10 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
-# shouldn't this be strings?
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "add-field":{
-    "name":"isbn_t",
-    "type":"text_en",
-    "multiValued":true,
-    "stored":true,
-    "indexed":true
-  }
-}' $SOLR_CORE_URL/schema
-
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"subject_t",
-    "type":"text_en",
+    "type":"text_search",
     "multiValued":true,
     "stored":true,
     "indexed":true
@@ -205,7 +213,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"author_addl_t",
-    "type":"text_en",
+    "type":"text_search",
     "multiValued":true,
     "stored":true,
     "indexed":true
@@ -215,7 +223,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"title_series_t",
-    "type":"text_en",
+    "type":"text_search",
     "multiValued":true,
     "stored":true,
     "indexed":true
@@ -225,7 +233,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"title_t",
-    "type":"text_en",
+    "type":"text_search",
     "multiValued":true,
     "stored":true,
     "indexed":true
@@ -235,7 +243,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"author_t",
-    "type":"text_en",
+    "type":"text_search",
     "multiValued":true,
     "stored":true,
     "indexed":true
@@ -252,10 +260,32 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
-# Should this be string?
+# Shouldn't this be strings?
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
     "name":"oclc_t",
+    "type":"text_general",
+    "multiValued":true,
+    "stored":true,
+    "indexed":true
+  }
+}' $SOLR_CORE_URL/schema
+
+# Shouldn't this be strings?
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"isbn_t",
+    "type":"text_general",
+    "multiValued":true,
+    "stored":true,
+    "indexed":true
+  }
+}' $SOLR_CORE_URL/schema
+
+# Shouldn't this be strings?
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"issn_t",
     "type":"text_general",
     "multiValued":true,
     "stored":true,
@@ -273,17 +303,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
-# Should this be string?
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "add-field":{
-    "name":"issn_t",
-    "type":"text_general",
-    "multiValued":true,
-    "stored":true,
-    "indexed":true
-  }
-}' $SOLR_CORE_URL/schema
-
 # Must be single value
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":{
@@ -293,16 +312,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "indexed":false
   }
 }' $SOLR_CORE_URL/schema
-
-# Must be single value
-# curl -X POST -H 'Content-type:application/json' --data-binary '{
-#   "add-field":{
-#     "name":"abstract_display",
-#     "type":"strings",
-#     "stored":true,
-#     "indexed":false
-#   }
-# }' $SOLR_CORE_URL/schema
 
 # Must be single value
 curl -X POST -H 'Content-type:application/json' --data-binary '{
@@ -420,7 +429,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":{
     "name":"*spell",
-    "type":"text_general",
+    "type":"textSpell",
     "stored":false,
     "indexed": true
   }
