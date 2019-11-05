@@ -1,4 +1,4 @@
-MARC_PATH=~/data/combined_*.mrc
+MARC_PATH=~/data/combined/combined_*.mrc
 SOLR_URL=http://localhost:8983/solr/cjkdemo
 
 echo "Import started at $(date)" >combined.txt
@@ -14,4 +14,4 @@ done
 
 echo "Done importing at $(date)" >>combined.txt
 
-# grep -v "/Users/hectorcorrea/.gem" combined.txt
+grep -v "/Users/hectorcorrea/.gem" combined.txt > combined_small.txt
