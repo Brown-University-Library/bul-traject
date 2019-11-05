@@ -87,6 +87,10 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 # This field type is used to emulate the "text" field in Solr 4 that
 # included the ICUFoldingFilterFactory and SnowballPorterFilterFactory
 # filters.
+#
+# Don't omitNorms for this field.
+# See https://stackoverflow.com/questions/29103155/solr-exact-match-boost-over-text-containing-the-exact-match
+#
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field-type" : {
      "name":"text_search",
@@ -94,7 +98,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
      "positionIncrementGap":"100",
      "multiValued":true,
      "sortMissingLast":"true",
-     "omitNorms":"true",
      "indexAnalyzer" : {
         "tokenizer":{"class":"solr.StandardTokenizerFactory"},
         "filters":[
