@@ -2,7 +2,7 @@ SOLR_CORE="cjkdemo"
 SOLR_PORT="8983"
 SOLR_CORE_URL="http://localhost:$SOLR_PORT/solr/$SOLR_CORE"
 SOLR_RELOAD_URL="http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE"
-SOLR_CONF_PATH="/Users/hectorcorrea/solr-7.4.0/server/solr/$SOLR_CORE/conf"
+SOLR_CONF_PATH="/Users/hectorcorrea/solr-7.5.0/server/solr/$SOLR_CORE/conf"
 SOLR_CONFIG_XML="$SOLR_CONF_PATH/solrconfig.xml"
 STOPWORDS_FILE="$SOLR_CONF_PATH/stopwords.txt"
 STOPWORDS_EN_FILE="$SOLR_CONF_PATH/lang/stopwords_en.txt"
@@ -135,6 +135,39 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
             "class":"solr.SnowballPorterFilterFactory"
           }
       ]
+    }
+  }
+}' $SOLR_CORE_URL/schema
+
+
+# Similar to text_search but we don't use stemming.
+#
+# Note: As a future enhancement we can also drop the StopFilterFactory
+# but that affects search results significantly -- we'll evaluate this
+# after the Solr 7 migration.
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field-type" : {
+     "name":"text_unstem_search",
+     "class":"solr.TextField",
+     "positionIncrementGap":"100",
+     "multiValued":true,
+     "sortMissingLast":"true",
+     "indexAnalyzer" : {
+        "tokenizer": {"class":"solr.StandardTokenizerFactory"},
+        "filters":[
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.StopFilterFactory", "words":"stopwords.txt", "ignoreCase": "true" },
+          { "class":"solr.ICUFoldingFilterFactory" }
+        ]
+    },
+    "queryAnalyzer" : {
+        "tokenizer":{"class":"solr.StandardTokenizerFactory"},
+        "filters":[
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.ICUFoldingFilterFactory" },
+          { "class":"solr.StopFilterFactory", "words":"stopwords.txt", "ignoreCase": "true" },
+          { "class":"solr.SynonymGraphFilterFactory", "expand": "true", "synonyms": "synonyms.txt", "ignoreCase": "true" }
+        ]
     }
   }
 }' $SOLR_CORE_URL/schema
@@ -423,7 +456,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":{
     "name":"*_unstem_search",
-    "type":"text_general",
+    "type":"text_unstem_search",
     "stored":false,
     "indexed":true
   }
