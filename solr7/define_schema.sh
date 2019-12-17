@@ -172,6 +172,60 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
+# Similar to text_search but we don't use stemming or stop words.
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field-type" : {
+     "name":"text_strict_search",
+     "class":"solr.TextField",
+     "positionIncrementGap":"100",
+     "multiValued":true,
+     "sortMissingLast":"true",
+     "indexAnalyzer" : {
+        "tokenizer": {"class":"solr.StandardTokenizerFactory"},
+        "filters":[
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.ICUFoldingFilterFactory" }
+        ]
+    },
+    "queryAnalyzer" : {
+        "tokenizer":{"class":"solr.StandardTokenizerFactory"},
+        "filters":[
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.ICUFoldingFilterFactory" },
+          { "class":"solr.SynonymGraphFilterFactory", "expand": "true", "synonyms": "synonyms.txt", "ignoreCase": "true" }
+        ]
+    }
+  }
+}' $SOLR_CORE_URL/schema
+
+# Similar to text_search but we don't use stemming or stop words
+# and we use the keyword tokenizer to try to boost exact matches.
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field-type" : {
+     "name":"text_strict_key_search",
+     "class":"solr.TextField",
+     "positionIncrementGap":"100",
+     "multiValued":true,
+     "sortMissingLast":"true",
+     "indexAnalyzer" : {
+        "tokenizer": {"class":"solr.KeywordTokenizerFactory"},
+        "filters":[
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.ICUFoldingFilterFactory" }
+        ]
+    },
+    "queryAnalyzer" : {
+        "tokenizer":{"class":"solr.KeywordTokenizerFactory"},
+        "filters":[
+          { "class":"solr.LowerCaseFilterFactory" },
+          { "class":"solr.ICUFoldingFilterFactory" },
+          { "class":"solr.SynonymGraphFilterFactory", "expand": "true", "synonyms": "synonyms.txt", "ignoreCase": "true" }
+        ]
+    }
+  }
+}' $SOLR_CORE_URL/schema
+
+
 # ====================
 # Fields
 #
@@ -464,6 +518,24 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":{
+    "name":"*_strict_search",
+    "type":"text_strict_search",
+    "stored":false,
+    "indexed":true
+  }
+}' $SOLR_CORE_URL/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-dynamic-field":{
+    "name":"*_strict_key_search",
+    "type":"text_strict_key_search",
+    "stored":false,
+    "indexed":true
+  }
+}' $SOLR_CORE_URL/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-dynamic-field":{
     "name":"*spell",
     "type":"textSpell",
     "stored":false,
@@ -490,55 +562,55 @@ echo "Defining copy fields..."
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"title_display",
-    "dest":[ "title_unstem_search" ]}
+    "dest":[ "title_unstem_search", "title_strict_search", "title_strict_key_search" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"title_t",
-    "dest":[ "title_other_unstem_search", "opensearch_display" ]}
+    "dest":[ "title_other_unstem_search", "title_other_strict_search", "title_other_strict_key_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"subtitle_t",
-    "dest":[ "subtitle_other_unstem_search", "opensearch_display" ]}
+    "dest":[ "subtitle_other_unstem_search", "subtitle_other_strict_search", "subtitle_other_strict_key_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"title_series_t",
-    "dest":[ "title_series_unstem_search", "opensearch_display" ]}
+    "dest":[ "title_series_unstem_search", "title_series_strict_search", "title_series_strict_key_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"author_t",
-    "dest":[ "author_unstem_search", "opensearch_display" ]}
+    "dest":[ "author_unstem_search", "author_strict_search", "author_strict_key_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"author_addl_t",
-    "dest":[ "author_addl_unstem_search", "opensearch_display" ]}
+    "dest":[ "author_addl_unstem_search", "author_addl_strict_search", , "author_addl_strict_key_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"subject_t",
-    "dest":[ "subject_unstem_search", "opensearch_display" ]}
+    "dest":[ "subject_unstem_search", "subject_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"subject_addl_t",
-    "dest":[ "subject_addl_unstem_search", "opensearch_display" ]}
+    "dest":[ "subject_addl_unstem_search", "subject_addl_strict_search", "subject_addl_strict_key_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"subject_topic_facet",
-    "dest":[ "subject_topic_unstem_search", "opensearch_display" ]}
+    "dest":[ "subject_topic_unstem_search", "subject_topic_strict_search", "subject_topic_strict_key_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
