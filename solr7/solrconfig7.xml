@@ -775,26 +775,20 @@
             http://wiki.apache.org/solr/LocalParams
        -->
        <str name="qf">
-         title_strict_key_search^20000
          title_strict_search^10000
          title_unstem_search^5000
-         title_other_strict_key_search^2000
          title_other_strict_search^1000
          title_other_unstem_search^500
          title_t^250
-         title_series_strict_key_search^300
          title_series_strict_search^150
          title_series_unstem_search^75
          title_series_t^75
-         author_strict_key_search^8000
          author_strict_search^4000
          author_unstem_search^2000
          author_t^100
-         author_addl_strict_key_search^300
          author_addl_strict_search^150
          author_addl_unstem_search^75
          author_addl_t^50
-         subject_strict_key_search^200
          subject_strict_search^100
          subject_unstem_search^50
          subject_t^25
@@ -804,85 +798,67 @@
          text
        </str>
        <str name="pf">
-         title_strict_key_search^20000
          title_strict_search^10000
          title_unstem_search^5000
-         title_other_strict_key_search^2000
          title_other_strict_search^1000
          title_other_unstem_search^500
          title_t^250
-         title_series_strict_key_search^300
          title_series_strict_search^150
          title_series_unstem_search^75
          title_series_t^75
-         author_strict_key_search^8000
          author_strict_search^4000
          author_unstem_search^2000
          author_t^100
-         author_addl_strict_key_search^300
          author_addl_strict_search^150
          author_addl_unstem_search^75
          author_addl_t^50
-         subject_strict_key_search^200
          subject_strict_search^100
          subject_unstem_search^50
          subject_t^25
          text
        </str>
        <str name="author_qf">
-         author_strict_key_search^6000
          author_strict_search^3000
          author_unstem_search^1500
-         author_addl_strict_key_search^1000
          author_addl_strict_search^500
          author_addl_unstem_search^250
          author_t^20
          author_addl_t
        </str>
        <str name="author_pf">
-         author_strict_key_search^6000
          author_strict_search^3000
          author_unstem_search^1500
-         author_addl_strict_key_search^1000
          author_addl_strict_search^500
          author_addl_unstem_search^250
          author_t^20
          author_addl_t
        </str>
        <str name="title_qf">
-         title_strict_key_search^20000
          title_strict_search^10000
          title_unstem_search^5000
-         title_other_strict_key_search^2000
          title_other_strict_search^1000
          title_other_unstem_search^500
          title_t^250
-         title_series_strict_key_search^300
          title_series_strict_search^150
          title_series_unstem_search^75
          title_series_t^75
        </str>
        <str name="title_pf">
-         title_strict_key_search^20000
          title_strict_search^10000
          title_unstem_search^5000
-         title_other_strict_key_search^2000
          title_other_strict_search^1000
          title_other_unstem_search^500
          title_t^250
-         title_series_strict_key_search^300
          title_series_strict_search^150
          title_series_unstem_search^75
          title_series_t^75
        </str>
        <str name="subject_qf">
-         subject_strict_key_search^200
          subject_strict_search^100
          subject_unstem_search^50
          subject_t^25
        </str>
        <str name="subject_pf">
-         subject_strict_key_search^200
          subject_strict_search^100
          subject_unstem_search^50
          subject_t^25
