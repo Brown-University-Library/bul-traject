@@ -1,8 +1,25 @@
-SOLR_CORE="cjkdemo"
+#!/bin/bash
+# IMPORTANT: In production this script must be executed as the application user
+
+# exit upon error
+set -e
+
+# == UPDATE THESE FOR PRODUCTION ==
+SOLR_CORE="josiah7"
 SOLR_PORT="8983"
+SOLR_EXE=/Users/hectorcorrea/solr-7.5.0/bin/solr
+SOLR_CONF_PATH="/Users/hectorcorrea/solr-7.5.0/server/solr/$SOLR_CORE/conf"
+BASE_CONFIG_FILE=/Users/hectorcorrea/dev/bul-traject/solr7/solrconfig7.xml
+BASE_SYNONYMS_FILE=/Users/hectorcorrea/dev/bul-traject/solr7/synonyms7.txt
+
+# Required for Solr to use the newer version of java
+# export SOLR_JAVA_HOME="/etc/alternatives/jre_openjdk"
+#
+# =================================
+
 SOLR_CORE_URL="http://localhost:$SOLR_PORT/solr/$SOLR_CORE"
 SOLR_RELOAD_URL="http://localhost:$SOLR_PORT/solr/admin/cores?action=RELOAD&core=$SOLR_CORE"
-SOLR_CONF_PATH="/Users/hectorcorrea/solr-7.5.0/server/solr/$SOLR_CORE/conf"
+
 SOLR_CONFIG_XML="$SOLR_CONF_PATH/solrconfig.xml"
 STOPWORDS_FILE="$SOLR_CONF_PATH/stopwords.txt"
 STOPWORDS_EN_FILE="$SOLR_CONF_PATH/lang/stopwords_en.txt"
@@ -13,21 +30,21 @@ SYNONYMS_FILE="$SOLR_CONF_PATH/synonyms.txt"
 # Recreate the Solr core and update the solrconfig.xml file
 # ====================
 echo "Recreating core: $SOLR_CORE_URL ..."
-solr delete -c $SOLR_CORE
-solr create -c $SOLR_CORE
-solr config -c $SOLR_CORE -p $SOLR_PORT -action set-user-property -property update.autoCreateFields -value false
+$SOLR_EXE delete -c $SOLR_CORE -p $SOLR_PORT
+$SOLR_EXE create -c $SOLR_CORE -p $SOLR_PORT
+$SOLR_EXE config -c $SOLR_CORE -p $SOLR_PORT -action set-user-property -property update.autoCreateFields -value false
 
 echo "Updating config files..."
 echo "$SOLR_RELOAD_URL"
 
 # Our custom solrconfig to mimic Solr 4 behavior that Blacklight needs
-cp ./solr7/solrconfig7.xml $SOLR_CONFIG_XML
+cp $BASE_CONFIG_FILE $SOLR_CONFIG_XML
 
 # Use english stop words for text_general fields (to behave like our Solr 4 instance did)
 cp $STOPWORDS_EN_FILE $STOPWORDS_FILE
 
 # Use our custom synonyms file
-cp ./solr7/synonyms7.txt $SYNONYMS_FILE
+cp $BASE_SYNONYMS_FILE $SYNONYMS_FILE
 
 echo "Loading new config..."
 curl "$SOLR_RELOAD_URL"
@@ -200,6 +217,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 # Similar to text_search but we don't use stemming or stop words
 # and we use the keyword tokenizer to try to boost exact matches.
+# Not used because it causes issues with multi-word searches.
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field-type" : {
      "name":"text_strict_key_search",
@@ -562,37 +580,37 @@ echo "Defining copy fields..."
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"title_display",
-    "dest":[ "title_unstem_search", "title_strict_search", "title_strict_key_search" ]}
+    "dest":[ "title_unstem_search", "title_strict_search" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"title_t",
-    "dest":[ "title_other_unstem_search", "title_other_strict_search", "title_other_strict_key_search", "opensearch_display" ]}
+    "dest":[ "title_other_unstem_search", "title_other_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"subtitle_t",
-    "dest":[ "subtitle_other_unstem_search", "subtitle_other_strict_search", "subtitle_other_strict_key_search", "opensearch_display" ]}
+    "dest":[ "subtitle_other_unstem_search", "subtitle_other_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"title_series_t",
-    "dest":[ "title_series_unstem_search", "title_series_strict_search", "title_series_strict_key_search", "opensearch_display" ]}
+    "dest":[ "title_series_unstem_search", "title_series_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"author_t",
-    "dest":[ "author_unstem_search", "author_strict_search", "author_strict_key_search", "opensearch_display" ]}
+    "dest":[ "author_unstem_search", "author_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"author_addl_t",
-    "dest":[ "author_addl_unstem_search", "author_addl_strict_search", , "author_addl_strict_key_search", "opensearch_display" ]}
+    "dest":[ "author_addl_unstem_search", "author_addl_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
@@ -604,13 +622,13 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"subject_addl_t",
-    "dest":[ "subject_addl_unstem_search", "subject_addl_strict_search", "subject_addl_strict_key_search", "opensearch_display" ]}
+    "dest":[ "subject_addl_unstem_search", "subject_addl_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
     "source":"subject_topic_facet",
-    "dest":[ "subject_topic_unstem_search", "subject_topic_strict_search", "subject_topic_strict_key_search", "opensearch_display" ]}
+    "dest":[ "subject_topic_unstem_search", "subject_topic_strict_search", "opensearch_display" ]}
 }' $SOLR_CORE_URL/schema
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
