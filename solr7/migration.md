@@ -139,6 +139,13 @@ Documents found: b4034277 and b4065326
 * Interesting query: "遠藤元男" with and without quotes.
 
 
+Warning. Nikitas reported an issue that crashes Solr 7 with certain CJK queries:
+
+  tampakis Jan 15, 2020 at 12:40 PM
+  Beware Blacklighters using the CJKBigram filter, really long search queries in the CJK scripts can crash your Solrs, try (in a staging/dev environment): 급 한국사 : 지식의 빈틈을 메워 주는 역사 잡학 사전 / 김상훈著.
+
+Apparently this was fixed in Solr 8.x https://issues.apache.org/jira/browse/SOLR-13336
+
 
 ## Solr 7 changes
 
@@ -163,7 +170,7 @@ the old default."): https://bitbucket.org/bul/bdr_solr_conf/commits/40fe0d387b3f
 
 
 ## LocalParams
-Local Parameters have been drastically changed in Solr 7, they are [not supported by default](https://lucene.apache.org/solr/guide/7_5/solr-upgrade-notes.html) unless you are using the Lucene parser as the starting point.
+Local Parameters have been drastically changed in Solr 7, they are [not supported by default](https://lucene.apache.org/solr/guide/7_5/solr-upgrade-notes.html#solr-7-2) unless you are using the Lucene parser as the starting point.
 
 In Solr 4 (using `defType=dismax`) the search `q={!dismax%20qf=title_t}gothic&rows=0&debug=true` searches for the word "gothic" in `title_f` but also on all the fields indicated in `qf` value in solrconfig.xml (title_unstem_search, title_series_t, author_addl_t, ...)
 
@@ -299,4 +306,9 @@ Solr 4
     author_addl_unstem_search:\"davis ? edward\"~3^500.0 |
     author_unstem_search:\"davis ? edward\"~3^2000.0)~0.01",
 ```
+
+## To use to not to use stop words
+Now that we are not using stop words in the title we are getting much better results on items where the title was only stop words. For example, book "There There" used **not** to be found, but now it is found as expected on a normal search
+
+https://search.library.brown.edu/catalog?utf8=%E2%9C%93&search_field=all_fields&q=there+there
 
