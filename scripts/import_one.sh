@@ -1,5 +1,5 @@
-MARC_FILE=~/data/combined_09.mrc
-SOLR_URL=http://localhost:8983/solr/cjkdemo
+MARC_FILE=~/data/combined/combined_09.mrc
+SOLR_URL=http://localhost:8983/solr/josiah7
 #SOLR_URL=http://localhost:8081/solr/blacklight-core
 
 echo "Importing"
