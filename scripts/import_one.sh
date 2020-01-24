@@ -1,6 +1,6 @@
-MARC_FILE=~/data/combined/combined_09.mrc
+MARC_FILE=~/data/combined/combined_06.mrc
 SOLR_URL=http://localhost:8983/solr/josiah7
-#SOLR_URL=http://localhost:8081/solr/blacklight-core
+export CJK=true
 
 echo "Importing"
 echo "  $MARC_FILE"
