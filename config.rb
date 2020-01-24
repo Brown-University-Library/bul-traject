@@ -298,24 +298,46 @@ to_field "marc_display", serialized_marc(:format => "json", :allow_oversized => 
 to_field "bookplate_code_facet", extract_marc("945f")
 to_field "bookplate_code_ss", extract_marc("935a:945f")
 
-# =====================
-# TEST CODE FOR CJK
-# =====================
-# Authors for CJK languages
-# lang_lambda = marc_languages("008[35-37]:041a:041d:041e:041j")
-# author_vern_lambda = extract_marc('100abcdq:110abcd:111abcd', :alternate_script=>:only)
-# to_field "author_cjk" do |rec, acc, context|
-#   langs = lang_lambda.call(rec,[])
-#   if langs == ["English"]
-#     # nothing to do for 80% of our materials
-#   else
-#     is_cjk = langs.include?("Chinese") || langs.include?("Japanese") || langs.include?("Korean")
-#     if is_cjk
-#       authors_cjk = []
-#       author_vern_lambda.call(rec,authors_cjk,nil)
-#       authors_cjk.each do |author|
-#         acc << author
-#       end
-#     end
-#   end
-# end
+if ENV["CJK"] == "true"
+  puts "====> Processing CJK fields..."
+  lang_lambda = marc_languages("008[35-37]:041a:041d:041e:041j")
+
+  # Authors for CJK languages
+  author_vern_lambda = extract_marc('100abcdq:110abcd:111abcd:700abcd:710ab:711ab', :alternate_script=>:only)
+  to_field "author_txt_cjk" do |rec, acc, context|
+    langs = lang_lambda.call(rec,[])
+    if langs.count == 0 || (langs.count == 1 && langs[0] == "English")
+      # nothing to do for 80% of our materials
+    else
+      is_cjk = langs.include?("Chinese") || langs.include?("Japanese") || langs.include?("Korean")
+      if is_cjk
+        authors_cjk = []
+        author_vern_lambda.call(rec,authors_cjk,nil)
+        authors_cjk.each do |author|
+          acc << author
+        end
+      end
+    end
+  end
+
+  # Title for CJK languages
+  title_fields = "100tflnp:110tflnp:111tfklpsv:130adfklmnoprst:210ab:222ab:" +
+    "240adfklmnoprs:242abnp:245abfgknp:246abnp:247abnp:260a:490a:505t:700fklmnoprstv:710fklmorstv" +
+    "711fklpt:730adfklmnoprstv:740ap"
+  title_vern_lambda = extract_marc(title_fields, :alternate_script=>:only)
+  to_field "title_txt_cjk" do |rec, acc, context|
+    langs = lang_lambda.call(rec,[])
+    if langs.count == 0 || (langs.count == 1 && langs[0] == "English")
+      # nothing to do for 80% of our materials
+    else
+      is_cjk = langs.include?("Chinese") || langs.include?("Japanese") || langs.include?("Korean")
+      if is_cjk
+        titles_cjk = []
+        title_vern_lambda.call(rec,titles_cjk,nil)
+        titles_cjk.each do |title|
+          acc << title
+        end
+      end
+    end
+  end
+end
