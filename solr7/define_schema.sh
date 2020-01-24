@@ -502,6 +502,25 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' $SOLR_CORE_URL/schema
 
+
+# CJK support
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"author_txt_cjk",
+    "type":"text_cjk",
+    "multiValued":true
+  }
+}' $SOLR_CORE_URL/schema
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":{
+    "name":"title_txt_cjk",
+    "type":"text_cjk",
+    "multiValued":true
+  }
+}' $SOLR_CORE_URL/schema
+
+
 # ====================
 # Dynamic fields
 # ====================
