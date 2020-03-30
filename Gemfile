@@ -11,3 +11,5 @@ if is_jruby
 else
   gem 'byebug'
 end
+
+gem "lcsort", '0.9.1'

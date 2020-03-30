@@ -9,6 +9,8 @@ if is_jruby
   require 'traject/marc4j_reader'
 end
 
+require 'lcsort'
+
 #Translation maps.
 # './lib/translation_maps/'
 $:.unshift  "#{File.dirname(__FILE__)}/lib"
@@ -274,6 +276,24 @@ to_field "callnumber_std_ss" do |record, acc|
   end
 end
 
+
+to_field "callnumber_norm_ss" do |record, acc|
+
+  # Get the call number as usual (see above)...
+  bib_callnumbers = []
+  cn_lambda = extract_marc(callnumber_spec, :trim_punctuation => false)
+  cn_lambda.call(record, bib_callnumbers, nil)
+  item_callnumbers = callnumbers_from_945(record)
+
+  # ...and then calculate a normalized value for each of them
+  all = (bib_callnumbers + item_callnumbers).map {|x| x.upcase.strip}
+  all.compact.uniq.sort.each do |cn|
+    cn_norm = Lcsort.normalize(cn)
+    if cn_norm != nil
+      acc << cn_norm
+    end
+  end
+end
 
 #Text - for search
 to_field "text", extract_all_marc_values(:from=>'090', :to=>'900')
