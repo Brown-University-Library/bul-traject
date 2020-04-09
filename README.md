@@ -1,6 +1,7 @@
 # bul-traject
 This project transforms Brown's MARC records into Solr documents using
-[Traject](https://github.com/traject-project/traject) gem.
+[Traject](https://github.com/traject-project/traject) gem. This is what
+populates the Solr core for the [Brown Discovery project](https://github.com/Brown-University-Library/bul-search)
 
 
 ## Pre-requisites
