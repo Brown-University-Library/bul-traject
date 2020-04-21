@@ -1,15 +1,6 @@
 *.env
-debug_output.txt
-#MARC files opened with MARCEdit
-*.mrk
 .DS_Store
 .byebug_history
 bin/*
-data/*
 tmp/*
-
 Gemfile.lock
-
-test_config.rb
-tc_format.rb
-vufind.properties

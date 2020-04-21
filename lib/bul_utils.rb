@@ -1,7 +1,27 @@
 require 'traject'
-# require 'byebug'
-#shortcut
+require "json"
 MarcExtractor = Traject::MarcExtractor
+
+
+def brd_items_cache()
+  @bdr_items_cache ||= begin
+    if File.exists?("bdr2cat.json")
+      puts "Reading bdr2cat"
+      text = File.read("bdr2cat.json")
+      json = JSON.parse(text)
+      cache = {}
+      json["response"]["docs"].each do |doc|
+        key = doc["cat_bib"][0..-2]
+        value = doc["bdr_url"]
+        cache[key] = value
+      end
+      cache
+    else
+      puts "No bdr2cat"
+      {}
+    end
+  end
+end
 
 # Gets the record ID (MARC 907a) form the record passed as a parameter.
 # Notice that BulMacros::record_id uses an available record variable on scope.
@@ -62,6 +82,13 @@ def is_online(record)
       return true
     end
   end
+
+  # We have a digitized version in the BDR
+  bib = record_id.call(record, []).first
+  if bib != nil && brd_items_cache()[bib] != nil
+    return true
+  end
+
   return false
 end
 

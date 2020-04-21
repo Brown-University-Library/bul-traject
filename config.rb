@@ -170,9 +170,41 @@ end
 to_field "pub_date", marc_publication_date
 
 #URL Fields - these will have to be custom, most likely.
-to_field "url_fulltext_display", extract_marc("856u")
-to_field "url_suppl_display", extract_marc("856z")
+# to_field "url_fulltext_display", extract_marc("856u")
+# to_field "url_suppl_display", extract_marc("856z")
 
+to_field "url_fulltext_display" do |record, accumulator, context|
+  if context.clipboard[:is_online]
+    values = []
+    x856u = extract_marc("856u")
+    x856u.call(record, values, nil)
+    if values.count > 0
+      # Use the 856 value (notice that we only support one value)
+      accumulator << values[0]
+    else
+      # No 856 value, see if we have a BDR link
+      bib = record_id.call(record, []).first
+      bdr_url = brd_items_cache()[bib]
+      if bib != nil && bdr_url != nil
+        accumulator << bdr_url
+      end
+    end
+  end
+end
+
+to_field "url_suppl_display" do |record, accumulator, context|
+  if context.clipboard[:is_online]
+    values = []
+    x856z = extract_marc("856z")
+    x856z.call(record, values, nil)
+    if values.count > 0
+      # Use the 856 value (notice that we only support one value)
+      accumulator << values[0]
+    else
+      # Nothing to do - let Josiah use the default "Available Online" label.
+    end
+  end
+end
 
 #Online true/false
 to_field "online_b" do |record, accumulator, context|
