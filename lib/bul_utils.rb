@@ -5,9 +5,8 @@ MarcExtractor = Traject::MarcExtractor
 
 def brd_items_cache()
   @bdr_items_cache ||= begin
-    if File.exists?("bdr2cat.json")
-      puts "Reading bdr2cat"
-      text = File.read("bdr2cat.json")
+    if File.exists?("./data/bdr2cat.json")
+      text = File.read("./data/bdr2cat.json")
       json = JSON.parse(text)
       cache = {}
       json["response"]["docs"].each do |doc|
@@ -17,7 +16,6 @@ def brd_items_cache()
       end
       cache
     else
-      puts "No bdr2cat"
       {}
     end
   end
