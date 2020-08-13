@@ -24,7 +24,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    byebug (9.0.5)
     concurrent-ruby (0.8.0)
       ref (~> 1.0, >= 1.0.5)
     concurrent-ruby (0.8.0-java)
@@ -68,7 +67,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
   lcsort (= 0.9.1)
   marc
   rspec
