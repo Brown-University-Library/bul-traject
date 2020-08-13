@@ -2,6 +2,8 @@ require 'traject'
 require "json"
 MarcExtractor = Traject::MarcExtractor
 
+CLASSIC_JOSIAH_URL = "http://josiah.brown.edu/record="
+NEW_JOSIAH_URL = "http://search.library.brown.edu/catalog/"
 
 def brd_items_cache()
   @bdr_items_cache ||= begin
@@ -19,6 +21,53 @@ def brd_items_cache()
       {}
     end
   end
+end
+
+def proquest_items_cache()
+  @proquest_items_cache ||= begin
+    if File.exists?("./data/proquest.tsv")
+      cache = {}
+      File.readlines("./data/proquest.tsv").each_with_index do |line, ix|
+        tokens = line.split("\t")
+        bib = tokens[0]
+        proquest_id = tokens[1]
+        if bib.start_with?("b")
+          cache[bib] = "https://search.proquest.com/docview/#{proquest_id}?accountid=9758"
+        end
+      end
+      cache
+    else
+      {}
+    end
+  end
+end
+
+# The input parameters usually come from MARC 856 field:
+#   url is 856 u
+#   note is 856 z
+#   materials is 856 3
+def online_avail_data(url, note, materials = nil)
+    if url.start_with?(CLASSIC_JOSIAH_URL)
+      url = url.gsub(CLASSIC_JOSIAH_URL, NEW_JOSIAH_URL)
+    else
+      url = url
+      if !url.start_with?("http://") && !url.start_with?("https://")
+        url = "http://#{url}"
+      end
+    end
+
+    label = ""
+    if note == nil && materials == nil
+      label = "Available online"
+    elsif note == nil && materials != nil
+      label = materials
+    elsif note != nil && materials == nil
+      label = note
+    else
+      label = "#{note} (#{materials})"
+    end
+
+    {url: url, text: label}
 end
 
 # Gets the record ID (MARC 907a) form the record passed as a parameter.
@@ -84,6 +133,11 @@ def is_online(record)
   # We have a digitized version in the BDR
   bib = record_id.call(record, []).first
   if bib != nil && brd_items_cache()[bib] != nil
+    return true
+  end
+
+  # We have an online copy available through ProQuest
+  if bib != nil && proquest_items_cache()[bib] != nil
     return true
   end
 
@@ -157,48 +211,3 @@ def callnumbers_from_945(record)
   end
   callnumbers
 end
-
-
-# def find_partial_callnumbers_old(record)
-#   new_callnumbers = []
-#
-#   x090ab = extract_marc("090ab", :trim_punctuation => false)
-#   x945ab = extract_marc("945ab", :trim_punctuation => false)
-#   x945cg = extract_marc("945cg", :trim_punctuation => false)   # c is volume, (g is copy?)
-#
-#   acc_945ab = []
-#   acc_945cg = []
-#   x945ab.call(record, acc_945ab, nil)
-#   x945cg.call(record, acc_945cg, nil)
-#   # Are there partial call numbers in 945cg (i.e. without 945ab values)
-#   if acc_945cg.count > 0 && acc_945ab.count == 0
-#
-#     acc_090ab = []
-#     x090ab.call(record, acc_090ab, nil)
-#     # ... but we have 090ab, let's build the complete call numbers
-#     # by combining the 090ab with the 945cg
-#     if acc_090ab.count > 0
-#       callnumber_stem = acc_090ab.join()
-#       f945 = record.select {|f| f.tag == "945"}
-#       f945.each do |f|
-#         c = f.subfields.find {|s| s.code == "c"}
-#         g = f.subfields.find {|s| s.code == "g"}
-#         # must use g.nil? rather than g != nil because g has its own ==
-#         # operator defined
-#         if !g.nil? && g.value == "1"
-#           g = nil
-#         end
-#         if c.nil? && g.nil?
-#           # nothing to add
-#         elsif !c.nil? && g.nil?
-#           new_callnumbers << callnumber_stem + " " + c.value.strip
-#         elsif c.nil? && !g.nil?
-#           new_callnumbers << callnumber_stem + " " + g.value.strip
-#         else
-#           new_callnumbers << callnumber_stem + " " + c.value.strip + " " + g.value.strip
-#         end
-#       end
-#     end
-#   end
-#   new_callnumbers
-# end

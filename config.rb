@@ -169,10 +169,13 @@ end
 
 to_field "pub_date", marc_publication_date
 
-#URL Fields - these will have to be custom, most likely.
-# to_field "url_fulltext_display", extract_marc("856u")
-# to_field "url_suppl_display", extract_marc("856z")
-
+# Currently the URL and the label are on separate fields
+# (url_fulltext_display and url_suppl_display) and therefore
+# we cannot handle more than one accurately since we cannot
+# guarantee that they are in the same order.
+#
+# These two fields will be removed once we updated the client
+# to use the new JSON field url_fulltext_json_s (see below)
 to_field "url_fulltext_display" do |record, accumulator, context|
   if context.clipboard[:is_online]
     values = []
@@ -203,6 +206,45 @@ to_field "url_suppl_display" do |record, accumulator, context|
     else
       # Nothing to do - let Josiah use the default "Available Online" label.
     end
+  end
+end
+
+# New field to store full text links as a single JSON string
+# that the client can parse. This allows us to handle more than
+# one full text link and its associated text accurately.
+to_field "url_fulltext_json_s" do |record, accumulator, context|
+  values = []
+
+  # Process the URLs from the 856 field
+  # (We add these links to Solr regardless of whether the
+  # record is marked as online or not)
+  f856 = record.select {|f| f.tag == "856"}
+  f856.each do |f|
+    u = subfield_value(f, "u") || ""
+    z = subfield_value(f, "z") || "Available Online"
+    f3 = subfield_value(f, "3")
+    if u.strip != ""
+      values << online_avail_data(u, z, f3)
+    end
+  end
+
+  if context.clipboard[:is_online]
+    # Add BRD URLs from our local cache.
+    bib = record_id.call(record, []).first
+    bdr_url = brd_items_cache()[bib]
+    if bib != nil && bdr_url != nil
+      values << online_avail_data(bdr_url, "Available Online")
+    end
+
+    # Add ProQuest URLs from our local cache.
+    proquest_url = proquest_items_cache()[bib]
+    if bib != nil && proquest_url != nil
+      values << online_avail_data(proquest_url, "Available Online (ProQuest)")
+    end
+  end
+
+  if values.count > 0
+    accumulator << values.to_json
   end
 end
 

@@ -1,4 +1,4 @@
-MARC_FILE=~/data/combined/combined_06.mrc
+MARC_FILE=~/data/combined/combined_05.mrc
 SOLR_URL=http://localhost:8983/solr/josiah7
 export CJK=true
 
