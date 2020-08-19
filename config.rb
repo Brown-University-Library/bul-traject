@@ -239,7 +239,7 @@ to_field "url_fulltext_json_s" do |record, accumulator, context|
     # Add ProQuest URLs from our local cache.
     proquest_url = proquest_items_cache()[bib]
     if bib != nil && proquest_url != nil
-      values << online_avail_data(proquest_url, "Available Online (ProQuest)")
+      values << online_avail_data(proquest_url, "Full text available from ProQuest Dissertations & Theses Global (Brown community)")
     end
   end
 
