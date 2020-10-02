@@ -211,3 +211,30 @@ def callnumbers_from_945(record)
   end
   callnumbers
 end
+
+# def items_from_945(record)
+#   items = []
+#   f945 = record.select {|f| f.tag == "945"}
+#   f945.each do |f|
+#     id = subfield_value(f, "y")
+#     if id != ""
+#       barcode = subfield_value(f, "i")
+#       item = {item_id: id, barcode: barcode}
+#       items << item
+#     end
+#   end
+#   items
+# end
+
+# Applies a few character normalizations to a text. This is to handle
+# transformations not supported by Solr's own ICU Folding Filter
+# https://lucene.apache.org/solr/guide/7_7/filter-descriptions.html
+def intl_char_norm(value)
+  if value.include?("ʻ")
+    # This character is often found in Romanized versions of Korean names and
+    # titles (e.g. "Sŏngtʻanje : Pak Tʻae-wŏn chʻangjakjip") but US users tend
+    # to enter a single tick (') instead.
+    return value.gsub("ʻ", "'")
+  end
+  value
+end
