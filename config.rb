@@ -214,6 +214,7 @@ end
 # one full text link and its associated text accurately.
 to_field "url_fulltext_json_s" do |record, accumulator, context|
   values = []
+  link_856 = false
 
   # Process the URLs from the 856 field
   # (We add these links to Solr regardless of whether the
@@ -225,20 +226,23 @@ to_field "url_fulltext_json_s" do |record, accumulator, context|
     f3 = subfield_value(f, "3")
     if u.strip != ""
       values << online_avail_data(u, z, f3)
+      link_856 = true
     end
   end
 
-  if context.clipboard[:is_online]
+  # Only add these links manually only if we did not add them
+  # through MARC 856.
+  if context.clipboard[:is_online] && !link_856
     # Add BRD URLs from our local cache.
     bib = record_id.call(record, []).first
     bdr_url = brd_items_cache()[bib]
-    if bib != nil && bdr_url != nil
+    if bdr_url != nil
       values << online_avail_data(bdr_url, "Available Online")
     end
 
     # Add ProQuest URLs from our local cache.
     proquest_url = proquest_items_cache()[bib]
-    if bib != nil && proquest_url != nil
+    if proquest_url != nil
       values << online_avail_data(proquest_url, "Full text available from ProQuest Dissertations & Theses Global (Brown community)")
     end
   end

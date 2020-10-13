@@ -130,16 +130,25 @@ def is_online(record)
     end
   end
 
-  # We have a digitized version in the BDR
+  # =================
+  # NOTE: We use the local cache files to determine if some BDR and ProQuest
+  # records should be flagged as online because in the catalog the bib and
+  # item information are for the physical copy of the record (hence not
+  # marked as "online") and the data in the 856 with the link is not enough
+  # to flag them as "online". But since these records are indeed available
+  # online this extra logic makes sure they are flagged as such.
+  #
   bib = record_id.call(record, []).first
-  if bib != nil && brd_items_cache()[bib] != nil
+  if brd_items_cache()[bib] != nil
+    # We have a digitized version in the BDR
     return true
   end
 
-  # We have an online copy available through ProQuest
-  if bib != nil && proquest_items_cache()[bib] != nil
+  if proquest_items_cache()[bib] != nil
+    # We have an online copy available through ProQuest
     return true
   end
+  # =================
 
   return false
 end
