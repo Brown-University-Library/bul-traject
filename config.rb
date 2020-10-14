@@ -69,26 +69,21 @@ to_field 'issn_t', extract_marc("022a:022l:022y:773x:774x:776x", :separator => n
 to_field 'oclc_t', oclcnum('001:035a:035z')
 
 # Title fields
-to_field 'title_t', extract_marc(%w(
-  100tflnp
-  110tflnp
-  111tfklpsv
-  130adfklmnoprst
-  210ab
-  222ab
-  240adfklmnoprs
-  242abnp
-  246abnp
-  247abnp
-  505t
-  700fklmnoprstv
-  710fklmorstv
-  711fklpt
-  730adfklmnoprstv
-  740ap
-  ),
-  :trim_punctuation => true
-)
+title_fields = '100tflnp:110tflnp:111tfklpsv:130adfklmnoprst:210ab:222ab:240adfklmnoprs:242abnp:' +
+  '245abfgknp:246abnp:247abnp:505t:700fklmnoprstv:710fklmorstv:711fklpt:730adfklmnoprstv:740ap'
+title_lambda = extract_marc(title_fields, :trim_punctuation => true)
+to_field "title_t" do |rec, acc, context|
+  values = []
+  title_lambda.call(rec,values,nil)
+  values.each do |value|
+    acc << value
+    value_norm = intl_char_norm(value)  # custom character normalization
+    if value_norm != value
+      acc << value_norm
+    end
+  end
+end
+
 to_field 'title_display', extract_marc('245abfgknp', :first=>true, :trim_punctuation => true)
 to_field 'title_vern_display', extract_marc('245abfgknp', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field 'title_series_t', extract_marc(%w(
@@ -142,7 +137,20 @@ end
 to_field "author_display", extract_marc("100abcdq:110abcd:111abcd", :first=>true, :trim_punctuation => true)
 to_field "author_vern_display", extract_marc('100abcdq:110abcd:111abcd', :alternate_script=>:only, :trim_punctuation => true, :first=>true)
 to_field "author_addl_display", extract_marc('700abcd:710ab:711ab', :trim_punctuation => true)
-to_field "author_t", extract_marc('100abcdq:110abcd:111abcdeq', :trim_punctuation => true)
+
+author_lambda = extract_marc('100abcdq:110abcd:111abcdeq', :trim_punctuation => true)
+to_field "author_t" do |rec, acc, context|
+  values = []
+  author_lambda.call(rec,values,nil)
+  values.each do |value|
+    acc << value
+    value_norm = intl_char_norm(value)  # custom character normalization
+    if value_norm != value
+      acc << value_norm
+    end
+  end
+end
+
 to_field 'author_addl_t', extract_marc("700abcdq:710abcd:711abcdeq:810abc:811aqdce")
 to_field "author_sort", extract_marc("100abcd:110abcd:111abc:110ab:700abcd:710ab:711ab", :first=>true)
 
