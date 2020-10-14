@@ -3,4 +3,5 @@
 .byebug_history
 bin/*
 tmp/*
+vendor/bundle
 Gemfile.lock
