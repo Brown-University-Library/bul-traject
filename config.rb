@@ -159,45 +159,45 @@ end
 
 to_field "pub_date", marc_publication_date
 
-# Currently the URL and the label are on separate fields
-# (url_fulltext_display and url_suppl_display) and therefore
-# we cannot handle more than one accurately since we cannot
-# guarantee that they are in the same order.
-#
-# These two fields will be removed once we updated the client
-# to use the new JSON field url_fulltext_json_s (see below)
-to_field "url_fulltext_display" do |record, accumulator, context|
-  if context.clipboard[:is_online]
-    values = []
-    x856u = extract_marc("856u")
-    x856u.call(record, values, nil)
-    if values.count > 0
-      # Use the 856 value (notice that we only support one value)
-      accumulator << values[0]
-    else
-      # No 856 value, see if we have a BDR link
-      bib = record_id.call(record, []).first
-      bdr_url = brd_items_cache()[bib]
-      if bib != nil && bdr_url != nil
-        accumulator << bdr_url
-      end
-    end
-  end
-end
+# # Currently the URL and the label are on separate fields
+# # (url_fulltext_display and url_suppl_display) and therefore
+# # we cannot handle more than one accurately since we cannot
+# # guarantee that they are in the same order.
+# #
+# # These two fields will be removed once we updated the client
+# # to use the new JSON field url_fulltext_json_s (see below)
+# to_field "url_fulltext_display" do |record, accumulator, context|
+#   if context.clipboard[:is_online]
+#     values = []
+#     x856u = extract_marc("856u")
+#     x856u.call(record, values, nil)
+#     if values.count > 0
+#       # Use the 856 value (notice that we only support one value)
+#       accumulator << values[0]
+#     else
+#       # No 856 value, see if we have a BDR link
+#       bib = record_id.call(record, []).first
+#       bdr_url = brd_items_cache()[bib]
+#       if bib != nil && bdr_url != nil
+#         accumulator << bdr_url
+#       end
+#     end
+#   end
+# end
 
-to_field "url_suppl_display" do |record, accumulator, context|
-  if context.clipboard[:is_online]
-    values = []
-    x856z = extract_marc("856z")
-    x856z.call(record, values, nil)
-    if values.count > 0
-      # Use the 856 value (notice that we only support one value)
-      accumulator << values[0]
-    else
-      # Nothing to do - let Josiah use the default "Available Online" label.
-    end
-  end
-end
+# to_field "url_suppl_display" do |record, accumulator, context|
+#   if context.clipboard[:is_online]
+#     values = []
+#     x856z = extract_marc("856z")
+#     x856z.call(record, values, nil)
+#     if values.count > 0
+#       # Use the 856 value (notice that we only support one value)
+#       accumulator << values[0]
+#     else
+#       # Nothing to do - let Josiah use the default "Available Online" label.
+#     end
+#   end
+# end
 
 # New field to store full text links as a single JSON string
 # that the client can parse. This allows us to handle more than
