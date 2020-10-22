@@ -238,7 +238,10 @@ to_field "url_fulltext_json_s" do |record, accumulator, context|
   end
 
   if values.count > 0
-    accumulator << values.to_json
+    # Only save the first 10 links so that we don't exceed the
+    # limit for a string field in Solr. Some records can have hundreds
+    # of links.
+    accumulator << values.take(10).to_json
   end
 end
 
